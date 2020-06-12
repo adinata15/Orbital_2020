@@ -1,0 +1,200 @@
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+}
+
+/* The navigation menu  (12-76)*/
+.navbar {
+	overflow: hidden;
+	background-color: #333;
+}
+
+/* Navigation links */
+.navbar a {
+	float: left;
+	font-size: 16px;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+/* The subnavigation menu */
+.subnav {
+	float: left;
+	overflow: hidden;
+}
+
+/* Subnav button */
+.subnav .subnavbtn {
+	font-size: 16px;
+	border: none;
+	border-radius: 0.125rem;
+	outline: none;
+	color: white;
+	padding: 14px 16px;
+	background-color: inherit;
+	font-family: inherit;
+	margin: 0;
+}
+
+.logo {
+	text-decoration: underline;
+}
+
+/* Add a red background color to navigation links on hover */
+.navbar a:hover,
+.subnav:hover .subnavbtn {
+	text-decoration: underline;
+	border-radius: 0.25rem;
+	background-color: grey;
+}
+
+/* Style the subnav content - positioned absolute */
+
+.subnav-content {
+	display: none;
+	position: absolute;
+	left: 0;
+	background-color: grey;
+	width: 100%;
+	z-index: 1; /* z index indicates the layer the object is in */
+}
+
+/* Style the subnav links */
+.subnav-content a {
+	float: left;
+	color: white;
+	text-decoration: none;
+}
+
+/* Add a grey background color on hover */
+.subnav-content a:hover {
+	background-color: #eee;
+	color: black;
+}
+
+/* When you move the mouse over the subnav container, open the subnav content */
+.subnav:hover .subnav-content {
+	display: block;
+}
+
+.background {
+	width: "100%";
+	height: "400px";
+}
+
+/*  ------Carousel------  */
+.carousel-open:checked + .carousel-item {
+	position: static;
+	opacity: 100;
+}
+.carousel-item {
+	-webkit-transition: opacity 0.6s ease-out;
+	transition: opacity 0.6s ease-out;
+}
+
+#carousel-1:checked ~ .control-1,
+#carousel-2:checked ~ .control-2,
+#carousel-3:checked ~ .control-3 {
+	display: block;
+}
+
+/* Centered text */
+.centered {
+	position: absolute;
+	top: 12%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.carousel-indicators {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	bottom: 2%;
+	left: 0;
+	right: 0;
+	text-align: center;
+	z-index: 10;
+}
+#carousel-1:checked
+	~ .control-1
+	~ .carousel-indicators
+	li:nth-child(1)
+	.carousel-bullet,
+#carousel-2:checked
+	~ .control-2
+	~ .carousel-indicators
+	li:nth-child(2)
+	.carousel-bullet,
+#carousel-3:checked
+	~ .control-3
+	~ .carousel-indicators
+	li:nth-child(3)
+	.carousel-bullet {
+	color: #2b6cb0;
+}
+/* Add Animation */
+@-webkit-keyframes animatetop {
+	from {
+		top: -300px;
+		opacity: 0;
+	}
+	to {
+		top: 0;
+		opacity: 1;
+	}
+}
+
+@keyframes animatetop {
+	from {
+		top: -300px;
+		opacity: 0;
+	}
+	to {
+		top: 0;
+		opacity: 1;
+	}
+}
+
+/* The Close Button */
+.close {
+	color: white;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.modal-header {
+	padding: 2px 16px;
+	background-color: #5cb85c;
+	color: white;
+}
+
+.modal-body {
+	padding: 2px 16px;
+}
+
+.modal-footer {
+	padding: 2px 16px;
+	background-color: #5cb85c;
+	color: white;
+}
