@@ -1,53 +1,21 @@
-//node dependencies for both front and back end are different
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-
-require("dotenv").config();
+const express = require('express');
+const connectDB = require('./config/db');
 
 const app = express();
-const port = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(express.json());
+//Connect to database
+connectDB();
 
-//Connect to MongoDB
-const uri = process.env.MONGO_DB_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
-const connection = mongoose.connection;
-connection.once("open", () => {
-	console.log("MongoDB database connection established successfully");
-});
+//Init middleware
+app.use(express.json({ extended: false }));
 
-app.get("/home", (req, res) => res.send("Hi"));
-app.get("/second", (req, res) => res.send("Second page"));
+app.get('/', (req, res) => res.send('API running'));
 
-//this is connected to the front end
-app.get("/search", (req, res) => {
-	request(
-		"https://jsonplaceholder.typicode.com/users",
-		(err, response, body) => {
-			if (!err && response.statusCode == 200) res.send(body); //need to use res here (instead of response)
-		}
-	);
-});
+//Define routes
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/items', require('./routes/api/items'));
 
-app.post("/search", (req, res) => {
-	request(
-		"https://jsonplaceholder.typicode.com/users",
-		(err, response, body) => {
-			if (!err && response.statusCode == 200) res.send(body); //need to use res here (instead of response)
-		}
-	);
-});
+const PORT = process.env.PORT || 5000;
 
-//route request to other file (neater execution)
-const exercisesRouter = require("./routes/exercises");
-const usersRouter = require("./routes/users");
-
-app.use("/exercises", exercisesRouter);
-app.use("/users", usersRouter);
-
-app.listen(port, () => {
-	console.log(`Server is running on port: ${port}`);
-});
+app.listen(PORT, () => console.log(`Server started on ${PORT}`));
