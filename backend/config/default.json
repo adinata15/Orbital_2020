@@ -1,0 +1,5 @@
+{
+  "mongoURI": "mongodb+srv://samtjong23:Orbital2020@orbital-xbexh.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "ME2VAYj6@hTsmn3",
+  "tokenExpiry": 3600000000
+}
