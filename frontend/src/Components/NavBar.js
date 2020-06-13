@@ -30,11 +30,11 @@ class NavBar extends React.Component {
 				: "careers";
 		return (
 			<div>
-				<div class="navbar">
+				<div className="navbar">
 					<a href="#home">Home</a>
-					<div class="subnav">
-						<button class="subnavbtn">Men </button>
-						<div class="subnav-content">
+					<div className="subnav">
+						<button className="subnavbtn">Men </button>
+						<div className="subnav-content">
 							<a name="bring" onClick={this.handleClick} href="#bring">
 								Pants
 							</a>
@@ -46,18 +46,18 @@ class NavBar extends React.Component {
 							</a>
 						</div>
 					</div>
-					<div class="subnav">
-						<button class="subnavbtn">Women</button>
-						<div class="subnav-content ">
+					<div className="subnav">
+						<button className="subnavbtn">Women</button>
+						<div className="subnav-content ">
 							<a href="#dress">Dress</a>
 							<a href="#deliver">Shirt</a>
 							<a href="#package">Skirt</a>
 							<a href="#express">Pants</a>
 						</div>
 					</div>
-					<div class="subnav">
-						<button class="subnavbtn">Kids</button>
-						<div class="subnav-content">
+					<div className="subnav">
+						<button className="subnavbtn">Kids</button>
+						<div className="subnav-content">
 							<a href="#link1">Shirt</a>
 							<a href="#link2">Pants</a>
 							<a href="#link3">Cap</a>
@@ -68,11 +68,9 @@ class NavBar extends React.Component {
 					<SigninBtn class="float-right" />
 				</div>
 
-				{/* 
-				<div style={{ padding: "16px 16px 16px 16px" }}>
+				{/* <div style={{ padding: "16px 16px 16px 16px" }}>
 					<h3>You are choosing {chosenMenu} item</h3>
-				</div> 
-				*/}
+				</div> */}
 			</div>
 		);
 	}

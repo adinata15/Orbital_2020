@@ -10,17 +10,80 @@ class ShopBar extends React.Component {
 				<Card class="flex-none" />
 				<Card class="flex-none" />
 				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
-				<Card class="flex-none" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
+				<Card class="flex-none" loading="lazy" />
 			</div>
 		);
 	}

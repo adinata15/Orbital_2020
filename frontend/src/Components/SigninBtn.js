@@ -4,12 +4,12 @@ import Dialog from "@material-ui/core/Dialog";
 import LoginForm from "./LoginForm.js";
 
 export default class FormDialog extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			open: false,
 		};
-		// this.handleClickOpen
+		//this.handleClose = this.handleClose.bind(this);
 	}
 
 	handleClickOpen = () => {
@@ -37,7 +37,7 @@ export default class FormDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<LoginForm />
+					<LoginForm handleClose={this.handleClose} />
 				</Dialog>
 			</span>
 		);

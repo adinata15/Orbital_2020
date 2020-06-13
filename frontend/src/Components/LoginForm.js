@@ -5,7 +5,9 @@ class LoginForm extends React.Component {
 		return (
 			<form action="/" method="POST" class="w-9/12 max-w-lg mx-auto my-6">
 				<span class="float-right text-xl" id="close">
-					<a href="#home">&times;</a>
+					<a onClick={this.props.handleClose} href="#home">
+						&times;
+					</a>
 				</span>
 				<h1 class="text-center text-3xl mb-3">Sign in</h1>
 				<div class="flex flex-wrap -mx-3 mb-6">

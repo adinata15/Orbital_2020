@@ -17,10 +17,11 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<br />
-				<TrialAPI />
-				<br />
-				<PersonInput />
+				<NavBar />
+				<Carousel />
+				<Breadcrumbs />
+				<ShopBar />
+				<FooterBar />
 			</div>
 		);
 	}
@@ -31,18 +32,33 @@ export default App;
 -------------------------------
 Not done:
 <Dialog />
-<NavBars />
 <Sidebar />
 <ClothesDetail />
-
-				<NavBar />
-				<Breadcrumbs />
-				<Carousel />
-				<ShopBar />
-				<FooterBar />
+<TrialAPI />
+<PersonInput />
 
 Done:
 <Form />
 <FooterBar />
 -------------------------------
+*/
+
+/*
+Template costructor
+--------------------------------
+constructor(props) {
+	super(props);
+	this.state = {
+		
+	};
+	//can bind function here! (we didnt bind here because we use arrow function below)
+}
+
+handleClick = (e) => {
+	//for the thing inside target it can be anything!
+	this.setState({
+		
+	});
+};
+---------------------------------
 */
