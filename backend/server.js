@@ -6,7 +6,7 @@ const app = express();
 //Connect to database
 connectDB();
 
-//Init middleware
+//Init middleware to read data sent in req.body
 app.use(express.json({ extended: false }));
 
 app.get('/', (req, res) => res.send('API running'));
