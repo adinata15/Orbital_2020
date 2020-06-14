@@ -37,25 +37,25 @@ router.post(
     if (gender) buyerFields.gender = gender;
 
     try {
-      let buyer = await Buyer.findOne({ email });
+      let user = await Buyer.findOne({ email });
 
-      if (buyer) {
+      if (user) {
         return res
           .status(400)
           .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
-      buyer = new Buyer(buyerFields);
+      user = new Buyer(buyerFields);
 
       const salt = await bcrypt.genSalt(10);
-      buyer.password = await bcrypt.hash(buyer.password, salt);
+      user.password = await bcrypt.hash(user.password, salt);
 
-      await buyer.save();
+      await user.save();
 
       //Create JWT
       const payload = {
-        buyer: {
-          id: buyer.id,
+        user: {
+          id: user.id,
         },
       };
 
@@ -97,25 +97,25 @@ router.post(
     const { name, email, password } = req.body;
 
     try {
-      let seller = await Seller.findOne({ email });
+      let user = await Seller.findOne({ email });
 
-      if (seller) {
+      if (user) {
         return res
           .status(400)
           .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
-      seller = new Seller({ name, email, password });
+      user = new Seller({ name, email, password });
 
       const salt = await bcrypt.genSalt(10);
-      seller.password = await bcrypt.hash(seller.password, salt);
+      user.password = await bcrypt.hash(user.password, salt);
 
-      await seller.save();
+      await user.save();
 
       //Create JWT
       const payload = {
-        seller: {
-          id: seller.id,
+        user: {
+          id: user.id,
         },
       };
 
