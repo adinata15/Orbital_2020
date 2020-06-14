@@ -12,6 +12,7 @@ import Dialog from "./Components/Dialog";
 import FooterBar from "./Components/FooterBar";
 import TrialAPI from "./Components/TrialAPI";
 import PersonInput from "./Components/PersonInput";
+import FitAssistCard from "./Components/FitAssistCard";
 
 class App extends React.Component {
 	render() {
@@ -31,6 +32,7 @@ export default App;
 /* Components
 -------------------------------
 Not done:
+<FitAssistCard />
 <Dialog />
 <Sidebar />
 <ClothesDetail />
