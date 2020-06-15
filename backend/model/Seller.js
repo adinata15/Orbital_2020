@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const SellerSchema = new mongoose.Schema({
+  accounttype: {
+    type: String,
+    default: 'seller',
+  },
   name: {
     type: String,
     required: true,
@@ -22,6 +26,14 @@ const SellerSchema = new mongoose.Schema({
       item: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'item',
+      },
+    },
+  ],
+  orders: [
+    {
+      order: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'sellerorder',
       },
     },
   ],

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const BuyerSchema = new mongoose.Schema({
+  accounttype: {
+    type: String,
+    default: 'buyer',
+  },
   name: {
     type: String,
     required: true,
@@ -39,59 +43,31 @@ const BuyerSchema = new mongoose.Schema({
       },
     },
   ],
-  billingaddresses: [
-    {
-      firstname: {
-        type: String,
-        required: true,
-      },
-      lastname: {
-        type: String,
-        required: true,
-      },
-      cellphone: {
-        type: Number,
-        required: true,
-      },
-      telephone: {
-        type: Number,
-        required: true,
-      },
-      address: {
-        type: String,
-        required: true,
-      },
-      postcode: {
-        type: String,
-        required: true,
-      },
+  billingaddress: {
+    empty: {
+      type: Boolean,
+      default: true,
     },
-  ],
-  shippingaddresses: [
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'address',
+    },
+  },
+  shippingaddress: {
+    empty: {
+      type: Boolean,
+      default: true,
+    },
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'address',
+    },
+  },
+  addresses: [
     {
-      firstname: {
-        type: String,
-        required: true,
-      },
-      lastname: {
-        type: String,
-        required: true,
-      },
-      cellphone: {
-        type: Number,
-        required: true,
-      },
-      telephone: {
-        type: Number,
-        required: true,
-      },
       address: {
-        type: String,
-        required: true,
-      },
-      postcode: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'address',
       },
     },
   ],
@@ -99,7 +75,7 @@ const BuyerSchema = new mongoose.Schema({
     {
       order: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'order',
+        ref: 'buyerorder',
       },
     },
   ],
