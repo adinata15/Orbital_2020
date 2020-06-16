@@ -1,7 +1,9 @@
 //not done:choose each section by click then hover to reveal effect
 import React from "react";
 import SigninBtn from "./SigninBtn.js";
-import FitAssistBtn from "./FitAssistBtn"; //why onclose then auto open again?
+import FitAssistBtn from "./FitAssistBtn";
+import CartBtn from "./CartBtn";
+
 class NavBar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -69,8 +71,8 @@ class NavBar extends React.Component {
 					<div className="subnav">
 						<FitAssistBtn />
 					</div>
-
 					<SigninBtn class="float-right" />
+					<CartBtn />
 				</div>
 
 				{/* <div style={{ padding: "16px 16px 16px 16px" }}>
