@@ -32,10 +32,10 @@ class ClothesDetail extends React.Component {
 							<h1 class="text-3xl font-bold pt-24 lg:pt-0">Shop</h1>
 							<div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-teal-500 opacity-25"></div>
 							<p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
-								Price : $5
+								Total Price : $5
 							</p>
 							<p class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
-								Your size recommendation : S
+								Details :
 							</p>
 							<p class="pt-8 text-sm">Insert clothes' description </p>
 
