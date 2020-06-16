@@ -8,7 +8,7 @@ import Carousel from "./Components/Carousel";
 import ShopBar from "./Components/ShopBar";
 import Sidebar from "./Components/Sidebar";
 import Breadcrumbs from "./Components/Breadcrumbs";
-import Dialog from "./Components/Dialog";
+import Dialog from "./Components/FormDialog";
 import FooterBar from "./Components/FooterBar";
 import TrialAPI from "./Components/TrialAPI";
 import PersonInput from "./Components/PersonInput";
