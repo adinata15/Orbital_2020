@@ -11,31 +11,22 @@ class NavBar extends React.Component {
 		// this.handleClickOpen
 	}
 
-	handleClickOpen = () => {
-		this.setState({
-			open: true,
-		});
-		console.log("hiii");
-	};
+	// handleClickOpen = () => {
+	// 	this.setState({
+	// 		open: true,
+	// 	});
+	// 	console.log("hiii");
+	// };
 
-	handleClose = () => {
-		this.setState({
-			open: false,
-		});
-		console.log("h00i");
-	};
-	handleClick = () => {};
+	// handleClose = () => {
+	// 	this.setState({
+	// 		open: false,
+	// 	});
+	// 	console.log("h00i");
+	// };
+	// handleClick = () => {};
 
 	render() {
-		let chosenMenu;
-		chosenMenu =
-			this.state.option === "company"
-				? "company"
-				: this.state.option === "team"
-				? "team"
-				: this.state.option === "bring"
-				? "bring"
-				: "careers";
 		return (
 			<div>
 				<div className="navbar">
@@ -54,6 +45,7 @@ class NavBar extends React.Component {
 							</a>
 						</div>
 					</div>
+
 					<div className="subnav">
 						<button className="subnavbtn">Women</button>
 						<div className="subnav-content ">
@@ -63,6 +55,7 @@ class NavBar extends React.Component {
 							<a href="#express">Pants</a>
 						</div>
 					</div>
+
 					<div className="subnav">
 						<button className="subnavbtn">Kids</button>
 						<div className="subnav-content">
@@ -74,14 +67,7 @@ class NavBar extends React.Component {
 					</div>
 
 					<div className="subnav">
-						<button onClick={this.handleClickOpen} className="subnavbtn">
-							<FitAssistBtn
-								className="subnavbtn"
-								open={this.state.open}
-								handleClose={this.handleClose}
-							/>
-							Fit Assitant
-						</button>
+						<FitAssistBtn />
 					</div>
 
 					<SigninBtn class="float-right" />
