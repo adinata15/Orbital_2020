@@ -1,6 +1,27 @@
 import React from "react";
+import SignUpLink from "./SignUpLink";
 
 class LoginForm extends React.Component {
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		openSignUp: false,
+	// 	};
+	// 	//this.handleClose = this.handleClose.bind(this);
+	// }
+
+	// handleClickOpens = () => {
+	// 	this.setState({
+	// 		openSignUp: true,
+	// 	});
+	// 	console.log("hii");
+	// };
+	// handleCloses = () => {
+	// 	this.setState({
+	// 		openSignUp: false,
+	// 	});
+	// 	console.log("hoo");
+	// };
 	render() {
 		return (
 			<form action="/" method="POST" class="w-9/12 max-w-lg mx-auto my-6">
@@ -55,10 +76,8 @@ class LoginForm extends React.Component {
 				</button>
 
 				<p class="text-xs italic">
-					Do not have an account?{" "}
-					<a class="underline text-green-600" href="#signup">
-						Sign Up
-					</a>
+					Do not have an account?
+					<SignUpLink handleClose={this.props.handleClose} />
 				</p>
 			</form>
 		);
