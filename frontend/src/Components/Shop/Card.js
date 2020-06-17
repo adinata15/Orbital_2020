@@ -1,6 +1,6 @@
 //not done: make multiple in one row, image not distorted
 import React from "react";
-import Image from "../images/green.jpg";
+import Image from "../../images/green.jpg";
 import ClothesDetail from "./ClothesDetail";
 import Dialog from "@material-ui/core/Dialog";
 

@@ -1,6 +1,44 @@
 import React from "react";
 
 class SignUpForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			match: false,
+			pass: "",
+		};
+		//this.handleClose = this.handleClose.bind(this);
+	}
+
+	// handleSubmit = (e) => {
+	// 	if (this.state.match) {
+	// 		e.type = "submit";
+	// 		console.log("hoo");
+	// 		return true;
+	// 	}
+	// 	console.log("hii");
+	// 	return false;
+	// };
+
+	// handleCloses = () => {
+	// 	console.log("hoo");
+	// };
+
+	handleChange = (e) => {
+		if (e.target.id == "password") {
+			this.setState({
+				pass: e.target.value,
+			});
+			console.log("hi");
+		} else if (e.target.id == "confirmPassword") {
+			this.setState({
+				match: e.target.value == this.state.pass ? true : false,
+			});
+			console.log("h0");
+		}
+		return false;
+	};
+
 	render() {
 		return (
 			<form action="/" method="POST" class="w-full max-w-lg mx-auto my-6">
@@ -52,11 +90,12 @@ class SignUpForm extends React.Component {
 						<input
 							name="password"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="grid-password"
+							id="password"
 							type="password"
 							placeholder="******************"
 							minlength="8"
 							required
+							onChange={this.handleChange}
 						/>
 					</div>
 				</div>
@@ -72,11 +111,12 @@ class SignUpForm extends React.Component {
 						<input
 							name="passwordConfirm"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="grid-confirm-password"
+							id="confirmPassword"
 							type="password"
 							placeholder="******************"
 							x-model="password_confirm"
 							required
+							onChange={this.handleChange}
 						/>
 					</div>
 				</div>
@@ -150,6 +190,8 @@ class SignUpForm extends React.Component {
 
 				<button
 					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+					disabled={!this.state.match}
+					onClick={this.handleSubmit}
 					id="button"
 				>
 					Create Account
