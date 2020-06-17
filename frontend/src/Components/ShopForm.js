@@ -34,17 +34,18 @@ class ClothesDetail extends React.Component {
 							<p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
 								Total Price : $5
 							</p>
-							<p class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
-								Details :
-							</p>
-							<p class="pt-8 text-sm">Insert clothes' description </p>
+							<ul class="pt-2 text-gray-600 text-m">
+								Details :<ul class="text-sm">List clothes' prices ($5) - S </ul>
+								<ul class="text-sm">List clothes' prices ($5) - S </ul>
+								<ul class="text-sm">List clothes' prices ($5) - S </ul>
+							</ul>
 
 							<div class="pt-12 pb-8">
 								<button class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full">
 									Checkout
 								</button>
 								<button
-									onClick={this.props.onClose}
+									onClick={this.props.handleClose}
 									class="bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
 								>
 									Continue shopping

@@ -12,11 +12,13 @@ import FooterBar from "./Components/FooterBar";
 import TrialAPI from "./Components/TrialAPI";
 import PersonInput from "./Components/PersonInput";
 import FitAssistCard from "./Components/FitAssistCard";
+import Payment from "./Components/Payment.js";
 
 class App extends React.Component {
 	render() {
 		return (
 			<div>
+				<Payment />
 				<NavBar />
 				<Carousel />
 				<Breadcrumbs />
