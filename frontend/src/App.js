@@ -1,17 +1,17 @@
 //Press alt+click to edit multiple lines at once
 
 import React from "react";
-import NavBar from "./Components/NavBar";
-import Form from "./Components/SignUpForm";
-import ClothesDetail from "./Components/ClothesDetail";
+import NavBar from "./Components/NavBar/NavBar";
+import Form from "./Components/SignIn/SignUpForm";
+import ClothesDetail from "./Components/Shop/ClothesDetail";
 import Carousel from "./Components/Carousel";
-import ShopBar from "./Components/ShopBar";
+import ShopBar from "./Components/Shop/ShopBar";
 import Sidebar from "./Components/Sidebar";
-import Breadcrumbs from "./Components/Breadcrumbs";
+import Breadcrumbs from "./Components/NavBar/Breadcrumbs";
 import FooterBar from "./Components/FooterBar";
 import TrialAPI from "./Components/TrialAPI";
 import PersonInput from "./Components/PersonInput";
-import FitAssistCard from "./Components/FitAssistCard";
+import FitAssistCard from "./Components/NavBar/FitAssistCard";
 import Payment from "./Components/Payment.js";
 
 class App extends React.Component {

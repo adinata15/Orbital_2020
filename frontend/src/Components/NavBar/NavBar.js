@@ -1,6 +1,6 @@
 //not done:choose each section by click then hover to reveal effect
 import React from "react";
-import SigninBtn from "./SigninBtn.js";
+import SigninBtn from "../SignIn/SigninBtn.js";
 import FitAssistBtn from "./FitAssistBtn";
 import CartBtn from "./CartBtn";
 

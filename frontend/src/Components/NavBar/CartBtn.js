@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import ShopForm from "./ShopForm.js";
-import Image from "../images/cart.png";
+import Image from "../../images/cart.png";
 
 export default class CartBtn extends Component {
 	constructor(props) {

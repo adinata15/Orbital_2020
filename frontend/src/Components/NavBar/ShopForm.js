@@ -1,18 +1,7 @@
 import React from "react";
-import Image from "../images/green.jpg";
+import Image from "../../images/green.jpg";
 
-class ClothesDetail extends React.Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {};
-	// 	//can bind function here! (we didnt bind here because we use arrow function below)
-	// }
-
-	// handleClick = (e) => {
-	// 	//for the thing inside target it can be anything!
-	// 	this.setState({});
-	// };
-
+class ShopForm extends React.Component {
 	render() {
 		return (
 			<div class="font-sans antialiased text-gray-900 leading-normal tracking-wider">
@@ -29,25 +18,26 @@ class ClothesDetail extends React.Component {
 								/>
 							</div>
 
-							<h1 class="text-3xl font-bold pt-24 lg:pt-0">Clothes Name</h1>
+							<h1 class="text-3xl font-bold pt-24 lg:pt-0">Shop</h1>
 							<div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-teal-500 opacity-25"></div>
 							<p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
-								Price : $5
+								Total Price : $5
 							</p>
-							<p class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
-								Your size recommendation : S
-							</p>
-							<p class="pt-8 text-sm">Insert clothes' description </p>
+							<ul class="pt-2 text-gray-600 text-m">
+								Details :<ul class="text-sm">List clothes' prices ($5) - S </ul>
+								<ul class="text-sm">List clothes' prices ($5) - S </ul>
+								<ul class="text-sm">List clothes' prices ($5) - S </ul>
+							</ul>
 
 							<div class="pt-12 pb-8">
 								<button class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full">
-									Add to cart
+									Checkout
 								</button>
 								<button
-									onClick={this.props.onClose}
+									onClick={this.props.handleClose}
 									class="bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
 								>
-									Back to shop
+									Continue shopping
 								</button>
 							</div>
 						</div>
@@ -65,4 +55,4 @@ class ClothesDetail extends React.Component {
 	}
 }
 
-export default ClothesDetail;
+export default ShopForm;
