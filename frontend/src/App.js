@@ -2,7 +2,7 @@
 
 import React from "react";
 import NavBar from "./Components/NavBar";
-import Form from "./Components/Form";
+import Form from "./Components/SignUpForm";
 import ClothesDetail from "./Components/ClothesDetail";
 import Carousel from "./Components/Carousel";
 import ShopBar from "./Components/ShopBar";
@@ -18,6 +18,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
+				{/* <Form /> */}
 				<Payment />
 				<NavBar />
 				<Carousel />
@@ -41,7 +42,7 @@ Not done:
 <PersonInput />
 
 Done:
-<Form />
+
 <FooterBar />
 -------------------------------
 */

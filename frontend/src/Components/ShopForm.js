@@ -1,18 +1,7 @@
 import React from "react";
 import Image from "../images/green.jpg";
 
-class ClothesDetail extends React.Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {};
-	// 	//can bind function here! (we didnt bind here because we use arrow function below)
-	// }
-
-	// handleClick = (e) => {
-	// 	//for the thing inside target it can be anything!
-	// 	this.setState({});
-	// };
-
+class ShopForm extends React.Component {
 	render() {
 		return (
 			<div class="font-sans antialiased text-gray-900 leading-normal tracking-wider">
@@ -66,4 +55,4 @@ class ClothesDetail extends React.Component {
 	}
 }
 
-export default ClothesDetail;
+export default ShopForm;
