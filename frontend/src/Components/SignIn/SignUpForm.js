@@ -31,8 +31,8 @@ class SignUpForm extends React.Component {
 			};
 
 			axios
-				.post("http://localhost:5000/api/users", user)
-				.then(() => console.log("Yk sent this"))
+				.post("/api/users", user)
+				.then(() => console.log("Yk say lunch go frontier"))
 				.catch((err) => {
 					console.error(err);
 				});

@@ -1,6 +1,7 @@
 //Press alt+click to edit multiple lines at once
 
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
 import Form from "./Components/SignIn/SignUpForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
@@ -13,19 +14,27 @@ import TrialAPI from "./Components/TrialAPI";
 import PersonInput from "./Components/PersonInput";
 import FitAssistCard from "./Components/NavBar/FitAssistCard";
 import Payment from "./Components/Payment.js";
+import Men from "./Components/Shop/Men.js";
+import Women from "./Components/Shop/Women.js";
+import Kids from "./Components/Shop/Kids.js";
 
 class App extends React.Component {
 	render() {
 		return (
-			<div>
-				{/* <Form /> */}
-				<Payment />
+			<Router>
 				<NavBar />
+				<Switch>
+					<Route exact path="/men" component={Men} />
+					<Route exact path="/women" component={Women} />
+					<Route exact path="/kids" component={Kids} />
+				</Switch>
+				{/* <Form />
+				<Payment />
 				<Carousel />
-				{/* <Breadcrumbs /> */}
+				 <Breadcrumbs /> 
 				<ShopBar />
-				<FooterBar />
-			</div>
+				<FooterBar /> */}
+			</Router>
 		);
 	}
 }
