@@ -22,7 +22,7 @@ class App extends React.Component {
 				<Payment />
 				<NavBar />
 				<Carousel />
-				<Breadcrumbs />
+				{/* <Breadcrumbs /> */}
 				<ShopBar />
 				<FooterBar />
 			</div>
