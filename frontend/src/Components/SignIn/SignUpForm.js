@@ -1,19 +1,41 @@
 import React from "react";
+import axios from "axios";
 
 class SignUpForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			match: false,
+			conPass: "",
 			pass: "",
+			name: "", //this is user-id
+			email: "",
+			gender: "male",
+			weight: "",
+			height: "",
 		};
 		//this.handleClose = this.handleClose.bind(this);
 	}
 
 	handleSubmit = (e) => {
-		if (!this.state.match) {
+		if (this.state.pass !== this.state.conPass) {
 			e.preventDefault();
 			// alert("All * field is required");
+		} else {
+			const user = {
+				pass: this.state.pass,
+				name: this.state.name, //this is user-id
+				email: this.state.email,
+				gender: this.state.gender,
+				weight: this.state.weight,
+				height: this.state.height,
+			};
+
+			axios
+				.post("http://localhost:5000/api/users", user)
+				.then(() => console.log("Yk sent this"))
+				.catch((err) => {
+					console.error(err);
+				});
 		}
 	};
 
@@ -22,18 +44,52 @@ class SignUpForm extends React.Component {
 	// };
 
 	handleChange = (e) => {
-		if (e.target.id == "password") {
-			this.setState({
-				pass: e.target.value,
-			});
-			// console.log("hi");
-		} else if (e.target.id == "confirmPassword") {
-			this.setState({
-				match: e.target.value == this.state.pass ? true : false,
-			});
-			// console.log("h0");
+		switch (e.target.id) {
+			case "password":
+				this.setState({
+					pass: e.target.value,
+				});
+				break;
+			case "confirmPassword":
+				this.setState({
+					conPass: e.target.value,
+				});
+				break;
+			case "user-id":
+				this.setState({
+					name: e.target.value,
+				});
+				break;
+			case "email":
+				this.setState({
+					email: e.target.value,
+				});
+				break;
+			case "gender":
+				this.setState({
+					gender: e.target.value,
+				});
+				break;
+			case "weight":
+				this.setState({
+					weight: e.target.value,
+				});
+				break;
+			case "height":
+				this.setState({
+					height: e.target.value,
+				});
+				break;
+			default:
+				console.error();
 		}
-		return false;
+	};
+
+	showError = () => {
+		if (this.state.pass !== this.state.conPass)
+			return (
+				<p class="text-sm text-red-600 italic"> Password does not match </p>
+			);
 	};
 
 	render() {
@@ -51,10 +107,11 @@ class SignUpForm extends React.Component {
 						<input
 							name="userId"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-							id="grid-user-id"
+							id="user-id"
 							type="text"
 							placeholder="Jane"
 							required
+							onChange={this.handleChange}
 						/>
 					</div>
 
@@ -72,6 +129,7 @@ class SignUpForm extends React.Component {
 							type="email"
 							placeholder="jane@gmail.com"
 							required
+							onChange={this.handleChange}
 						/>
 					</div>
 				</div>
@@ -116,12 +174,7 @@ class SignUpForm extends React.Component {
 							onChange={this.handleChange}
 						/>
 					</div>
-					<p
-						hidden={!this.state.pass || this.state.match}
-						class="text-red-500 text-xs italic"
-					>
-						Password do not match
-					</p>
+					{this.showError()}
 				</div>
 
 				<div class="flex flex-wrap -mx-3 mb-6">
@@ -135,7 +188,8 @@ class SignUpForm extends React.Component {
 						<div class="relative">
 							<select
 								class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-								id="grid-gender"
+								id="gender"
+								onChange={this.handleChange}
 							>
 								<option>Male</option>
 								<option>Female</option>
@@ -165,9 +219,10 @@ class SignUpForm extends React.Component {
 						<input
 							name="weight"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="grid-weight"
+							id="weight"
 							type="number"
 							placeholder="in kg"
+							onChange={this.handleChange}
 						/>
 					</div>
 
@@ -181,9 +236,10 @@ class SignUpForm extends React.Component {
 						<input
 							name="height"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="grid-height"
+							id="height"
 							type="number"
 							placeholder="in cm"
+							onChange={this.handleChange}
 						/>
 					</div>
 				</div>
@@ -201,6 +257,10 @@ class SignUpForm extends React.Component {
 				>
 					Create Account
 				</button>
+				{/* <div>
+					gender={this.state.gender}, weight={this.state.weight}, height=
+					{this.state.height}, name={this.state.name}
+				</div> */}
 			</form>
 		);
 	}
