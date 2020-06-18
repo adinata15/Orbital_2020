@@ -36,14 +36,14 @@ class NavBar extends React.Component {
 					<div className="subnav">
 						<button className="subnavbtn">Men </button>
 						<div className="subnav-content">
-							<a name="bring" onClick={this.handleClick} href="#bring">
-								Pants
+							<a name="bring" onClick={this.handleClick} href="men">
+								Men
 							</a>
-							<a name="company" onClick={this.handleClick} href="#bring">
-								T-shirt
+							<a name="company" onClick={this.handleClick} href="women">
+								Women
 							</a>
-							<a name="team" onClick={this.handleClick} href="#bring">
-								Shorts
+							<a name="team" onClick={this.handleClick} href="kids">
+								Kids
 							</a>
 						</div>
 					</div>
