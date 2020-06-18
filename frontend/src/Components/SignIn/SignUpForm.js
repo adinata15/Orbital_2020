@@ -10,15 +10,12 @@ class SignUpForm extends React.Component {
 		//this.handleClose = this.handleClose.bind(this);
 	}
 
-	// handleSubmit = (e) => {
-	// 	if (this.state.match) {
-	// 		e.type = "submit";
-	// 		console.log("hoo");
-	// 		return true;
-	// 	}
-	// 	console.log("hii");
-	// 	return false;
-	// };
+	handleSubmit = (e) => {
+		if (!this.state.match) {
+			e.preventDefault();
+			// alert("All * field is required");
+		}
+	};
 
 	// handleCloses = () => {
 	// 	console.log("hoo");
@@ -29,12 +26,12 @@ class SignUpForm extends React.Component {
 			this.setState({
 				pass: e.target.value,
 			});
-			console.log("hi");
+			// console.log("hi");
 		} else if (e.target.id == "confirmPassword") {
 			this.setState({
 				match: e.target.value == this.state.pass ? true : false,
 			});
-			console.log("h0");
+			// console.log("h0");
 		}
 		return false;
 	};
@@ -119,6 +116,12 @@ class SignUpForm extends React.Component {
 							onChange={this.handleChange}
 						/>
 					</div>
+					<p
+						hidden={!this.state.pass || this.state.match}
+						class="text-red-500 text-xs italic"
+					>
+						Password do not match
+					</p>
 				</div>
 
 				<div class="flex flex-wrap -mx-3 mb-6">
@@ -184,13 +187,15 @@ class SignUpForm extends React.Component {
 						/>
 					</div>
 				</div>
-
-				<p class="text-red-500 text-xs italic">All * field is required :)</p>
-				<br />
+				{/* 				
+				<p hidden={this.state.match} class="text-red-500 text-xs italic">
+					All * field is required :)
+				</p>
+				<br /> */}
 
 				<button
-					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
-					disabled={!this.state.match}
+					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
+					// disabled={!this.state.match}
 					onClick={this.handleSubmit}
 					id="button"
 				>
