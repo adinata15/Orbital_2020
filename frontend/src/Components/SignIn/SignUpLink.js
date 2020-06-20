@@ -27,8 +27,7 @@ export default class SignUpLink extends Component {
 		return (
 			<a
 				onClick={this.handleClickOpen}
-				class="underline text-green-600 mx-1"
-				href="#signup"
+				class="underline text-green-600 mx-1 cursor-pointer"
 			>
 				Sign Up
 				<Dialog

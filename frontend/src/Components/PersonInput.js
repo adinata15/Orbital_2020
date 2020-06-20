@@ -17,10 +17,12 @@ export default class PersonList extends React.Component {
 			name: this.state.name,
 		};
 
-		axios.post(`"/search"`, { user }).then((res) => {
-			console.log(res);
-			console.log(res.data);
-		});
+		axios
+			.post("https://jsonplaceholder.typicode.com/users", { user })
+			.then((res) => {
+				console.log(res);
+				console.log(res.data);
+			});
 	};
 
 	render() {
@@ -29,7 +31,12 @@ export default class PersonList extends React.Component {
 				<form onSubmit={this.handleSubmit}>
 					<label>
 						Person Name:
-						<input type="text" name="name" onChange={this.handleChange} />
+						<input
+							class="border"
+							type="text"
+							name="name"
+							onChange={this.handleChange}
+						/>
 					</label>
 					<button type="submit">Add</button>
 				</form>

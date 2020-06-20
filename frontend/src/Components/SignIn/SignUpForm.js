@@ -21,6 +21,12 @@ class SignUpForm extends React.Component {
 			e.preventDefault();
 			// alert("All * field is required");
 		} else {
+			// const config = {
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 	},
+			// };
+
 			const user = {
 				pass: this.state.pass,
 				name: this.state.name, //this is user-id
@@ -29,12 +35,15 @@ class SignUpForm extends React.Component {
 				weight: this.state.weight,
 				height: this.state.height,
 			};
-
+			user = JSON.stringify(user);
+			// console.log(user);
 			axios
-				.post("/api/users", user)
-				.then(() => console.log("Yk say lunch go frontier"))
+				.post("http://localhost:5000/api/users/buyer", { user })
+				.then(() => alert("Hi succeedd"))
 				.catch((err) => {
 					console.error(err);
+					e.preventDefault();
+					alert("Try again");
 				});
 		}
 	};
@@ -105,7 +114,7 @@ class SignUpForm extends React.Component {
 							User ID*
 						</label>
 						<input
-							name="userId"
+							name="name"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 							id="user-id"
 							type="text"

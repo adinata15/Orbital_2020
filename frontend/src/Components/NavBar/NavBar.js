@@ -1,5 +1,6 @@
 //not done:choose each section by click then hover to reveal effect
 import React from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SigninBtn from "../SignIn/SigninBtn.js";
 import FitAssistBtn from "./FitAssistBtn";
 import CartBtn from "./CartBtn";
@@ -32,18 +33,18 @@ class NavBar extends React.Component {
 		return (
 			<div>
 				<div className="navbar">
-					<a href="#home">Home</a>
+					<a href="/home">Home</a>
 					<div className="subnav">
 						<button className="subnavbtn">Men </button>
 						<div className="subnav-content">
-							<a name="bring" onClick={this.handleClick} href="men">
-								Men
+							<a name="bring" onClick={this.handleClick} href="/men/shirts">
+								Shirts
 							</a>
-							<a name="company" onClick={this.handleClick} href="women">
-								Women
+							<a name="company" onClick={this.handleClick} href="/men/pants">
+								Pants
 							</a>
-							<a name="team" onClick={this.handleClick} href="kids">
-								Kids
+							<a name="team" onClick={this.handleClick} href="/men/shorts">
+								Shorts
 							</a>
 						</div>
 					</div>
@@ -51,20 +52,20 @@ class NavBar extends React.Component {
 					<div className="subnav">
 						<button className="subnavbtn">Women</button>
 						<div className="subnav-content ">
-							<a href="#dress">Dress</a>
-							<a href="#deliver">Shirt</a>
-							<a href="#package">Skirt</a>
-							<a href="#express">Pants</a>
+							<a href="/women/dress">Dress</a>
+							<a href="/women/shirt">Shirt</a>
+							<a href="/women/skirt">Skirt</a>
+							<a href="/women/pants">Pants</a>
 						</div>
 					</div>
 
 					<div className="subnav">
 						<button className="subnavbtn">Kids</button>
 						<div className="subnav-content">
-							<a href="#link1">Shirt</a>
-							<a href="#link2">Pants</a>
-							<a href="#link3">Cap</a>
-							<a href="#link4">Diapers</a>
+							<a href="/kids/shirt">Shirt</a>
+							<a href="/kids/pants">Pants</a>
+							<a href="/kids/cap">Cap</a>
+							<a href="/kids/diapers">Diapers</a>
 						</div>
 					</div>
 
