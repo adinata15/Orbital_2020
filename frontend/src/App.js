@@ -6,7 +6,7 @@ import NavBar from "./Components/NavBar/NavBar";
 import Form from "./Components/SignIn/SignUpForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
 import Carousel from "./Components/Carousel";
-import ShopBar from "./Components/Shop/ShopBar";
+import Home from "./Components/Shop/Home";
 import Sidebar from "./Components/Sidebar";
 import Breadcrumbs from "./Components/NavBar/Breadcrumbs";
 import FooterBar from "./Components/FooterBar";
@@ -23,17 +23,19 @@ class App extends React.Component {
 		return (
 			<Router>
 				<NavBar />
-				<Switch>
-					<Route exact path="/men" component={Men} />
-					<Route exact path="/women" component={Women} />
-					<Route exact path="/kids" component={Kids} />
-				</Switch>
-				{/* <Form />
-				<Payment />
 				<Carousel />
-				 <Breadcrumbs /> 
-				<ShopBar />
-				<FooterBar /> */}
+				<Switch>
+					<Route exact path="/home" component={Home} />
+					<Route path="/men" component={Men} />
+					<Route path="/women" component={Women} />
+					<Route path="/kids" component={Kids} />
+				</Switch>
+
+				<Form />
+				<Payment />
+				<Breadcrumbs />
+
+				<FooterBar />
 			</Router>
 		);
 	}
@@ -51,7 +53,6 @@ Not done:
 <PersonInput />
 
 Done:
-
 <FooterBar />
 -------------------------------
 */
@@ -75,3 +76,7 @@ handleClick = (e) => {
 };
 ---------------------------------
 */
+
+/* <TrialAPI />
+				<br />
+				<PersonInput /> */

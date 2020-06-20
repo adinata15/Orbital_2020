@@ -8,7 +8,7 @@ export default class TrialAPI extends React.Component {
 
 	//this is connected to the backend
 	componentDidMount() {
-		axios.get("/search").then((res) => {
+		axios.get("/api/users/buyer").then((res) => {
 			const persons = res.data;
 			this.setState({ persons });
 		});
