@@ -19,34 +19,46 @@ class SignUpForm extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		if (this.state.pass !== this.state.conPass) {
-			// e.preventDefault();
 			alert("Passwords need to match");
 			return;
 		} else {
-			// const config = {
-			// 	headers: {
-			// 		"Content-Type": "application/json",
-			// 	},
-			// };
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			};
 			const user = {
-				pass: this.state.pass,
 				name: this.state.name, //this is user-id
 				email: this.state.email,
+				pass: this.state.pass,
 				gender: this.state.gender,
 				weight: this.state.weight,
 				height: this.state.height,
 			};
+			console.log({ user });
 			axios
-				.post("https://localhost:5000/api/users/buyer", { user })
+				.post("http://localhost:5000/api/users/buyer", { user }, config)
 				.then((res) => {
 					console.log(res.data);
-					// data = res.data;
 					alert("Hi succeedd");
 				})
 				.catch((err) => {
 					console.error(err);
 					alert("Try again");
 				});
+
+			// axios
+			// 	.get("http://localhost:5000")
+			// 	.then((res) => {
+			// 		console.log(res.data);
+			// 		// data = res.data;
+			// 		alert("Hi succeedd");
+			// 	})
+			// 	.catch((err) => {
+			// 		console.error(err);
+			// 		alert("Try again");
+			// 		console.log("hello");
+			// 	});
 		}
 	};
 
@@ -55,9 +67,6 @@ class SignUpForm extends React.Component {
 	// };
 
 	handleChange = (e) => {
-		// let data = "";
-
-		// return <h1>{user}</h1>;
 		switch (e.target.id) {
 			case "password":
 				this.setState({
@@ -139,7 +148,7 @@ class SignUpForm extends React.Component {
 						<input
 							name="email"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-							id="grid-email"
+							id="email"
 							type="email"
 							placeholder="jane@gmail.com"
 							required
