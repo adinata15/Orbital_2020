@@ -16,7 +16,6 @@ class SignUpForm extends React.Component {
     //this.handleClose = this.handleClose.bind(this);
   }
 
-<<<<<<< HEAD
 	handleSubmit = (e) => {
 		e.preventDefault();
 		if (this.state.pass !== this.state.conPass) {
@@ -106,90 +105,6 @@ class SignUpForm extends React.Component {
 				console.error();
 		}
 	};
-=======
-  handleSubmit = e => {
-    e.preventDefault();
-    if (this.state.pass !== this.state.conPass) {
-      // e.preventDefault();
-      alert('Passwords need to match');
-      return;
-    } else {
-      // const config = {
-      // 	headers: {
-      // 		"Content-Type": "application/json",
-      // 	},
-      // };
-      const user = {
-        pass: this.state.pass,
-        name: this.state.name, //this is user-id
-        email: this.state.email,
-        gender: this.state.gender,
-        weight: this.state.weight,
-        height: this.state.height,
-      };
-      axios
-        .post('http://localhost:5000/api/users/buyer', { user })
-        .then(res => {
-          console.log(res.data);
-          // data = res.data;
-          alert('Hi succeedd');
-        })
-        .catch(err => {
-          console.error(err);
-          alert('Try again');
-        });
-    }
-  };
-
-  // handleCloses = () => {
-  // 	console.log("hoo");
-  // };
-
-  handleChange = e => {
-    // let data = "";
-
-    // return <h1>{user}</h1>;
-    switch (e.target.id) {
-      case 'password':
-        this.setState({
-          pass: e.target.value,
-        });
-        break;
-      case 'confirmPassword':
-        this.setState({
-          conPass: e.target.value,
-        });
-        break;
-      case 'user-id':
-        this.setState({
-          name: e.target.value,
-        });
-        break;
-      case 'email':
-        this.setState({
-          email: e.target.value,
-        });
-        break;
-      case 'gender':
-        this.setState({
-          gender: e.target.value,
-        });
-        break;
-      case 'weight':
-        this.setState({
-          weight: e.target.value,
-        });
-        break;
-      case 'height':
-        this.setState({
-          height: e.target.value,
-        });
-        break;
-      default:
-        console.error();
-    }
-  };
->>>>>>> 689eada... Test
 
   showError = () => {
     if (this.state.pass !== this.state.conPass)
@@ -221,7 +136,6 @@ class SignUpForm extends React.Component {
             />
           </div>
 
-<<<<<<< HEAD
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -240,26 +154,6 @@ class SignUpForm extends React.Component {
 						/>
 					</div>
 				</div>
-=======
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-email"
-            >
-              Email*
-            </label>
-            <input
-              name="email"
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-email"
-              type="email"
-              placeholder="jane@gmail.com"
-              required
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
->>>>>>> 689eada... Test
 
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full px-3">
