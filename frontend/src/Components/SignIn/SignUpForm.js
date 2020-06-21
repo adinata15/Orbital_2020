@@ -27,17 +27,20 @@ class SignUpForm extends React.Component {
 					"Content-Type": "application/json",
 				},
 			};
-			const user = {
+			let user = {
 				name: this.state.name, //this is user-id
 				email: this.state.email,
-				pass: this.state.pass,
+				password: this.state.pass,
 				gender: this.state.gender,
 				weight: this.state.weight,
 				height: this.state.height,
 			};
-			console.log({ user });
+
+			user = JSON.stringify(user);
+			console.log(user);
+
 			axios
-				.post("http://localhost:5000/api/users/buyer", { user }, config)
+				.post("http://localhost:5000/api/users/buyer", user, config)
 				.then((res) => {
 					console.log(res.data);
 					alert("Hi succeedd");
@@ -61,11 +64,6 @@ class SignUpForm extends React.Component {
 			// 	});
 		}
 	};
-
-	// handleCloses = () => {
-	// 	console.log("hoo");
-	// };
-
 	handleChange = (e) => {
 		switch (e.target.id) {
 			case "password":
