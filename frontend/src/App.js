@@ -77,6 +77,21 @@ handleClick = (e) => {
 ---------------------------------
 */
 
-/* <TrialAPI />
-				<br />
-				<PersonInput /> */
+/* 
+<TrialAPI />
+<br />
+<PersonInput /> 
+*/
+
+// axios
+// 	.get("http://localhost:5000")
+// 	.then((res) => {
+// 		console.log(res.data);
+// 		// data = res.data;
+// 		alert("Hi succeedd");
+// 	})
+// 	.catch((err) => {
+// 		console.error(err);
+// 		alert("Try again");
+// 		console.log("hello");
+// 	});
