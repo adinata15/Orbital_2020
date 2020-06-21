@@ -17,16 +17,17 @@ class SignUpForm extends React.Component {
 	}
 
 	handleSubmit = (e) => {
+		e.preventDefault();
 		if (this.state.pass !== this.state.conPass) {
-			e.preventDefault();
-			// alert("All * field is required");
+			// e.preventDefault();
+			alert("Passwords need to match");
+			return;
 		} else {
 			// const config = {
 			// 	headers: {
 			// 		"Content-Type": "application/json",
 			// 	},
 			// };
-
 			const user = {
 				pass: this.state.pass,
 				name: this.state.name, //this is user-id
@@ -35,14 +36,15 @@ class SignUpForm extends React.Component {
 				weight: this.state.weight,
 				height: this.state.height,
 			};
-			user = JSON.stringify(user);
-			// console.log(user);
 			axios
-				.post("http://localhost:5000/api/users/buyer", { user })
-				.then(() => alert("Hi succeedd"))
+				.post("https://localhost:5000/api/users/buyer", { user })
+				.then((res) => {
+					console.log(res.data);
+					// data = res.data;
+					alert("Hi succeedd");
+				})
 				.catch((err) => {
 					console.error(err);
-					e.preventDefault();
 					alert("Try again");
 				});
 		}
@@ -53,6 +55,9 @@ class SignUpForm extends React.Component {
 	// };
 
 	handleChange = (e) => {
+		// let data = "";
+
+		// return <h1>{user}</h1>;
 		switch (e.target.id) {
 			case "password":
 				this.setState({
@@ -103,7 +108,7 @@ class SignUpForm extends React.Component {
 
 	render() {
 		return (
-			<form action="/" method="POST" class="w-full max-w-lg mx-auto my-6">
+			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
 				<h1 class="text-center text-3xl mb-3">Create Account</h1>
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -261,7 +266,7 @@ class SignUpForm extends React.Component {
 				<button
 					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
 					// disabled={!this.state.match}
-					onClick={this.handleSubmit}
+					type="submit"
 					id="button"
 				>
 					Create Account
