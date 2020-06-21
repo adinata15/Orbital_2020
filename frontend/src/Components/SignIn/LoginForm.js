@@ -1,56 +1,60 @@
 import React from "react";
 import SignUpLink from "./SignUpLink";
-// import axios from "axios";
+import axios from "axios";
 
 class LoginForm extends React.Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		password: "",
-	// 		userID: "", //this is user-id
-	// 	};
-	// 	//this.handleClose = this.handleClose.bind(this);
-	// }
+	constructor(props) {
+		super(props);
+		this.state = {
+			password: "",
+			email: "", //this is user-id
+		};
+		//this.handleClose = this.handleClose.bind(this);
+	}
 
-	// handleChange = (e) => {
-	// 	switch (e.target.id) {
-	// 		case "password":
-	// 			this.setState({
-	// 				pass: e.target.value,
-	// 			});
-	// 			break;
-	// 		case "email":
-	// 			this.setState({
-	// 				email: e.target.value,
-	// 			});
-	// 			break;
-	// 		default:
-	// 			console.error();
-	// 	}
-	// };
+	handleChange = (e) => {
+		switch (e.target.id) {
+			case "password":
+				this.setState({
+					password: e.target.value,
+				});
+				break;
+			case "email":
+				this.setState({
+					email: e.target.value,
+				});
+				break;
+			default:
+				console.error();
+		}
+	};
 
-	// handleSubmit = () => {
-	// 	const config = {
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 	};
-	// 	let user = {
-	// 		email: this.state.email,
-	// 		password: this.state.pass,
-	// 	};
+	handleSubmit = (e) => {
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		let user = {
+			email: this.state.email,
+			password: this.state.password,
+		};
 
-	// 	axios
-	// 		.post("http://localhost:5000/api/users/buyer", user, config)
-	// 		.then((res) => {
-	// 			console.log(res.data);
-	// 			alert("Hi succeedd");
-	// 		})
-	// 		.catch((err) => {
-	// 			console.error(err);
-	// 			alert("Try again");
-	// 		});
-	// };
+		user = JSON.stringify(user);
+		console.log(user);
+
+		axios
+			.post("http://localhost:5000/api/auth", user, config)
+			.then((res) => {
+				console.log(res.data);
+				alert("Hi succeed");
+			})
+			.catch((err) => {
+				console.error(err);
+				alert("Try again");
+				e.preventDefault();
+			});
+	};
 
 	render() {
 		return (
@@ -71,6 +75,7 @@ class LoginForm extends React.Component {
 						</label>
 						<input
 							name="email"
+							onChange={this.handleChange}
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 							id="email"
 							type="email"
@@ -88,6 +93,7 @@ class LoginForm extends React.Component {
 						</label>
 						<input
 							name="password"
+							onChange={this.handleChange}
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 							id="password"
 							type="password"
