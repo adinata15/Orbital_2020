@@ -64,11 +64,6 @@ class SignUpForm extends React.Component {
 			// 	});
 		}
 	};
-
-	// handleCloses = () => {
-	// 	console.log("hoo");
-	// };
-
 	handleChange = (e) => {
 		switch (e.target.id) {
 			case "password":
