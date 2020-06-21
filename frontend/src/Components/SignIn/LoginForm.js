@@ -1,56 +1,56 @@
 import React from "react";
 import SignUpLink from "./SignUpLink";
-import axios from "axios";
+// import axios from "axios";
 
 class LoginForm extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			password: "",
-			userID: "", //this is user-id
-		};
-		//this.handleClose = this.handleClose.bind(this);
-	}
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		password: "",
+	// 		userID: "", //this is user-id
+	// 	};
+	// 	//this.handleClose = this.handleClose.bind(this);
+	// }
 
-	handleChange = (e) => {
-		switch (e.target.id) {
-			case "password":
-				this.setState({
-					pass: e.target.value,
-				});
-				break;
-			case "email":
-				this.setState({
-					email: e.target.value,
-				});
-				break;
-			default:
-				console.error();
-		}
-	};
+	// handleChange = (e) => {
+	// 	switch (e.target.id) {
+	// 		case "password":
+	// 			this.setState({
+	// 				pass: e.target.value,
+	// 			});
+	// 			break;
+	// 		case "email":
+	// 			this.setState({
+	// 				email: e.target.value,
+	// 			});
+	// 			break;
+	// 		default:
+	// 			console.error();
+	// 	}
+	// };
 
-	handleSubmit = () => {
-		const config = {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-		let user = {
-			email: this.state.email,
-			password: this.state.pass,
-		};
+	// handleSubmit = () => {
+	// 	const config = {
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 	};
+	// 	let user = {
+	// 		email: this.state.email,
+	// 		password: this.state.pass,
+	// 	};
 
-		axios
-			.post("http://localhost:5000/api/users/buyer", user, config)
-			.then((res) => {
-				console.log(res.data);
-				alert("Hi succeedd");
-			})
-			.catch((err) => {
-				console.error(err);
-				alert("Try again");
-			});
-	};
+	// 	axios
+	// 		.post("http://localhost:5000/api/users/buyer", user, config)
+	// 		.then((res) => {
+	// 			console.log(res.data);
+	// 			alert("Hi succeedd");
+	// 		})
+	// 		.catch((err) => {
+	// 			console.error(err);
+	// 			alert("Try again");
+	// 		});
+	// };
 
 	render() {
 		return (
