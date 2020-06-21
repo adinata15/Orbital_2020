@@ -129,6 +129,7 @@ router.post(
 				},
 				(err, token) => {
 					if (err) throw err;
+					response.headers.add("Access-Control-Allow-Origin", "*");
 					res.json({ token });
 				}
 			);
