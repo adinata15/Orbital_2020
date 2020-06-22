@@ -10,7 +10,7 @@ class LoginForm extends React.Component {
 			email: "", //this is user-id
 			accountType: "buyer",
 		};
-		this.props.login();
+		// this.props.login();
 		//this.handleClose = this.handleClose.bind(this);
 	}
 
@@ -39,6 +39,7 @@ class LoginForm extends React.Component {
 	};
 
 	handleSubmit = (e) => {
+		e.preventDefault();
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
@@ -74,7 +75,7 @@ class LoginForm extends React.Component {
 				class="w-9/12 max-w-lg mx-auto my-6"
 			>
 				<span class="float-right text-xl" id="close">
-					<a onClick={this.props.handleClose} href="">
+					<a id="closeBtn" onClick={this.props.handleClose} href="">
 						&times;
 					</a>
 				</span>

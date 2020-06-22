@@ -23,8 +23,10 @@ export default class FormDialog extends Component {
 			open: false,
 		});
 		console.log("close");
-		e.preventDefault();
-		return;
+		if (e.target.id == "closeBtn") {
+			e.preventDefault();
+			return;
+		}
 	};
 	render() {
 		return (
