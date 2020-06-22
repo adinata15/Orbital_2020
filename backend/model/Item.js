@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const ItemSchema = new mongoose.Schema({
+  seller: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'seller',
+  },
   title: {
     type: String,
     required: true,
@@ -16,6 +20,10 @@ const ItemSchema = new mongoose.Schema({
   desc: {
     type: String,
   },
+  images: {
+    type: [String],
+    required: true,
+  },
   price: {
     type: Number,
     required: true,
@@ -28,7 +36,7 @@ const ItemSchema = new mongoose.Schema({
     type: [String],
   },
   sizechart: {
-    type: String,
+    type: [String],
   },
   sizes: [
     {
@@ -37,16 +45,6 @@ const ItemSchema = new mongoose.Schema({
         required: true,
       },
       chest: {
-        from: {
-          type: Number,
-          required: true,
-        },
-        to: {
-          type: Number,
-          required: true,
-        },
-      },
-      waist: {
         from: {
           type: Number,
           required: true,
@@ -66,7 +64,27 @@ const ItemSchema = new mongoose.Schema({
           required: true,
         },
       },
-      hips: {
+      waist: {
+        from: {
+          type: Number,
+          required: true,
+        },
+        to: {
+          type: Number,
+          required: true,
+        },
+      },
+      hip: {
+        from: {
+          type: Number,
+          required: true,
+        },
+        to: {
+          type: Number,
+          required: true,
+        },
+      },
+      totallength: {
         from: {
           type: Number,
           required: true,
@@ -77,6 +95,16 @@ const ItemSchema = new mongoose.Schema({
         },
       },
       bust: {
+        from: {
+          type: Number,
+          required: true,
+        },
+        to: {
+          type: Number,
+          required: true,
+        },
+      },
+      skirtlength: {
         from: {
           type: Number,
           required: true,
