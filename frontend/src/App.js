@@ -1,6 +1,6 @@
 //Press alt+click to edit multiple lines at once
 
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
 import Form from "./Components/SignIn/SignUpForm";
@@ -22,7 +22,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router>
-				<NavBar />
+				<TrialAPI />
+				{/* <NavBar />
 				<Carousel />
 				<Switch>
 					<Route exact path="/home" component={Home} />
@@ -33,7 +34,7 @@ class App extends React.Component {
 				<Form />
 				<Payment />
 				<Breadcrumbs />
-				<FooterBar />
+				<FooterBar />*/}
 			</Router>
 		);
 	}
@@ -47,7 +48,7 @@ Not done:
 <Dialog />
 <Sidebar />
 <ClothesDetail />
-<TrialAPI />
+
 <PersonInput />
 
 Done:
