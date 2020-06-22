@@ -72,7 +72,11 @@ class NavBar extends React.Component {
 					<div className="subnav">
 						<FitAssistBtn />
 					</div>
-					<SigninBtn class="float-right" />
+					<SigninBtn
+						login={this.props.login}
+						// logout={this.props.logout}
+						class="float-right"
+					/>
 					<CartBtn />
 				</div>
 

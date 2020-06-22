@@ -10,6 +10,7 @@ class LoginForm extends React.Component {
 			email: "", //this is user-id
 			accountType: "buyer",
 		};
+		this.props.login();
 		//this.handleClose = this.handleClose.bind(this);
 	}
 
@@ -56,18 +57,22 @@ class LoginForm extends React.Component {
 			.post("http://localhost:5000/api/auth", user, config)
 			.then((res) => {
 				console.log(res.data);
-				alert("Hi succeed");
+				alert("yay");
+				this.props.login();
 			})
 			.catch((err) => {
 				console.error(err);
 				alert("Try again");
-				e.preventDefault();
 			});
 	};
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit} class="w-9/12 max-w-lg mx-auto my-6">
+			<form
+				action=""
+				onSubmit={this.handleSubmit}
+				class="w-9/12 max-w-lg mx-auto my-6"
+			>
 				<span class="float-right text-xl" id="close">
 					<a onClick={this.props.handleClose} href="">
 						&times;
@@ -90,6 +95,7 @@ class LoginForm extends React.Component {
 								name="accountType"
 								class="justify-center mr-2"
 								onClick={this.handleClick}
+								required
 							/>
 							<label
 								for="accountType"
@@ -104,6 +110,7 @@ class LoginForm extends React.Component {
 								name="accountType"
 								class="justify-center items-center mr-2"
 								type="radio"
+								required
 							/>
 							<label
 								for="radio2"
@@ -161,7 +168,11 @@ class LoginForm extends React.Component {
 
 				<p class="text-xs italic">
 					Do not have an account?
-					<SignUpLink handleClose={this.props.handleClose} />
+					<SignUpLink
+						login={this.props.login}
+						// logout={this.props.logout}
+						handleClose={this.props.handleClose}
+					/>
 				</p>
 			</form>
 		);

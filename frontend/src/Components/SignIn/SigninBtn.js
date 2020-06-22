@@ -18,10 +18,13 @@ export default class FormDialog extends Component {
 		});
 	};
 
-	handleClose = () => {
+	handleClose = (e) => {
 		this.setState({
 			open: false,
 		});
+		console.log("close");
+		e.preventDefault();
+		return;
 	};
 	render() {
 		return (
@@ -37,7 +40,11 @@ export default class FormDialog extends Component {
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<LoginForm handleClose={this.handleClose} />
+					<LoginForm
+						login={this.props.login}
+						// logout={this.props.logout}
+						handleClose={this.handleClose}
+					/>
 				</Dialog>
 			</span>
 		);

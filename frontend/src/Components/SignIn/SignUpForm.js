@@ -46,6 +46,7 @@ class SignUpForm extends React.Component {
 				.then((res) => {
 					console.log(res.data);
 					alert("Hi succeedd");
+					this.props.login();
 				})
 				.catch((err) => {
 					console.error(err);

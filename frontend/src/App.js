@@ -19,11 +19,33 @@ import Women from "./Components/Shop/Women.js";
 import Kids from "./Components/Shop/Kids.js";
 
 class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isLogged: false,
+		};
+		//can bind function here! (we didnt bind here because we use arrow function below)
+	}
+	login = () => {
+		this.setState({
+			isLogged: true,
+		});
+		console.log("horee");
+		return false;
+	};
+
+	logout = () => {
+		this.setState({
+			isLogged: false,
+		});
+		console.log("huu");
+	};
+
 	render() {
 		return (
 			<Router>
-				<Form />
-				<NavBar />
+				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
+				<NavBar login={this.login} logout={this.logout} />
 				<Carousel />
 				<Switch>
 					<Route exact path="/home" component={Home} />
@@ -44,6 +66,7 @@ export default App;
 -------------------------------
 Not done:
 <FitAssistCard />
+<Form />
 <Dialog />
 <Sidebar />
 <ClothesDetail />
