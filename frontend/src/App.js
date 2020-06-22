@@ -22,8 +22,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router>
-				<TrialAPI />
-				{/* <NavBar />
+				<Form />
+				<NavBar />
 				<Carousel />
 				<Switch>
 					<Route exact path="/home" component={Home} />
@@ -31,10 +31,9 @@ class App extends React.Component {
 					<Route path="/women" component={Women} />
 					<Route path="/kids" component={Kids} />
 				</Switch>
-				<Form />
 				<Payment />
 				<Breadcrumbs />
-				<FooterBar />*/}
+				<FooterBar />
 			</Router>
 		);
 	}
@@ -48,7 +47,7 @@ Not done:
 <Dialog />
 <Sidebar />
 <ClothesDetail />
-
+<TrialAPI />
 <PersonInput />
 
 Done:

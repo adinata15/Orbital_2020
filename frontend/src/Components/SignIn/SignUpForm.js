@@ -12,6 +12,7 @@ class SignUpForm extends React.Component {
 			gender: "male",
 			weight: "",
 			height: "",
+			accountType: "",
 		};
 		//this.handleClose = this.handleClose.bind(this);
 	}
@@ -34,6 +35,7 @@ class SignUpForm extends React.Component {
 				gender: this.state.gender,
 				weight: this.state.weight,
 				height: this.state.height,
+				accountType: this.state.accountType,
 			};
 
 			user = JSON.stringify(user);
@@ -51,6 +53,14 @@ class SignUpForm extends React.Component {
 				});
 		}
 	};
+
+	handleClick = (e) => {
+		this.setState({
+			accountType: e.target.id,
+		});
+		// console.log(this.state.accountType);
+	};
+
 	handleChange = (e) => {
 		switch (e.target.id) {
 			case "password":
@@ -104,6 +114,49 @@ class SignUpForm extends React.Component {
 		return (
 			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
 				<h1 class="text-center text-3xl mb-3">Create Account</h1>
+				<div class="flex flex-wrap -mx-3 mb-2">
+					<div class="w-full px-3">
+						<label
+							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+							for="email"
+						>
+							Account type*
+						</label>
+
+						<div class="pl-5 pb-3">
+							<input
+								type="radio"
+								id="buyer"
+								name="accountType"
+								class="justify-center mr-2"
+								onClick={this.handleClick}
+								required
+							/>
+							<label
+								for="accountType"
+								class=" items-center cursor-pointer mr-8 text-gray-700"
+							>
+								Buyer
+							</label>
+
+							<input
+								onClick={this.handleClick}
+								id="seller"
+								name="accountType"
+								class="justify-center items-center mr-2"
+								type="radio"
+								required
+							/>
+							<label
+								for="radio2"
+								class=" items-center cursor-pointer text-gray-700"
+							>
+								Seller
+							</label>
+						</div>
+					</div>
+				</div>
+
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
@@ -114,7 +167,7 @@ class SignUpForm extends React.Component {
 						</label>
 						<input
 							name="name"
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 							id="user-id"
 							type="text"
 							placeholder="Jane"
@@ -132,7 +185,7 @@ class SignUpForm extends React.Component {
 						</label>
 						<input
 							name="email"
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 							id="email"
 							type="email"
 							placeholder="jane@gmail.com"
