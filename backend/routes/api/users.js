@@ -1,19 +1,5 @@
 const express = require("express");
 const router = express.Router();
-<<<<<<< HEAD
-const { check, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const auth = require("../../middleware/auth");
-const uploadImage = require("../../utils/uploadImage");
-const aws = require("aws-sdk");
-const sharp = require("sharp");
-
-const Buyer = require("../../model/Buyer");
-const Seller = require("../../model/Seller");
-const Address = require("../../model/Address");
-=======
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -27,7 +13,6 @@ const Buyer = require('../../model/Buyer');
 const Seller = require('../../model/Seller');
 const Address = require('../../model/Address');
 const Item = require('../../model/Item');
->>>>>>> 1ec8bd1... Added a feature which allows seller to make item listing
 
 // @route POST api/users/buyer
 // @desc Register buyer
@@ -717,88 +702,6 @@ router.delete("/buyer/address/:address_id", auth, async (req, res) => {
 // @route POST api/users/seller/profile_pict
 // @desc Add or update profile pict
 // @access Private
-<<<<<<< HEAD
-router.post("/seller/profile_pict", auth, async (req, res) => {
-	try {
-		const seller = await Seller.findOne({ _id: req.user.id });
-		if (!seller) {
-			return res.status(404).json({ msg: "Account not found" });
-		}
-		uploadImage(req, res, (err) => {
-			if (err) {
-				return res.status(500).json({ msg: err.message });
-			} else {
-				if (req.files.length === undefined) {
-					return res.status(400).json({ msg: "No file selected!" });
-				} else {
-					const s3 = new aws.S3();
-					s3.getObject({
-						Bucket: config.get("s3bucket"),
-						Key: req.files.image[0].key,
-					})
-						.promise()
-						.then((data) =>
-							sharp(data.Body)
-								.resize(200, 200)
-								.withMetadata()
-								.toFormat("jpeg", { quality: 80 })
-								.toBuffer()
-						)
-						.then((buffer) =>
-							s3
-								.putObject({
-									Body: buffer,
-									Bucket: config.get("s3bucket"),
-									ContentType: "image/jpeg",
-									Key:
-										req.files.image[0].key.slice(-4) === "jpeg"
-											? req.files.image[0].key.slice(
-													0,
-													req.files.image[0].key.length - 5
-											  ) + "Updated.jpeg"
-											: req.files.image[0].key.slice(
-													0,
-													req.files.image[0].key.length - 4
-											  ) + "Updated.jpeg",
-									ACL: "public-read",
-								})
-								.promise()
-						)
-						.then(() => {
-							seller.image =
-								`https://${config.get(
-									"s3bucket"
-								)}.s3-ap-southeast-1.amazonaws.com/` +
-								(req.files.image[0].key.slice(-4) === "jpeg"
-									? req.files.image[0].key.slice(
-											0,
-											req.files.image[0].key.length - 5
-									  ) + "Updated.jpeg"
-									: req.files.image[0].key.slice(
-											0,
-											req.files.image[0].key.length - 4
-									  ) + "Updated.jpeg");
-							seller.save(function (err, seller) {
-								if (err) {
-									console.log(err.message);
-									return console.error(err);
-								}
-								res.json(seller);
-							});
-						})
-						.catch((err) => {
-							if (err.code === "NoSuchKey") err.message = "Image not found";
-							console.log(err.message);
-							return res.status(500).send("Server error");
-						});
-				}
-			}
-		});
-	} catch (err) {
-		console.log(err.message);
-		res.status(500).send("Server error");
-	}
-=======
 router.post('/seller/profile_pict', auth, async (req, res) => {
   try {
     const seller = await Seller.findOne({ _id: req.user.id });
@@ -879,35 +782,12 @@ router.post('/seller/profile_pict', auth, async (req, res) => {
     console.log(err.message);
     res.status(500).send('Server error');
   }
->>>>>>> 1ec8bd1... Added a feature which allows seller to make item listing
 });
 
 // @route POST api/users/seller/item
 // @desc Add item to sell
 // @access Private
 // Remind sellers that pic must be of certain dimensions!
-<<<<<<< HEAD
-router.post("/seller/item", [auth, uploadImage], async (req, res) => {
-	try {
-		const user = await Seller.findOne({ _id: req.user.id });
-		if (!seller) {
-			return res.status(404).json({ msg: "Account not found" });
-		}
-		const {
-			title,
-			category,
-			brand,
-			desc,
-			price,
-			instock,
-			outofstock,
-		} = req.body;
-	} catch (err) {
-		console.log(err.message);
-		res.status(500).send("Server error");
-	}
-});
-=======
 router.post(
   '/seller/item',
   [
@@ -2165,6 +2045,5 @@ router.post(
     }
   }
 );
->>>>>>> 1ec8bd1... Added a feature which allows seller to make item listing
 
 module.exports = router;
