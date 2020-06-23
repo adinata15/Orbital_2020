@@ -31,6 +31,7 @@ class App extends React.Component {
 			isLogged: true,
 		});
 		console.log("horee");
+		// window.location.href = "";
 		return false;
 	};
 

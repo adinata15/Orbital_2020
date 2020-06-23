@@ -1,5 +1,5 @@
-//not done:choose each section by click then hover to reveal effect
-import React from "react";
+// use Link instead of a+href to prevent website from reloading
+import React, { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SigninBtn from "../SignIn/SigninBtn.js";
 import FitAssistBtn from "./FitAssistBtn";
@@ -31,41 +31,45 @@ class NavBar extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<Fragment>
 				<div className="navbar">
-					<a href="/home">Home</a>
+					<Link to="/home">Home</Link>
 					<div className="subnav">
 						<button className="subnavbtn">Men </button>
 						<div className="subnav-content">
-							<a name="bring" onClick={this.handleClick} href="/men/shirts">
+							{/* <a name="bring" onClick={this.handleClick} href="/men/shirts">
 								Shirts
-							</a>
-							<a name="company" onClick={this.handleClick} href="/men/pants">
+							</a> */}
+							<Link name="bring" onClick={this.handleClick} to="/men/shirts">
+								Shirts
+							</Link>
+
+							<Link name="company" onClick={this.handleClick} to="/men/pants">
 								Pants
-							</a>
-							<a name="team" onClick={this.handleClick} href="/men/shorts">
+							</Link>
+							<Link name="team" onClick={this.handleClick} to="/men/shorts">
 								Shorts
-							</a>
+							</Link>
 						</div>
 					</div>
 
 					<div className="subnav">
 						<button className="subnavbtn">Women</button>
 						<div className="subnav-content ">
-							<a href="/women/dress">Dress</a>
-							<a href="/women/shirt">Shirt</a>
-							<a href="/women/skirt">Skirt</a>
-							<a href="/women/pants">Pants</a>
+							<Link to="/women/dress">Dress</Link>
+							<Link to="/women/shirt">Shirt</Link>
+							<Link to="/women/skirt">Skirt</Link>
+							<Link to="/women/pants">Pants</Link>
 						</div>
 					</div>
 
 					<div className="subnav">
 						<button className="subnavbtn">Kids</button>
 						<div className="subnav-content">
-							<a href="/kids/shirt">Shirt</a>
-							<a href="/kids/pants">Pants</a>
-							<a href="/kids/cap">Cap</a>
-							<a href="/kids/diapers">Diapers</a>
+							<Link to="/kids/shirt">Shirt</Link>
+							<Link to="/kids/pants">Pants</Link>
+							<Link to="/kids/cap">Cap</Link>
+							<Link to="/kids/diapers">Diapers</Link>
 						</div>
 					</div>
 
@@ -83,7 +87,7 @@ class NavBar extends React.Component {
 				{/* <div style={{ padding: "16px 16px 16px 16px" }}>
 					<h3>You are choosing {chosenMenu} item</h3>
 				</div> */}
-			</div>
+			</Fragment>
 		);
 	}
 }

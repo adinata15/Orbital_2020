@@ -1,4 +1,7 @@
+//NB: sign in will not autoreload
+
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import LoginForm from "./LoginForm.js";
