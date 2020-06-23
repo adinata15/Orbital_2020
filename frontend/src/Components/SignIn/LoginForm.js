@@ -1,13 +1,16 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { Redirect } from "react-router-dom";
 import SignUpLink from "./SignUpLink";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import DialogActions from "@material-ui/core/DialogActions";
 
 class LoginForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			password: "",
-			email: "", //this is user-id
+			email: "",
 			accountType: "buyer",
 		};
 		// this.props.login();
@@ -40,6 +43,8 @@ class LoginForm extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		const self = this; //because the "this" inside axios will differ already
+
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
@@ -52,7 +57,7 @@ class LoginForm extends React.Component {
 		};
 
 		user = JSON.stringify(user);
-		console.log(user);
+		// console.log(user);
 
 		axios
 			.post("http://localhost:5000/api/auth", user, config)
@@ -60,122 +65,124 @@ class LoginForm extends React.Component {
 				console.log(res.data);
 				alert("yay");
 				this.props.login();
+				self.props.handleClose();
 			})
 			.catch((err) => {
 				console.error(err);
-				alert("Try again");
+				alert("We encountered an error");
 			});
 	};
 
 	render() {
 		return (
-			<form
-				action=""
-				onSubmit={this.handleSubmit}
-				class="w-9/12 max-w-lg mx-auto my-6"
-			>
-				<span class="float-right text-xl" id="close">
-					<a id="closeBtn" onClick={this.props.handleClose} href="">
-						&times;
-					</a>
-				</span>
-				<h1 class="text-center text-3xl mb-3">Sign in</h1>
-				<div class="flex flex-wrap -mx-3 mb-6">
-					<div class="w-full px-3">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="email"
-						>
-							Account type
-						</label>
-
-						<div class="pl-5 pb-3">
-							<input
-								type="radio"
-								id="buyer"
-								name="accountType"
-								class="justify-center mr-2"
-								onClick={this.handleClick}
-								required
-							/>
+			<Fragment>
+				<form
+					action=""
+					onSubmit={this.handleSubmit}
+					class="w-9/12 max-w-lg mx-auto my-6"
+				>
+					<span class="float-right text-xl" id="close">
+						<Link id="closeBtn" onClick={this.props.handleClose} to="">
+							&times;
+						</Link>
+					</span>
+					<h1 class="text-center text-3xl mb-3">Sign in</h1>
+					<div class="flex flex-wrap -mx-3 mb-6">
+						<div class="w-full px-3">
 							<label
-								for="accountType"
-								class=" items-center cursor-pointer mr-8 text-gray-700"
+								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+								for="email"
 							>
-								Buyer
+								Account type
 							</label>
 
+							<div class="pl-5 pb-3">
+								<input
+									type="radio"
+									id="buyer"
+									name="accountType"
+									class="justify-center mr-2"
+									onClick={this.handleClick}
+									required
+								/>
+								<label
+									for="accountType"
+									class=" items-center cursor-pointer mr-8 text-gray-700"
+								>
+									Buyer
+								</label>
+
+								<input
+									onClick={this.handleClick}
+									id="seller"
+									name="accountType"
+									class="justify-center items-center mr-2"
+									type="radio"
+									required
+								/>
+								<label
+									for="radio2"
+									class=" items-center cursor-pointer text-gray-700"
+								>
+									Seller
+								</label>
+							</div>
+						</div>
+
+						<div class="w-full px-3">
+							<label
+								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+								for="email"
+							>
+								Email
+							</label>
 							<input
-								onClick={this.handleClick}
-								id="seller"
-								name="accountType"
-								class="justify-center items-center mr-2"
-								type="radio"
+								name="email"
+								onChange={this.handleChange}
+								class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+								id="email"
+								type="email"
+								placeholder="jane@gmail.com"
 								required
 							/>
+						</div>
+						<div class="w-full px-3">
 							<label
-								for="radio2"
-								class=" items-center cursor-pointer text-gray-700"
+								class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+								for="grid-password"
 							>
-								Seller
+								Password
 							</label>
+							<input
+								name="password"
+								onChange={this.handleChange}
+								class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+								id="password"
+								type="password"
+								placeholder="******************"
+								minlength="8"
+								required
+							/>
 						</div>
 					</div>
-
-					<div class="w-full px-3">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="email"
+					<DialogActions>
+						<button
+							class="w-full float-left bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 mb-3 rounded"
+							id="button"
+							type="submit"
 						>
-							Email
-						</label>
-						<input
-							name="email"
-							onChange={this.handleChange}
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="email"
-							type="email"
-							placeholder="jane@gmail.com"
-							required
+							Log In
+						</button>
+					</DialogActions>
+					<p class="text-xs italic">
+						Do not have an account?
+						<SignUpLink
+							login={this.props.login}
+							handleClose={this.props.handleClose}
 						/>
-					</div>
-					<div class="w-full px-3">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="grid-password"
-						>
-							Password
-						</label>
-						<input
-							name="password"
-							onChange={this.handleChange}
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="password"
-							type="password"
-							placeholder="******************"
-							minlength="8"
-							required
-						/>
-					</div>
-				</div>
-
-				<button
-					class="w-full float-left bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 mb-3 rounded"
-					id="button"
-					type="submit"
-				>
-					Log In
-				</button>
-
-				<p class="text-xs italic">
-					Do not have an account?
-					<SignUpLink
-						login={this.props.login}
-						// logout={this.props.logout}
-						handleClose={this.props.handleClose}
-					/>
-				</p>
-			</form>
+					</p>
+				</form>
+			</Fragment>
 		);
 	}
 }

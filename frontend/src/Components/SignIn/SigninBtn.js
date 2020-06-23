@@ -1,5 +1,3 @@
-//NB: sign in will not autoreload
-
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Button from "@material-ui/core/Button";
@@ -26,11 +24,10 @@ export default class FormDialog extends Component {
 			open: false,
 		});
 		console.log("close");
-		if (e.target.id == "closeBtn") {
-			e.preventDefault();
-			return;
-		}
+		// e.preventDefault();
+		return;
 	};
+
 	render() {
 		return (
 			<span>
@@ -38,13 +35,14 @@ export default class FormDialog extends Component {
 					class=" float-right my-2 mx-3 bg-red-800 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
 					onClick={this.handleClickOpen}
 				>
-					Sign In
+					{this.props.isLogged ? <span>Logout</span> : <span>Login</span>}
 				</Button>
 				<Dialog
 					open={this.state.open}
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
+					{this.state.open ? <span>open</span> : <span>close</span>}
 					<LoginForm
 						login={this.props.login}
 						// logout={this.props.logout}

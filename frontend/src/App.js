@@ -1,9 +1,14 @@
 //Press alt+click to edit multiple lines at once
 
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Redirect,
+} from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
-import Form from "./Components/SignIn/SignUpForm";
+import Signup from "./Components/SignIn/SignUpForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
 import Carousel from "./Components/Carousel";
 import Home from "./Components/Shop/Home";
@@ -22,17 +27,18 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			// redirect: "/man",
 			isLogged: false,
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
 	}
 	login = () => {
+		// <Redirect to={this.state.redirect} />;
 		this.setState({
 			isLogged: true,
 		});
 		console.log("horee");
-		// window.location.href = "";
-		return false;
+		return <Redirect to="/home" />;
 	};
 
 	logout = () => {
@@ -46,13 +52,18 @@ class App extends React.Component {
 		return (
 			<Router>
 				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
-				<NavBar login={this.login} logout={this.logout} />
+				<NavBar
+					isLogged={this.state.isLogged}
+					login={this.login}
+					logout={this.logout}
+				/>
 				<Carousel />
 				<Switch>
+					<Route path="/signup" component={Signup} />
 					<Route exact path="/home" component={Home} />
-					<Route path="/men" component={Men} />
-					<Route path="/women" component={Women} />
-					<Route path="/kids" component={Kids} />
+					<Route path="/home/men" component={Men} />
+					<Route path="/home/women" component={Women} />
+					<Route path="/home/kids" component={Kids} />
 				</Switch>
 				<Payment />
 				<Breadcrumbs />

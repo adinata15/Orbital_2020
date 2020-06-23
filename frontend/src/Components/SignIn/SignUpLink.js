@@ -1,45 +1,38 @@
 import React, { Component } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import SignUpForm from "./SignUpForm.js";
+import { Link, Router } from "react-router-dom";
 
 export default class SignUpLink extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			open: false,
-		};
-		//this.handleClose = this.handleClose.bind(this);
-	}
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		open2: false,
+	// 	};
+	// 	//this.handleClose = this.handleClose.bind(this);
+	// }
 
-	handleClickOpen = () => {
-		this.setState({
-			open: true,
-		});
-	};
+	// handleClickOpen = () => {
+	// 	this.setState({
+	// 		open2: true,
+	// 	});
+	// };
 
-	handleClose = () => {
-		this.setState({
-			open: false,
-		});
-		this.props.handleClose();
-	};
+	// handleClose2 = () => {
+	// 	this.setState({
+	// 		open2: false,
+	// 	});
+	// 	this.props.handleClose();
+	// };
 	render() {
 		return (
-			<a
-				onClick={this.handleClickOpen}
+			<Link
 				class="underline text-green-600 mx-1 cursor-pointer"
+				to="/signup"
+				onClick={this.props.handleClose}
 			>
 				Sign Up
-				<Dialog
-					open={this.state.open}
-					onClose={this.handleClose}
-					fullWidth={true}
-					maxWidth={"md"}
-					scroll={"body"}
-				>
-					<SignUpForm />
-				</Dialog>
-			</a>
+			</Link>
 		);
 	}
 }

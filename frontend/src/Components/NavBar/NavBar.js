@@ -37,9 +37,6 @@ class NavBar extends React.Component {
 					<div className="subnav">
 						<button className="subnavbtn">Men </button>
 						<div className="subnav-content">
-							{/* <a name="bring" onClick={this.handleClick} href="/men/shirts">
-								Shirts
-							</a> */}
 							<Link name="bring" onClick={this.handleClick} to="/men/shirts">
 								Shirts
 							</Link>
@@ -77,6 +74,7 @@ class NavBar extends React.Component {
 						<FitAssistBtn />
 					</div>
 					<SigninBtn
+						isLogged={this.props.isLogged}
 						login={this.props.login}
 						// logout={this.props.logout}
 						class="float-right"
