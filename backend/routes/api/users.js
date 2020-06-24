@@ -303,10 +303,10 @@ router.post(
     [
       check('firstname', 'First Name is required').not().isEmpty(),
       check('lastname', 'Last Name is required').not().isEmpty(),
-      check('cellphone', 'Cellphone is required').not().isEmpty(),
-      check('telephone', 'Telephone is required').not().isEmpty(),
+      check('cellphone', 'Cellphone is required').exists({ checkFalsy: true }),
+      check('telephone', 'Telephone is required').exists({ checkFalsy: true }),
       check('address', 'Address is required').not().isEmpty(),
-      check('postcode', 'Postcode is required').not().isEmpty(),
+      check('postcode', 'Postcode is required').exists({ checkFalsy: true }),
     ],
   ],
   async (req, res) => {
@@ -372,10 +372,10 @@ router.post(
     [
       check('firstname', 'First Name is required').not().isEmpty(),
       check('lastname', 'Last Name is required').not().isEmpty(),
-      check('cellphone', 'Cellphone is required').not().isEmpty(),
-      check('telephone', 'Telephone is required').not().isEmpty(),
+      check('cellphone', 'Cellphone is required').exists({ checkFalsy: true }),
+      check('telephone', 'Telephone is required').exists({ checkFalsy: true }),
       check('address', 'Address is required').not().isEmpty(),
-      check('postcode', 'Postcode is required').not().isEmpty(),
+      check('postcode', 'Postcode is required').exists({ checkFalsy: true }),
     ],
   ],
   async (req, res) => {
@@ -437,10 +437,10 @@ router.post(
     [
       check('firstname', 'First Name is required').not().isEmpty(),
       check('lastname', 'Last Name is required').not().isEmpty(),
-      check('cellphone', 'Cellphone is required').not().isEmpty(),
-      check('telephone', 'Telephone is required').not().isEmpty(),
+      check('cellphone', 'Cellphone is required').exists({ checkFalsy: true }),
+      check('telephone', 'Telephone is required').exists({ checkFalsy: true }),
       check('address', 'Address is required').not().isEmpty(),
-      check('postcode', 'Postcode is required').not().isEmpty(),
+      check('postcode', 'Postcode is required').exists({ checkFalsy: true }),
     ],
   ],
   async (req, res) => {
@@ -581,10 +581,10 @@ router.put(
     [
       check('firstname', 'First Name is required').not().isEmpty(),
       check('lastname', 'Last Name is required').not().isEmpty(),
-      check('cellphone', 'Cellphone is required').not().isEmpty(),
-      check('telephone', 'Telephone is required').not().isEmpty(),
+      check('cellphone', 'Cellphone is required').exists({ checkFalsy: true }),
+      check('telephone', 'Telephone is required').exists({ checkFalsy: true }),
       check('address', 'Address is required').not().isEmpty(),
-      check('postcode', 'Postcode is required').not().isEmpty(),
+      check('postcode', 'Postcode is required').exists({ checkFalsy: true }),
     ],
   ],
   async (req, res) => {
@@ -806,7 +806,7 @@ router.post(
       check('title', 'Title is required').not().isEmpty(),
       check('category', 'Category is required').not().isEmpty(),
       check('brand', 'Brand is required').not().isEmpty(),
-      check('price', 'Price is required').not().isEmpty(),
+      check('price', 'Price is required').exists({ checkFalsy: true }),
     ],
   ],
   async (req, res) => {
@@ -1377,7 +1377,7 @@ router.put(
       check('title', 'Title is required').not().isEmpty(),
       check('category', 'Category is required').not().isEmpty(),
       check('brand', 'Brand is required').not().isEmpty(),
-      check('price', 'Price is required').not().isEmpty(),
+      check('price', 'Price is required').exists({ checkFalsy: true }),
     ],
   ],
   async (req, res) => {
