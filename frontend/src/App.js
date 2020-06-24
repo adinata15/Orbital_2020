@@ -13,6 +13,7 @@ import NavBar from "./Components/NavBar/NavBar";
 import Signup from "./Components/SignIn/SignUpForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
 import Carousel from "./Components/Carousel";
+import EditProfile from "./Components/EditProfile";
 import Home from "./Components/Shop/Home";
 import Sidebar from "./Components/Sidebar";
 import Breadcrumbs from "./Components/NavBar/Breadcrumbs";
@@ -72,6 +73,7 @@ class App extends React.Component {
 					login={this.login}
 					logout={this.logout}
 				/>
+				<EditProfile token={this.state.token} />
 				<Carousel />
 				<Switch>
 					<Route path="/signup" component={Signup} />
