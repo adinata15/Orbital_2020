@@ -7,7 +7,7 @@ import {
 	Switch,
 	Redirect,
 } from "react-router-dom";
-import Axios from "axios";
+import axios from "axios";
 
 import NavBar from "./Components/NavBar/NavBar";
 import Signup from "./Components/SignIn/SignUpForm";
@@ -24,6 +24,7 @@ import Payment from "./Components/Payment.js";
 import Men from "./Components/Shop/Men.js";
 import Women from "./Components/Shop/Women.js";
 import Kids from "./Components/Shop/Kids.js";
+import setAuthToken from "./utils/setAuthToken.js";
 
 class App extends React.Component {
 	constructor(props) {
@@ -40,21 +41,32 @@ class App extends React.Component {
 			isLogged: true,
 			token: inputToken, //update token
 		});
+		// setAuthToken(inputToken);
+		// axios.defaults.headers.common["x-auth-token"] = inputToken;
+		// console.log(axios.defaults.headers);
 		console.log("horee");
 		return <Redirect to="/home" />;
 	};
 
 	getUserInfo = (inputToken) => {
 		// const self = this; //because the "this" inside axios will differ already
-		const config = {
+		let config = {
 			headers: {
-				Authorization: "Bearer " + inputToken,
+				"x-auth-token": inputToken,
 			},
 		};
-		config = JSON.stringify(config);
-		Axios.get("http://localhost:5000/api/users/me", config).then(
-			alert("auth success")
-		);
+		// console.log(config);
+		// console.log(axios.defaults.headers);
+		axios
+			.get("http://localhost:5000/api/users/me", config)
+			.then((res) => {
+				alert("auth success");
+				console.log(res.data);
+			})
+			.catch((err) => {
+				alert("auth fail");
+				console.error(err);
+			});
 	};
 
 	logout = () => {
@@ -63,11 +75,17 @@ class App extends React.Component {
 		});
 		console.log("huu");
 	};
+	// componentDidUpdate() {
+	// 	if (this.state.token) {
+	// 		setAuthToken(this.state.token);
+	// 	}
+	// }
 
 	render() {
 		return (
 			<Router>
 				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
+				<p>Token is {this.state.token}</p>
 				<NavBar
 					isLogged={this.state.isLogged}
 					getUserInfo={this.getUserInfo}
