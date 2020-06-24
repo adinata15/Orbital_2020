@@ -45,6 +45,7 @@ export default class FormDialog extends Component {
 					{this.state.open ? <span>open</span> : <span>close</span>}
 					<LoginForm
 						login={this.props.login}
+						getUserInfo={this.props.getUserInfo}
 						// logout={this.props.logout}
 						handleClose={this.handleClose}
 					/>

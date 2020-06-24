@@ -44,20 +44,19 @@ class App extends React.Component {
 		return <Redirect to="/home" />;
 	};
 
-	getUserInfo = () => {
+	getUserInfo = (inputToken) => {
 		// const self = this; //because the "this" inside axios will differ already
-
 		const config = {
 			headers: {
-				"x-auth-token": this.state.token,
+				Authorization: "Bearer " + inputToken,
 			},
 		};
-
 		config = JSON.stringify(config);
 		Axios.get("http://localhost:5000/api/users/me", config).then(
 			alert("auth success")
 		);
 	};
+
 	logout = () => {
 		this.setState({
 			isLogged: false,
@@ -71,6 +70,7 @@ class App extends React.Component {
 				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
 				<NavBar
 					isLogged={this.state.isLogged}
+					getUserInfo={this.getUserInfo}
 					login={this.login}
 					logout={this.logout}
 				/>

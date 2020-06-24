@@ -76,6 +76,7 @@ class NavBar extends React.Component {
 					<SigninBtn
 						isLogged={this.props.isLogged}
 						login={this.props.login}
+						getUserInfo={this.props.getUserInfo}
 						// logout={this.props.logout}
 						class="float-right"
 					/>

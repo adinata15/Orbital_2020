@@ -64,6 +64,7 @@ class LoginForm extends React.Component {
 			.then((res) => {
 				console.log(res.data);
 				alert("yay");
+				self.props.getUserInfo(res.data.token);
 				this.props.login(res.data.token); //cause this one is loacted in app.js file?
 				self.props.handleClose();
 			})
@@ -178,6 +179,7 @@ class LoginForm extends React.Component {
 						Do not have an account?
 						<SignUpLink
 							login={this.props.login}
+							getUserInfo={this.props.getUserInfo}
 							handleClose={this.props.handleClose}
 						/>
 					</p>
