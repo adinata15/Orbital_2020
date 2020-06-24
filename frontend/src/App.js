@@ -7,6 +7,8 @@ import {
 	Switch,
 	Redirect,
 } from "react-router-dom";
+import Axios from "axios";
+
 import NavBar from "./Components/NavBar/NavBar";
 import Signup from "./Components/SignIn/SignUpForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
@@ -27,20 +29,35 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// redirect: "/man",
+			token: "",
 			isLogged: false,
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
 	}
-	login = () => {
-		// <Redirect to={this.state.redirect} />;
+
+	login = (inputToken) => {
 		this.setState({
 			isLogged: true,
+			token: inputToken, //update token
 		});
 		console.log("horee");
 		return <Redirect to="/home" />;
 	};
 
+	getUserInfo = () => {
+		// const self = this; //because the "this" inside axios will differ already
+
+		const config = {
+			headers: {
+				"x-auth-token": this.state.token,
+			},
+		};
+
+		config = JSON.stringify(config);
+		Axios.get("http://localhost:5000/api/users/me", config).then(
+			alert("auth success")
+		);
+	};
 	logout = () => {
 		this.setState({
 			isLogged: false,

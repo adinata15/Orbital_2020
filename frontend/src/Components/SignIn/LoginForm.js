@@ -64,7 +64,7 @@ class LoginForm extends React.Component {
 			.then((res) => {
 				console.log(res.data);
 				alert("yay");
-				this.props.login();
+				this.props.login(res.data.token); //cause this one is loacted in app.js file?
 				self.props.handleClose();
 			})
 			.catch((err) => {
