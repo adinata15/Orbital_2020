@@ -24,7 +24,7 @@ import Payment from "./Components/Payment.js";
 import Men from "./Components/Shop/Men.js";
 import Women from "./Components/Shop/Women.js";
 import Kids from "./Components/Shop/Kids.js";
-import setAuthToken from "./utils/setAuthToken.js";
+import { getUserInfo } from "./utils/functions.js";
 
 class App extends React.Component {
 	constructor(props) {
@@ -48,33 +48,13 @@ class App extends React.Component {
 		return <Redirect to="/home" />;
 	};
 
-	getUserInfo = (inputToken) => {
-		// const self = this; //because the "this" inside axios will differ already
-		let config = {
-			headers: {
-				"x-auth-token": inputToken,
-			},
-		};
-		// console.log(config);
-		// console.log(axios.defaults.headers);
-		axios
-			.get("http://localhost:5000/api/users/me", config)
-			.then((res) => {
-				alert("auth success");
-				console.log(res.data);
-			})
-			.catch((err) => {
-				alert("auth fail");
-				console.error(err);
-			});
-	};
-
 	logout = () => {
 		this.setState({
 			isLogged: false,
 		});
 		console.log("huu");
 	};
+
 	// componentDidUpdate() {
 	// 	if (this.state.token) {
 	// 		setAuthToken(this.state.token);

@@ -4,6 +4,7 @@ import SignUpLink from "./SignUpLink";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DialogActions from "@material-ui/core/DialogActions";
+import { getUserInfo } from "../../utils/functions.js";
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -64,7 +65,7 @@ class LoginForm extends React.Component {
 			.then((res) => {
 				console.log(res.data);
 				alert("yay");
-				self.props.getUserInfo(res.data.token);
+				getUserInfo(res.data.token);
 				this.props.login(res.data.token); //cause this one is loacted in app.js file?
 				self.props.handleClose();
 			})
