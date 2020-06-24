@@ -4,7 +4,7 @@ var cors = require("cors");
 
 const app = express();
 
-//try
+//Try
 app.use(cors({ origin: true, credentials: true }));
 
 //Connect to database

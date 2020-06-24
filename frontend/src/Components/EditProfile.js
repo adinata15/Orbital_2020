@@ -1,162 +1,130 @@
 import React from "react";
 import axios from "axios";
+import { getUserInfo } from "../utils/functions.js";
+import Image from "../images/green.jpg";
 
-class SignUpForm extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			conPass: "",
-			pass: "",
-			name: "", //this is user-id
-			email: "",
-			gender: "male",
-			weight: "",
-			height: "",
-			accountType: "",
-		};
-		//this.handleClose = this.handleClose.bind(this);
-	}
+class EditProfile extends React.Component {
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = getUserInfo(this.props.token);
 
-	handleSubmit = (e) => {
-		e.preventDefault();
-		if (this.state.pass !== this.state.conPass) {
-			alert("Passwords need to match");
-			return;
-		} else {
-			const config = {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			};
-			let user = {
-				name: this.state.name, //this is user-id
-				email: this.state.email,
-				password: this.state.pass,
-				gender: this.state.gender,
-				weight: this.state.weight,
-				height: this.state.height,
-				accountType: this.state.accountType,
-			};
+	// 	//this.handleClose = this.handleClose.bind(this);
+	// }
 
-			user = JSON.stringify(user);
-			console.log(user);
+	// handleSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	if (this.state.pass !== this.state.conPass) {
+	// 		alert("Passwords need to match");
+	// 		return;
+	// 	} else {
+	// 		const config = {
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 		};
+	// 		let user = {
+	// 			name: this.state.name, //this is user-id
+	// 			email: this.state.email,
+	// 			password: this.state.pass,
+	// 			gender: this.state.gender,
+	// 			weight: this.state.weight,
+	// 			height: this.state.height,
+	// 			accountType: this.state.accountType,
+	// 		};
 
-			axios
-				.post("http://localhost:5000/api/users/buyer", user, config)
-				.then((res) => {
-					console.log(res.data);
-					alert("Hi succeedd");
-					this.props.login();
-				})
-				.catch((err) => {
-					console.error(err);
-					alert("Try again");
-				});
-		}
-	};
+	// 		user = JSON.stringify(user);
+	// 		console.log(user);
 
-	handleClick = (e) => {
-		this.setState({
-			accountType: e.target.id,
-		});
-		// console.log(this.state.accountType);
-	};
+	// 		axios
+	// 			.post("http://localhost:5000/api/users/buyer", user, config)
+	// 			.then((res) => {
+	// 				console.log(res.data);
+	// 				alert("Hi succeedd");
+	// 				this.props.login();
+	// 			})
+	// 			.catch((err) => {
+	// 				console.error(err);
+	// 				alert("Try again");
+	// 			});
+	// 	}
+	// };
 
-	handleChange = (e) => {
-		switch (e.target.id) {
-			case "password":
-				this.setState({
-					pass: e.target.value,
-				});
-				break;
-			case "confirmPassword":
-				this.setState({
-					conPass: e.target.value,
-				});
-				break;
-			case "user-id":
-				this.setState({
-					name: e.target.value,
-				});
-				break;
-			case "email":
-				this.setState({
-					email: e.target.value,
-				});
-				break;
-			case "gender":
-				this.setState({
-					gender: e.target.value,
-				});
-				break;
-			case "weight":
-				this.setState({
-					weight: e.target.value,
-				});
-				break;
-			case "height":
-				this.setState({
-					height: e.target.value,
-				});
-				break;
-			default:
-				console.error();
-		}
-	};
+	// handleClick = (e) => {
+	// 	this.setState({
+	// 		accountType: e.target.id,
+	// 	});
+	// 	// console.log(this.state.accountType);
+	// };
 
-	showError = () => {
-		if (this.state.pass !== this.state.conPass)
-			return (
-				<p class="text-sm text-red-600 italic"> Password does not match </p>
-			);
-	};
+	// handleChange = (e) => {
+	// 	switch (e.target.id) {
+	// 		case "password":
+	// 			this.setState({
+	// 				pass: e.target.value,
+	// 			});
+	// 			break;
+	// 		case "confirmPassword":
+	// 			this.setState({
+	// 				conPass: e.target.value,
+	// 			});
+	// 			break;
+	// 		case "user-id":
+	// 			this.setState({
+	// 				name: e.target.value,
+	// 			});
+	// 			break;
+	// 		case "email":
+	// 			this.setState({
+	// 				email: e.target.value,
+	// 			});
+	// 			break;
+	// 		case "gender":
+	// 			this.setState({
+	// 				gender: e.target.value,
+	// 			});
+	// 			break;
+	// 		case "weight":
+	// 			this.setState({
+	// 				weight: e.target.value,
+	// 			});
+	// 			break;
+	// 		case "height":
+	// 			this.setState({
+	// 				height: e.target.value,
+	// 			});
+	// 			break;
+	// 		default:
+	// 			console.error();
+	// 	}
+	// };
+
+	// showError = () => {
+	// 	if (this.state.pass !== this.state.conPass)
+	// 		return (
+	// 			<p class="text-sm text-red-600 italic"> Password does not match </p>
+	// 		);
+	// };
 
 	render() {
 		return (
 			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
-				<h1 class="text-center text-3xl mb-3">Create Account</h1>
-				<div class="flex flex-wrap -mx-3 mb-2">
-					<div class="w-full px-3">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="email"
-						>
-							Account type*
-						</label>
+				<image class="h-64 w-64 my-3" src={Image} alt="" />
+				<h1 class="text-center text-3xl mb-3">Edit Profile</h1>
+				<input
+					type="file"
+					style={{ display: "none" }}
+					onChange={this.handleChange}
+					// to link to the button
+					ref={(fileInput) => (this.fileInput = fileInput)}
+				/>
 
-						<div class="pl-5 pb-3">
-							<input
-								type="radio"
-								id="buyer"
-								name="accountType"
-								class="justify-center mr-2"
-								onClick={this.handleClick}
-								required
-							/>
-							<label
-								for="accountType"
-								class=" items-center cursor-pointer mr-8 text-gray-700"
-							>
-								Buyer
-							</label>
-
-							<input
-								onClick={this.handleClick}
-								id="seller"
-								name="accountType"
-								class="justify-center items-center mr-2"
-								type="radio"
-								required
-							/>
-							<label
-								for="radio2"
-								class=" items-center cursor-pointer text-gray-700"
-							>
-								Seller
-							</label>
-						</div>
-					</div>
-				</div>
+				<button
+					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
+					onClick={() => this.fileInput.click()}
+				>
+					Choose file
+				</button>
+				{/* <button onClick={this.fileUpload}>Upload</button> */}
 
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -164,15 +132,15 @@ class SignUpForm extends React.Component {
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-user-id"
 						>
-							User ID*
+							User ID
 						</label>
 						<input
 							name="name"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 							id="user-id"
+							// value={this.state.userid}
 							type="text"
 							placeholder="Jane"
-							required
 							onChange={this.handleChange}
 						/>
 					</div>
@@ -182,7 +150,7 @@ class SignUpForm extends React.Component {
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-email"
 						>
-							Email*
+							Email
 						</label>
 						<input
 							name="email"
@@ -190,19 +158,55 @@ class SignUpForm extends React.Component {
 							id="email"
 							type="email"
 							placeholder="jane@gmail.com"
-							required
 							onChange={this.handleChange}
 						/>
 					</div>
 				</div>
-
+				<div class="flex flex-wrap -mx-3 mb-6">
+					<div class="w-full px-3">
+						<label
+							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+							for="grid-user-id"
+						>
+							Shipping address
+						</label>
+						<input
+							name="shipAddress"
+							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+							id="user-id"
+							// value={this.state.userid}
+							type="text"
+							placeholder="Insert your address"
+							onChange={this.handleChange}
+						/>
+					</div>
+				</div>
+				<div class="flex flex-wrap -mx-3 mb-6">
+					<div class="w-full px-3">
+						<label
+							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+							for="grid-user-id"
+						>
+							Mailing address
+						</label>
+						<input
+							name="mailAddress"
+							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+							id="user-id"
+							// value={this.state.userid}
+							type="text"
+							placeholder="Insert your address"
+							onChange={this.handleChange}
+						/>
+					</div>
+				</div>
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-password"
 						>
-							Password (8 characters minimum)*
+							Password (8 characters minimum)
 						</label>
 						<input
 							name="password"
@@ -211,32 +215,9 @@ class SignUpForm extends React.Component {
 							type="password"
 							placeholder="******************"
 							minlength="8"
-							required
 							onChange={this.handleChange}
 						/>
 					</div>
-				</div>
-
-				<div class="flex flex-wrap -mx-3 mb-6">
-					<div class="w-full px-3">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="grid-password"
-						>
-							Confirm password*
-						</label>
-						<input
-							name="passwordConfirm"
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="confirmPassword"
-							type="password"
-							placeholder="******************"
-							x-model="password_confirm"
-							required
-							onChange={this.handleChange}
-						/>
-					</div>
-					{this.showError()}
 				</div>
 
 				<div class="flex flex-wrap -mx-3 mb-6">
@@ -305,11 +286,6 @@ class SignUpForm extends React.Component {
 						/>
 					</div>
 				</div>
-				{/* 				
-				<p hidden={this.state.match} class="text-red-500 text-xs italic">
-					All * field is required :)
-				</p>
-				<br /> */}
 
 				<button
 					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
@@ -317,7 +293,7 @@ class SignUpForm extends React.Component {
 					type="submit"
 					id="button"
 				>
-					Create Account
+					Save Changes
 				</button>
 				{/* <div>
 					gender={this.state.gender}, weight={this.state.weight}, height=
@@ -328,4 +304,4 @@ class SignUpForm extends React.Component {
 	}
 }
 
-export default SignUpForm;
+export default EditProfile;

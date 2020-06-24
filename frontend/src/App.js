@@ -1,11 +1,19 @@
 //Press alt+click to edit multiple lines at once
 
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useState } from "react";
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Redirect,
+} from "react-router-dom";
+import axios from "axios";
+
 import NavBar from "./Components/NavBar/NavBar";
-import Form from "./Components/SignIn/SignUpForm";
+import Signup from "./Components/SignIn/SignUpForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
 import Carousel from "./Components/Carousel";
+import EditProfile from "./Components/EditProfile";
 import Home from "./Components/Shop/Home";
 import Sidebar from "./Components/Sidebar";
 import Breadcrumbs from "./Components/NavBar/Breadcrumbs";
@@ -17,24 +25,65 @@ import Payment from "./Components/Payment.js";
 import Men from "./Components/Shop/Men.js";
 import Women from "./Components/Shop/Women.js";
 import Kids from "./Components/Shop/Kids.js";
+import { getUserInfo } from "./utils/functions.js";
 
 class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			token: "",
+			isLogged: false,
+		};
+		//can bind function here! (we didnt bind here because we use arrow function below)
+	}
+
+	login = (inputToken) => {
+		this.setState({
+			isLogged: true,
+			token: inputToken, //update token
+		});
+		// setAuthToken(inputToken);
+		// axios.defaults.headers.common["x-auth-token"] = inputToken;
+		// console.log(axios.defaults.headers);
+		console.log("horee");
+		return <Redirect to="/home" />;
+	};
+
+	logout = () => {
+		this.setState({
+			isLogged: false,
+		});
+		console.log("huu");
+	};
+
+	// componentDidUpdate() {
+	// 	if (this.state.token) {
+	// 		setAuthToken(this.state.token);
+	// 	}
+	// }
+
 	render() {
 		return (
 			<Router>
-				<NavBar />
+				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
+				<p>Token is {this.state.token}</p>
+				<NavBar
+					isLogged={this.state.isLogged}
+					getUserInfo={this.getUserInfo}
+					login={this.login}
+					logout={this.logout}
+				/>
+				<EditProfile token={this.state.token} />
 				<Carousel />
 				<Switch>
+					<Route path="/signup" component={Signup} />
 					<Route exact path="/home" component={Home} />
-					<Route path="/men" component={Men} />
-					<Route path="/women" component={Women} />
-					<Route path="/kids" component={Kids} />
+					<Route path="/home/men" component={Men} />
+					<Route path="/home/women" component={Women} />
+					<Route path="/home/kids" component={Kids} />
 				</Switch>
-
-				<Form />
 				<Payment />
 				<Breadcrumbs />
-
 				<FooterBar />
 			</Router>
 		);
@@ -46,6 +95,7 @@ export default App;
 -------------------------------
 Not done:
 <FitAssistCard />
+<Form />
 <Dialog />
 <Sidebar />
 <ClothesDetail />
