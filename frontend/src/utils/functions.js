@@ -1,4 +1,5 @@
 import axios from "axios";
+import React from "react";
 
 const setupConfig = (token) => {
 	return {
@@ -8,18 +9,11 @@ const setupConfig = (token) => {
 	};
 };
 
-const getUserInfo = (token) => {
-	let config = setupConfig(token);
-	axios
-		.get("http://localhost:5000/api/users/me", config)
-		.then((res) => {
-			alert("auth success");
-			console.log(res.data);
-		})
-		.catch((err) => {
-			alert("auth fail");
-			console.error(err);
-		});
+//to pass props down a route
+const withProps = (Component, props) => {
+	return function (matchProps) {
+		return <Component {...props} {...matchProps} />;
+	};
 };
 
-export { getUserInfo, setupConfig };
+export { setupConfig, withProps };

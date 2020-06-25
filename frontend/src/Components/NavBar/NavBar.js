@@ -49,7 +49,6 @@ class NavBar extends React.Component {
 							</Link>
 						</div>
 					</div>
-
 					<div className="subnav">
 						<button className="subnavbtn">Women</button>
 						<div className="subnav-content ">
@@ -59,7 +58,6 @@ class NavBar extends React.Component {
 							<Link to="/women/pants">Pants</Link>
 						</div>
 					</div>
-
 					<div className="subnav">
 						<button className="subnavbtn">Kids</button>
 						<div className="subnav-content">
@@ -73,6 +71,16 @@ class NavBar extends React.Component {
 					<div className="subnav">
 						<FitAssistBtn />
 					</div>
+
+					{/* everything down should be restricted to private */}
+					<div className="subnav">
+						<button className="subnavbtn">Profile</button>
+						<div className="subnav-content">
+							<Link to="/edit/profile">Edit Profile</Link>
+							<Link to="/edit/password">Change Password</Link>
+						</div>
+					</div>
+
 					<SigninBtn
 						isLogged={this.props.isLogged}
 						login={this.props.login}

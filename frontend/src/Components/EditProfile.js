@@ -1,102 +1,110 @@
 import React from "react";
 import axios from "axios";
-import { getUserInfo } from "../utils/functions.js";
+// import { getUserInfo } from "../utils/functions.js";
 import Image from "../images/green.jpg";
 
 class EditProfile extends React.Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = getUserInfo(this.props.token);
+	constructor(props) {
+		super(props);
+		this.state = { userInfos: "unchanged" };
+		// console.log("here is the edit profile data");
+		console.log(this.state.userInfos);
+		//this.handleClose = this.handleClose.bind(this);
+	}
 
-	// 	//this.handleClose = this.handleClose.bind(this);
-	// }
+	componentDidMount() {
+		let user;
+		// getUserInfo(this.props.token);
+		this.setState({ userInfos: user });
+		console.log(user);
+	}
 
-	// handleSubmit = (e) => {
-	// 	e.preventDefault();
-	// 	if (this.state.pass !== this.state.conPass) {
-	// 		alert("Passwords need to match");
-	// 		return;
-	// 	} else {
-	// 		const config = {
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 		};
-	// 		let user = {
-	// 			name: this.state.name, //this is user-id
-	// 			email: this.state.email,
-	// 			password: this.state.pass,
-	// 			gender: this.state.gender,
-	// 			weight: this.state.weight,
-	// 			height: this.state.height,
-	// 			accountType: this.state.accountType,
-	// 		};
+	handleSubmit = (e) => {
+		e.preventDefault();
+		if (this.state.pass !== this.state.conPass) {
+			alert("Passwords need to match");
+			return;
+		} else {
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			};
+			let user = {
+				name: this.state.name, //this is user-id
+				email: this.state.email,
+				password: this.state.pass,
+				gender: this.state.gender,
+				weight: this.state.weight,
+				height: this.state.height,
+				accountType: this.state.accountType,
+			};
 
-	// 		user = JSON.stringify(user);
-	// 		console.log(user);
+			user = JSON.stringify(user);
+			console.log(user);
 
-	// 		axios
-	// 			.post("http://localhost:5000/api/users/buyer", user, config)
-	// 			.then((res) => {
-	// 				console.log(res.data);
-	// 				alert("Hi succeedd");
-	// 				this.props.login();
-	// 			})
-	// 			.catch((err) => {
-	// 				console.error(err);
-	// 				alert("Try again");
-	// 			});
-	// 	}
-	// };
+			axios
+				.post("http://localhost:5000/api/users/buyer", user, config)
+				.then((res) => {
+					console.log(res.data);
+					alert("Hi succeedd");
+					this.props.login();
+				})
+				.catch((err) => {
+					console.error(err);
+					alert("Try again");
+				});
+		}
+	};
 
-	// handleClick = (e) => {
-	// 	this.setState({
-	// 		accountType: e.target.id,
-	// 	});
-	// 	// console.log(this.state.accountType);
-	// };
+	handleClick = (e) => {
+		this.setState({
+			accountType: e.target.id,
+		});
+		// console.log(this.state.accountType);
+	};
 
-	// handleChange = (e) => {
-	// 	switch (e.target.id) {
-	// 		case "password":
-	// 			this.setState({
-	// 				pass: e.target.value,
-	// 			});
-	// 			break;
-	// 		case "confirmPassword":
-	// 			this.setState({
-	// 				conPass: e.target.value,
-	// 			});
-	// 			break;
-	// 		case "user-id":
-	// 			this.setState({
-	// 				name: e.target.value,
-	// 			});
-	// 			break;
-	// 		case "email":
-	// 			this.setState({
-	// 				email: e.target.value,
-	// 			});
-	// 			break;
-	// 		case "gender":
-	// 			this.setState({
-	// 				gender: e.target.value,
-	// 			});
-	// 			break;
-	// 		case "weight":
-	// 			this.setState({
-	// 				weight: e.target.value,
-	// 			});
-	// 			break;
-	// 		case "height":
-	// 			this.setState({
-	// 				height: e.target.value,
-	// 			});
-	// 			break;
-	// 		default:
-	// 			console.error();
-	// 	}
-	// };
+	handleChange = (e) => {
+		switch (e.target.id) {
+			case "password":
+				this.setState({
+					pass: e.target.value,
+				});
+				break;
+			case "confirmPassword":
+				this.setState({
+					conPass: e.target.value,
+				});
+				break;
+			case "user-id":
+				this.setState({
+					name: e.target.value,
+				});
+				break;
+			case "email":
+				this.setState({
+					email: e.target.value,
+				});
+				break;
+			case "gender":
+				this.setState({
+					gender: e.target.value,
+				});
+				break;
+			case "weight":
+				this.setState({
+					weight: e.target.value,
+				});
+				break;
+			case "height":
+				this.setState({
+					height: e.target.value,
+				});
+				break;
+			default:
+				console.error();
+		}
+	};
 
 	// showError = () => {
 	// 	if (this.state.pass !== this.state.conPass)
@@ -106,25 +114,11 @@ class EditProfile extends React.Component {
 	// };
 
 	render() {
+		// this.getUserInfo(this.props.token);
 		return (
 			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
-				<image class="h-64 w-64 my-3" src={Image} alt="" />
+				<p>{this.state.email}</p>
 				<h1 class="text-center text-3xl mb-3">Edit Profile</h1>
-				<input
-					type="file"
-					style={{ display: "none" }}
-					onChange={this.handleChange}
-					// to link to the button
-					ref={(fileInput) => (this.fileInput = fileInput)}
-				/>
-
-				<button
-					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
-					onClick={() => this.fileInput.click()}
-				>
-					Choose file
-				</button>
-				{/* <button onClick={this.fileUpload}>Upload</button> */}
 
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -173,7 +167,7 @@ class EditProfile extends React.Component {
 						<input
 							name="shipAddress"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-							id="user-id"
+							id="mailAdd"
 							// value={this.state.userid}
 							type="text"
 							placeholder="Insert your address"
@@ -192,7 +186,7 @@ class EditProfile extends React.Component {
 						<input
 							name="mailAddress"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-							id="user-id"
+							id="shipAdd"
 							// value={this.state.userid}
 							type="text"
 							placeholder="Insert your address"

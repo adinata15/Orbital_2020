@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 class SignUpForm extends React.Component {
 	constructor(props) {
@@ -12,7 +13,7 @@ class SignUpForm extends React.Component {
 			gender: "male",
 			weight: "",
 			height: "",
-			accountType: "",
+			accountType: "buyer",
 		};
 		//this.handleClose = this.handleClose.bind(this);
 	}
@@ -35,7 +36,7 @@ class SignUpForm extends React.Component {
 				gender: this.state.gender,
 				weight: this.state.weight,
 				height: this.state.height,
-				accountType: this.state.accountType,
+				accountType: "buyer",
 			};
 
 			user = JSON.stringify(user);
@@ -55,12 +56,12 @@ class SignUpForm extends React.Component {
 		}
 	};
 
-	handleClick = (e) => {
-		this.setState({
-			accountType: e.target.id,
-		});
-		// console.log(this.state.accountType);
-	};
+	// handleClick = (e) => {
+	// 	this.setState({
+	// 		accountType: e.target.id,
+	// 	});
+	// 	// console.log(this.state.accountType);
+	// };
 
 	handleChange = (e) => {
 		switch (e.target.id) {
@@ -111,6 +112,10 @@ class SignUpForm extends React.Component {
 			);
 	};
 
+	redirect = () => {
+		window.location = "http://localhost:3000/signup/seller";
+	};
+
 	render() {
 		return (
 			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
@@ -130,7 +135,8 @@ class SignUpForm extends React.Component {
 								id="buyer"
 								name="accountType"
 								class="justify-center mr-2"
-								onClick={this.handleClick}
+								checked
+								// onClick={this.handleClick}
 								required
 							/>
 							<label
@@ -146,6 +152,7 @@ class SignUpForm extends React.Component {
 								name="accountType"
 								class="justify-center items-center mr-2"
 								type="radio"
+								onClick={this.redirect}
 								required
 							/>
 							<label
