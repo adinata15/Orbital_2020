@@ -42,29 +42,24 @@ class App extends React.Component {
 	}
 	//get user info cant be used yet
 	getUserInfo = (token) => {
+		let self = this;
 		let config = setupConfig(token);
-		let userData = {};
 		axios.get("http://localhost:5000/api/users/me", config).then((res) => {
 			alert("auth success");
-			userData = res.data;
-			console.log(userData);
+			self.setState({
+				user: res.data,
+			});
+			console.log(self.state.user);
 		});
-		return userData;
 	};
 
 	login = (inputToken) => {
 		let userData = {};
-		userData = this.getUserInfo(inputToken);
 		this.setState({
 			isLogged: true,
 			token: inputToken, //update token
-			data: userData,
 		});
-		// setAuthToken(inputToken);
-		// axios.defaults.headers.common["x-auth-token"] = inputToken;
-		// console.log(axios.defaults.headers);
-		console.log("horee");
-		console.log(this.state);
+
 		return <Redirect to="/home" />;
 	};
 
@@ -75,21 +70,17 @@ class App extends React.Component {
 		console.log("huu");
 	};
 
-	// componentDidUpdate() {
-	// 	if (this.state.token) {
-	// 		setAuthToken(this.state.token);
-	// 	}
-	// }
-
 	render() {
 		return (
 			<Router>
+				<p>{this.state.user.name}</p>
 				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
 				<p>Token is {this.state.token}</p>
-				<PostItem />
+				{/* <PostItem /> */}
 				<NavBar
 					isLogged={this.state.isLogged}
 					login={this.login}
+					getUserInfo={this.getUserInfo}
 					logout={this.logout}
 				/>
 				<Carousel />
@@ -200,3 +191,13 @@ handleClick = (e) => {
 </button>
 <button onClick={this.fileUpload}>Upload</button> */
 }
+
+// const formData = new FormData();
+//     formData.append('file',file)
+//     const config = {
+//         headers: {
+//             'content-type': 'multipart/form-data'
+//         }
+//     }
+//     return  post(url, formData,config)
+//   }

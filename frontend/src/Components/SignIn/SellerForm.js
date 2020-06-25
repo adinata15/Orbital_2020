@@ -13,7 +13,6 @@ class SignUpForm extends React.Component {
 			password: "",
 			name: "", //this is user-id
 			email: "",
-			accounttype: "seller",
 			image: "",
 		};
 		//this.handleClose = this.handleClose.bind(this);
@@ -34,8 +33,7 @@ class SignUpForm extends React.Component {
 				password: this.state.password,
 				name: this.state.name,
 				email: this.state.email,
-				accounttype: "seller",
-				image: this.state.image,
+				// image: this.state.image,
 			};
 
 			user = JSON.stringify(user);
@@ -46,7 +44,7 @@ class SignUpForm extends React.Component {
 				.then((res) => {
 					console.log(res.data);
 					alert("Hi succeedd");
-					this.props.login();
+					this.props.login(res.data);
 				})
 				.catch((err) => {
 					console.error(err);
@@ -63,40 +61,35 @@ class SignUpForm extends React.Component {
 	// };
 
 	handleChange = (e) => {
-		this.setState({
-			[e.target.name]: [e.target.value],
-		});
+		// this.setState({
+		// 	[e.target.name]: [e.target.value],
+		// });
 		// console.log(e.target.name + ":" + e.target.value);
-		// switch (e.target.id) {
-		// 	case "password":
-		// 		this.setState({
-		// 			pass: e.target.value,
-		// 		});
-		// 		break;
-		// 	case "confirmPassword":
-		// 		this.setState({
-		// 			conPass: e.target.value,
-		// 		});
-		// 		break;
-		// 	case "user-id":
-		// 		this.setState({
-		// 			name: e.target.value,
-		// 		});
-		// 		break;
-		// 	case "email":
-		// 		this.setState({
-		// 			email: e.target.value,
-		// 		});
-		// 		break;
-		// 	case "gender":
-		// 		this.setState({
-		// 			gender: e.target.value,
-		// 		});
-		// 		break;
+		switch (e.target.name) {
+			case "password":
+				this.setState({
+					password: e.target.value,
+				});
+				break;
+			case "passwordConfirm":
+				this.setState({
+					passwordConfirm: e.target.value,
+				});
+				break;
+			case "name":
+				this.setState({
+					name: e.target.value,
+				});
+				break;
+			case "email":
+				this.setState({
+					email: e.target.value,
+				});
+				break;
 
-		// default:
-		// 	console.error();
-		// }
+			default:
+				console.error();
+		}
 	};
 
 	redirect = () => {
@@ -113,7 +106,11 @@ class SignUpForm extends React.Component {
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
+			<form
+				enctype="mulitpart/form-data"
+				onSubmit={this.handleSubmit}
+				class="w-full max-w-lg mx-auto my-6"
+			>
 				<p>{this.state.password}</p>
 				<p>{this.state.passwordConfirm}</p>
 				<h1 class="text-center text-3xl mb-3">Create Account</h1>

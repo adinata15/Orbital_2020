@@ -36,7 +36,6 @@ class SignUpForm extends React.Component {
 				gender: this.state.gender,
 				weight: this.state.weight,
 				height: this.state.height,
-				accountType: "buyer",
 			};
 
 			user = JSON.stringify(user);
