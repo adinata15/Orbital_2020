@@ -38,8 +38,13 @@ export default function SimpleMenu(props) {
 				<MenuItem onClick={handleClose}>
 					<Link to="/myaccount">My account</Link>
 				</MenuItem>
-				<MenuItem onClick={handleClose}>
-					<Link to="/logout">Log out</Link>
+				<MenuItem
+					onClick={() => {
+						props.logout();
+						handleClose();
+					}}
+				>
+					Logout
 				</MenuItem>
 			</Menu>
 		</div>

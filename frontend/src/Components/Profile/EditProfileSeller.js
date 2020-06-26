@@ -14,25 +14,6 @@ class EditProfile extends React.Component {
 		console.log(this.state.user);
 	}
 
-	fileSelectedHandler = (e) => {
-		this.setState((prevState) => {
-			let user = { ...prevState.user }; // creating copy of state variable jasper
-			user.image = e.target.files[0]; // update the name property, assign a new value
-			return { user }; // return new object jasper object
-		});
-	};
-	fileUploadHandler = () => {
-		const imageData = new FormData();
-		imageData.append(
-			"image",
-			this.state.user.image,
-			this.state.user.image.name
-		);
-		axios.post(
-			`http://localhost:5000/api/users/${this.state.user.accounttype}`,
-			imageData
-		);
-	};
 	handleSubmit = (e) => {
 		e.preventDefault();
 
@@ -334,3 +315,23 @@ class EditProfile extends React.Component {
 }
 
 export default EditProfile;
+
+// fileSelectedHandler = (e) => {
+// 	this.setState((prevState) => {
+// 		let user = { ...prevState.user }; // creating copy of state variable jasper
+// 		user.image = e.target.files[0]; // update the name property, assign a new value
+// 		return { user }; // return new object jasper object
+// 	});
+// };
+// fileUploadHandler = () => {
+// 	const imageData = new FormData();
+// 	imageData.append(
+// 		"image",
+// 		this.state.user.image,
+// 		this.state.user.image.name
+// 	);
+// 	axios.post(
+// 		`http://localhost:5000/api/users/${this.state.user.accounttype}`,
+// 		imageData
+// 	);
+// };

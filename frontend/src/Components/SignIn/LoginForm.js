@@ -12,7 +12,7 @@ class LoginForm extends React.Component {
 		this.state = {
 			password: "",
 			email: "",
-			accountType: "buyer",
+			accounttype: "",
 		};
 		// this.props.login();
 		//this.handleClose = this.handleClose.bind(this);
@@ -37,7 +37,7 @@ class LoginForm extends React.Component {
 
 	handleClick = (e) => {
 		this.setState({
-			accountType: e.target.id,
+			accounttype: e.target.id,
 		});
 		// console.log(this.state.accountType);
 	};
@@ -52,7 +52,7 @@ class LoginForm extends React.Component {
 			},
 		};
 		let user = {
-			accountType: this.state.accountType,
+			accounttype: this.state.accounttype,
 			email: this.state.email,
 			password: this.state.password,
 		};
@@ -83,6 +83,7 @@ class LoginForm extends React.Component {
 					onSubmit={this.handleSubmit}
 					class="w-9/12 max-w-lg mx-auto my-6"
 				>
+					<p>{this.state.accounttype}</p>
 					<span class="float-right text-xl" id="close">
 						<Link id="closeBtn" onClick={this.props.handleClose} to="">
 							&times;
@@ -102,7 +103,7 @@ class LoginForm extends React.Component {
 								<input
 									type="radio"
 									id="buyer"
-									name="accountType"
+									name="accounttype"
 									class="justify-center mr-2"
 									onClick={this.handleClick}
 									required
@@ -117,7 +118,7 @@ class LoginForm extends React.Component {
 								<input
 									onClick={this.handleClick}
 									id="seller"
-									name="accountType"
+									name="accounttype"
 									class="justify-center items-center mr-2"
 									type="radio"
 									required

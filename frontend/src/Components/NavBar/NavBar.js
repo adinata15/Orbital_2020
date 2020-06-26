@@ -74,14 +74,6 @@ class NavBar extends React.Component {
 
 					{/* everything down should be restricted to private */}
 
-					{/* <div className="subnav">
-						<button className="subnavbtn">Profile</button>
-						<div className="subnav-content">
-							<Link to="/edit/profile">Edit Profile</Link>
-							<Link to="/edit/password">Change Password</Link>
-						</div>
-					</div> */}
-
 					<SigninBtn
 						isLogged={this.props.isLogged}
 						login={this.props.login}
@@ -89,13 +81,12 @@ class NavBar extends React.Component {
 						// logout={this.props.logout}
 						class="float-right"
 					/>
-					<ProfileBtn isLogged={this.props.isLogged} />
+					<ProfileBtn
+						logout={this.props.logout}
+						isLogged={this.props.isLogged}
+					/>
 					<CartBtn />
 				</div>
-
-				{/* <div style={{ padding: "16px 16px 16px 16px" }}>
-					<h3>You are choosing {chosenMenu} item</h3>
-				</div> */}
 			</Fragment>
 		);
 	}

@@ -14,7 +14,7 @@ import BuyerForm from "./Components/SignIn/BuyerForm";
 import SellerForm from "./Components/SignIn/SellerForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
 import Carousel from "./Components/Carousel";
-import EditProfile from "./Components/Profile/EditProfile";
+import EditProfileSeller from "./Components/Profile/EditProfileSeller";
 import Home from "./Components/Shop/Home";
 import Sidebar from "./Components/Sidebar";
 import Breadcrumbs from "./Components/NavBar/Breadcrumbs";
@@ -77,6 +77,7 @@ class App extends React.Component {
 				<NavBar
 					isLogged={this.state.isLogged}
 					login={this.login}
+					logout={this.logout}
 					getUserInfo={this.getUserInfo}
 					logout={this.logout}
 				/>
@@ -98,7 +99,7 @@ class App extends React.Component {
 					<Route path="/home/kids" component={Kids} />
 					<PrivateRoute
 						isLogged={this.state.isLogged}
-						component={withProps(EditProfile, {
+						component={withProps(EditProfileSeller, {
 							...this.state,
 						})}
 						path="/edit/profile"
