@@ -83,6 +83,7 @@ router.put(
           brand: newItem.brand,
           title: newItem.title,
           price: newItem.price,
+          image: newItem.images[0],
           size,
           quantity,
         });
@@ -287,6 +288,7 @@ router.put(
         brand: newItem.brand,
         title: newItem.title,
         price: newItem.price,
+        image: newItem.images[0],
         size,
       });
 
@@ -363,6 +365,7 @@ router.put('/wishlist/cart/:item_id/:size', auth, async (req, res) => {
           title: buyer.wishlist[i].title,
           price: buyer.wishlist[i].price,
           size: buyer.wishlist[i].size,
+          image: buyer.wishlist[i].image,
           quantity: 1,
         });
         buyer.wishlist.splice(i, 1);
@@ -379,6 +382,26 @@ router.put('/wishlist/cart/:item_id/:size', auth, async (req, res) => {
     if (err.kind == 'ObjectId') {
       return res.status(400).json({ msg: 'Item not found' });
     }
+    res.status(500).send('Server error');
+  }
+});
+
+// @route GET api/items/category/:category (if multiple categories are present, separated each value using '-')
+// @desc Get all items from a certain category
+// @access Public
+router.get('/category/:category', async (req, res) => {
+  try {
+    const category = req.params.category.split('-');
+    console.log(category);
+    const items = await Item.find({
+      category: { $all: category },
+    });
+    if (!items) {
+      return res.status(404).json({ msg: 'Items not found' });
+    }
+    res.json(items);
+  } catch (err) {
+    console.log(err.message);
     res.status(500).send('Server error');
   }
 });

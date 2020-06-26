@@ -49,6 +49,10 @@ const BuyerSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      image: {
+        type: String,
+        required: true,
+      },
     },
   ],
   cart: [
@@ -76,6 +80,10 @@ const BuyerSchema = new mongoose.Schema({
       },
       quantity: {
         type: Number,
+        required: true,
+      },
+      image: {
+        type: String,
         required: true,
       },
     },

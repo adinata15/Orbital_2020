@@ -33,6 +33,7 @@ router.post(
   '/',
   [
     check('email', 'Please enter a valid email').isEmail(),
+    check('accounttype', 'Please choose account type').not().isEmpty(),
     check('password', 'Please enter password').not().isEmpty(),
   ],
   async (req, res) => {
@@ -41,11 +42,15 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    const { email, password, accounttype } = req.body;
 
     try {
-      const buyer = await Buyer.findOne({ email });
-      const seller = await Seller.findOne({ email });
+      let buyer, seller;
+      if (accounttype === 'buyer') {
+        buyer = await Buyer.findOne({ email });
+      } else {
+        seller = await Seller.findOne({ email });
+      }
 
       if (!buyer && !seller) {
         return res
@@ -53,7 +58,7 @@ router.post(
           .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
-      let user = buyer ? buyer : seller;
+      const user = buyer ? buyer : seller;
 
       const isMatched = await bcrypt.compare(password, user.password);
 

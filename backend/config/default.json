@@ -5,5 +5,6 @@
   "AWSSecretAccessKey": "THReZTdQ10kF8fBCQNGcQ4DYpN7ynLv2DmvKyv61",
   "AWSAccessKeyId": "AKIASTJE6ZKAHST7XN4M",
   "AWSRegion": "ap-southeast-1",
-  "s3bucket": "orbital2020"
+  "s3bucket": "orbital2020",
+  "stripeSecretKey": "sk_test_51GxnjfGgFpE6He4tsWlsIgsFeHy5D9pTjFPaRERglGojYAiFsmA9henAvjaNKy5E0yIpVphfB7rVJLS7iVwMBth800xT4xd6ca"
 }
