@@ -89,7 +89,7 @@ class NavBar extends React.Component {
 						// logout={this.props.logout}
 						class="float-right"
 					/>
-					<ProfileBtn />
+					<ProfileBtn isLogged={this.props.isLogged} />
 					<CartBtn />
 				</div>
 

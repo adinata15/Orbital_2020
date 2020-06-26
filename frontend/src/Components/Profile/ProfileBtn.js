@@ -4,8 +4,9 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Image from "../../images/plus.jpg";
 
-export default function SimpleMenu() {
+export default function SimpleMenu(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	// super(props);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -21,6 +22,7 @@ export default function SimpleMenu() {
 				class="h-8 w-8 my-3 ml-3 float-right"
 				onClick={handleClick}
 				src={Image}
+				hidden={!props.isLogged}
 			/>
 
 			<Menu
@@ -39,11 +41,6 @@ export default function SimpleMenu() {
 				<MenuItem onClick={handleClose}>
 					<Link to="/logout">Log out</Link>
 				</MenuItem>
-				{/*
-                 <Link to="/edit/profile">Edit profile</Link>
-				<Link onClick={handleClose}>My account</Link>
-                <Link onClick={handleClose}>Logout</Link>
-                 */}
 			</Menu>
 		</div>
 	);

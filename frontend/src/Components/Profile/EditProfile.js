@@ -1,10 +1,11 @@
 //left shipping and billing address
 //gender cant update
+//editting file upload
 
 import React from "react";
 import axios from "axios";
 // import { getUserInfo } from "../utils/functions.js";
-// import Image from "../images/green.jpg";
+import Image from "../../images/plus.jpg";
 
 class EditProfile extends React.Component {
 	constructor(props) {
@@ -98,7 +99,23 @@ class EditProfile extends React.Component {
 		return (
 			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
 				<h1 class="text-center text-3xl mb-3">Edit Profile</h1>
-
+				<div>
+					<input
+						type="file"
+						hidden
+						onChange={this.handleChange}
+						// to link to the button
+						ref={(fileInput) => (this.fileInput = fileInput)}
+					/>
+					<button
+						type="button"
+						class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
+						onClick={() => this.fileInput.click()}
+					>
+						Choose file
+					</button>
+					<button onClick={this.fileUpload}>Upload</button>
+				</div>
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
@@ -136,7 +153,10 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 				</div>
-				<div class="flex flex-wrap -mx-3 mb-6">
+				<div
+					class="flex flex-wrap -mx-3 mb-6"
+					hidden={this.state.user.accounttype === "seller"}
+				>
 					<div class="w-full px-3">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -155,7 +175,10 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 				</div>
-				<div class="flex flex-wrap -mx-3 mb-6">
+				<div
+					class="flex flex-wrap -mx-3 mb-6"
+					hidden={this.state.user.accounttype === "seller"}
+				>
 					<div class="w-full px-3">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -175,8 +198,10 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 				</div>
-
-				<div class="flex flex-wrap -mx-3 mb-6">
+				<div
+					class="flex flex-wrap -mx-3 mb-6"
+					hidden={this.state.user.accounttype === "seller"}
+				>
 					<div class="w-full px-3">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -207,8 +232,10 @@ class EditProfile extends React.Component {
 						</div>
 					</div>
 				</div>
-
-				<div class="flex flex-wrap -mx-3 mb-6">
+				<div
+					class="flex flex-wrap -mx-3 mb-6"
+					hidden={this.state.user.accounttype === "seller"}
+				>
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -227,7 +254,10 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 
-					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+					<div
+						class="w-full md:w-1/2 px-3 mb-6 md:mb-0"
+						hidden={this.state.user.accounttype === "seller"}
+					>
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-height"
@@ -245,7 +275,6 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 				</div>
-
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
@@ -265,7 +294,6 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 				</div>
-
 				<button
 					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
 					type="submit"

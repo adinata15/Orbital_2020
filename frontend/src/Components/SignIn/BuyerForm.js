@@ -319,7 +319,6 @@ class SignUpForm extends React.Component {
 
 				<button
 					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
-					// disabled={!this.state.match}
 					type="submit"
 					id="button"
 				>
