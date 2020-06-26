@@ -45,12 +45,12 @@ class SignUpForm extends React.Component {
 				.post("http://localhost:5000/api/users/buyer", user, config)
 				.then((res) => {
 					console.log(res.data);
-					alert("Hi succeedd");
+					alert("Sign up succeed");
 					this.props.login();
 				})
 				.catch((err) => {
 					console.error(err);
-					alert("Try again");
+					alert("Sign up fail");
 				});
 		}
 	};

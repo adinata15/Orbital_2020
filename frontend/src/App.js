@@ -14,7 +14,7 @@ import BuyerForm from "./Components/SignIn/BuyerForm";
 import SellerForm from "./Components/SignIn/SellerForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
 import Carousel from "./Components/Carousel";
-import EditProfile from "./Components/EditProfile";
+import EditProfile from "./Components/Profile/EditProfile";
 import Home from "./Components/Shop/Home";
 import Sidebar from "./Components/Sidebar";
 import Breadcrumbs from "./Components/NavBar/Breadcrumbs";
@@ -34,8 +34,8 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			token: "",
-			isLogged: false,
+			token: "this is a token",
+			isLogged: true, //change to false later
 			user: {},
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
@@ -45,16 +45,14 @@ class App extends React.Component {
 		let self = this;
 		let config = setupConfig(token);
 		axios.get("http://localhost:5000/api/users/me", config).then((res) => {
-			alert("auth success");
 			self.setState({
 				user: res.data,
 			});
-			console.log(self.state.user);
+			console.log(`user's name: ${self.state.user.name}`);
 		});
 	};
 
 	login = (inputToken) => {
-		let userData = {};
 		this.setState({
 			isLogged: true,
 			token: inputToken, //update token
@@ -73,7 +71,6 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router>
-				<p>{this.state.user.name}</p>
 				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
 				<p>Token is {this.state.token}</p>
 				{/* <PostItem /> */}
@@ -100,10 +97,9 @@ class App extends React.Component {
 					<Route path="/home/women" component={Women} />
 					<Route path="/home/kids" component={Kids} />
 					<PrivateRoute
-						getUserInfo={this.getUserInfo}
+						isLogged={this.state.isLogged}
 						component={withProps(EditProfile, {
-							token: this.state.token,
-							isLogged: this.state.isLogged,
+							...this.state,
 						})}
 						path="/edit/profile"
 					/>
@@ -154,9 +150,7 @@ handleClick = (e) => {
 */
 
 /* 
-<TrialAPI />
-<br />
-<PersonInput /> 
+
 */
 
 // axios

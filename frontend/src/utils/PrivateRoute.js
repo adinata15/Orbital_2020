@@ -5,11 +5,11 @@ import { Route, Redirect } from "react-router-dom";
 const PrivateRoute = ({ isLogged, component: Component, ...rest }) => {
 	return (
 		// Show the component only when the user is logged in
-		// Otherwise, redirect the user to /signin page
+		// Otherwise, redirect the user to /signup page
 		<Route
 			{...rest}
 			render={(props) =>
-				isLogged ? <Component {...props} /> : <Redirect to="/home" />
+				isLogged ? <Component {...props} /> : <Redirect to="/signup/buyer" />
 			}
 		/>
 	);

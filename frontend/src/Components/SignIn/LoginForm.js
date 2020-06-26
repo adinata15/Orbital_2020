@@ -64,14 +64,14 @@ class LoginForm extends React.Component {
 			.post("http://localhost:5000/api/auth", user, config)
 			.then((res) => {
 				console.log(res.data);
-				alert("yay");
+				alert("Login successful");
 				this.props.login(res.data.token); //cause this one is loacted in app.js file?
 				this.props.getUserInfo(res.data.token);
 				self.props.handleClose();
 			})
 			.catch((err) => {
 				console.error(err);
-				alert("We encountered an error");
+				alert("Login fail");
 			});
 	};
 

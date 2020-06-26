@@ -1,104 +1,92 @@
+//left shipping and billing address
+//gender cant update
+
 import React from "react";
 import axios from "axios";
 // import { getUserInfo } from "../utils/functions.js";
-import Image from "../images/green.jpg";
+// import Image from "../images/green.jpg";
 
 class EditProfile extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { userInfos: "unchanged" };
-		// console.log("here is the edit profile data");
-		console.log(this.state.userInfos);
-		//this.handleClose = this.handleClose.bind(this);
-	}
-
-	componentDidMount() {
-		let user;
-		// getUserInfo(this.props.token);
-		this.setState({ userInfos: user });
-		console.log(user);
+		this.state = { ...this.props, password: "" };
+		console.log(this.state.user);
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		if (this.state.pass !== this.state.conPass) {
-			alert("Passwords need to match");
-			return;
-		} else {
-			const config = {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			};
-			let user = {
-				name: this.state.name, //this is user-id
-				email: this.state.email,
-				password: this.state.pass,
-				gender: this.state.gender,
-				weight: this.state.weight,
-				height: this.state.height,
-				accountType: this.state.accountType,
-			};
 
-			user = JSON.stringify(user);
-			console.log(user);
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				"x-auth-token": this.state.token,
+			},
+		};
+		let user = {
+			...this.state.user,
+			password: this.state.password,
+		};
 
-			axios
-				.post("http://localhost:5000/api/users/buyer", user, config)
-				.then((res) => {
-					console.log(res.data);
-					alert("Hi succeedd");
-					this.props.login();
-				})
-				.catch((err) => {
-					console.error(err);
-					alert("Try again");
-				});
-		}
-	};
+		user = JSON.stringify(user);
+		console.log(user);
 
-	handleClick = (e) => {
-		this.setState({
-			accountType: e.target.id,
-		});
-		// console.log(this.state.accountType);
+		axios
+			.put(
+				`http://localhost:5000/api/users/${this.state.user.accounttype}`,
+				user,
+				config
+			)
+			.then((res) => {
+				console.log(res.data);
+				alert("Editted user data");
+			})
+			.catch((err) => {
+				console.error(err);
+				alert("Edit fail");
+			});
 	};
 
 	handleChange = (e) => {
-		switch (e.target.id) {
+		let val = e.target.value;
+		switch (e.target.name) {
 			case "password":
 				this.setState({
-					pass: e.target.value,
+					password: val,
 				});
 				break;
-			case "confirmPassword":
-				this.setState({
-					conPass: e.target.value,
-				});
-				break;
-			case "user-id":
-				this.setState({
-					name: e.target.value,
+			case "name":
+				this.setState((prevState) => {
+					let user = { ...prevState.user }; // creating copy of state variable jasper
+					user.name = val; // update the name property, assign a new value
+					return { user }; // return new object jasper object
 				});
 				break;
 			case "email":
-				this.setState({
-					email: e.target.value,
+				this.setState((prevState) => {
+					let user = { ...prevState.user }; // creating copy of state variable jasper
+					user.email = val; // update the name property, assign a new value
+					return { user }; // return new object jasper object
 				});
 				break;
 			case "gender":
-				this.setState({
-					gender: e.target.value,
+				this.setState((prevState) => {
+					let user = { ...prevState.user }; // creating copy of state variable jasper
+					user.gender = val; // update the name property, assign a new value
+					return { user }; // return new object jasper object
 				});
 				break;
 			case "weight":
-				this.setState({
-					weight: e.target.value,
+				this.setState((prevState) => {
+					let user = { ...prevState.user }; // creating copy of state variable jasper
+					user.weight = val; // update the name property, assign a new value
+					return { user }; // return new object jasper object
 				});
 				break;
 			case "height":
-				this.setState({
-					height: e.target.value,
+				this.setState((prevState) => {
+					let user = { ...prevState.user }; // creating copy of state variable jasper
+					user.height = val; // update the name property, assign a new value
+					return { user }; // return new object jasper object
 				});
 				break;
 			default:
@@ -106,18 +94,9 @@ class EditProfile extends React.Component {
 		}
 	};
 
-	// showError = () => {
-	// 	if (this.state.pass !== this.state.conPass)
-	// 		return (
-	// 			<p class="text-sm text-red-600 italic"> Password does not match </p>
-	// 		);
-	// };
-
 	render() {
-		// this.getUserInfo(this.props.token);
 		return (
 			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
-				<p>{this.state.email}</p>
 				<h1 class="text-center text-3xl mb-3">Edit Profile</h1>
 
 				<div class="flex flex-wrap -mx-3 mb-6">
@@ -131,8 +110,8 @@ class EditProfile extends React.Component {
 						<input
 							name="name"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-							id="user-id"
-							// value={this.state.userid}
+							id="name"
+							value={this.state.user.name}
 							type="text"
 							placeholder="Jane"
 							onChange={this.handleChange}
@@ -151,6 +130,7 @@ class EditProfile extends React.Component {
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 							id="email"
 							type="email"
+							value={this.state.user.email}
 							placeholder="jane@gmail.com"
 							onChange={this.handleChange}
 						/>
@@ -168,9 +148,9 @@ class EditProfile extends React.Component {
 							name="shipAddress"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
 							id="mailAdd"
-							// value={this.state.userid}
+							// value={this.state.user.shippingaddress}
 							type="text"
-							placeholder="Insert your address"
+							placeholder="25 Lower Kent Ridge Rd, Singapore 119081"
 							onChange={this.handleChange}
 						/>
 					</div>
@@ -181,34 +161,16 @@ class EditProfile extends React.Component {
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-user-id"
 						>
-							Mailing address
+							Billing address
 						</label>
 						<input
 							name="mailAddress"
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-							id="shipAdd"
-							// value={this.state.userid}
+							id="mailAddress"
+							// value={this.state.user.billingaddress}
 							type="text"
-							placeholder="Insert your address"
-							onChange={this.handleChange}
-						/>
-					</div>
-				</div>
-				<div class="flex flex-wrap -mx-3 mb-6">
-					<div class="w-full px-3">
-						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-							for="grid-password"
-						>
-							Password (8 characters minimum)
-						</label>
-						<input
-							name="password"
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							id="password"
-							type="password"
-							placeholder="******************"
-							minlength="8"
+							password
+							placeholder="25 Lower Kent Ridge Rd, Singapore 119081"
 							onChange={this.handleChange}
 						/>
 					</div>
@@ -226,6 +188,7 @@ class EditProfile extends React.Component {
 							<select
 								class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 								id="gender"
+								defaultValue={this.state.user.gender}
 								onChange={this.handleChange}
 							>
 								<option>Male</option>
@@ -258,6 +221,7 @@ class EditProfile extends React.Component {
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 							id="weight"
 							type="number"
+							value={this.state.user.weight}
 							placeholder="in kg"
 							onChange={this.handleChange}
 						/>
@@ -275,7 +239,28 @@ class EditProfile extends React.Component {
 							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 							id="height"
 							type="number"
+							value={this.state.user.height}
 							placeholder="in cm"
+							onChange={this.handleChange}
+						/>
+					</div>
+				</div>
+
+				<div class="flex flex-wrap -mx-3 mb-6">
+					<div class="w-full px-3">
+						<label
+							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+							for="grid-password"
+						>
+							Edit password here
+						</label>
+						<input
+							name="password"
+							class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+							id="password"
+							type="password"
+							placeholder="******************"
+							minlength="8"
 							onChange={this.handleChange}
 						/>
 					</div>
@@ -283,16 +268,11 @@ class EditProfile extends React.Component {
 
 				<button
 					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
-					// disabled={!this.state.match}
 					type="submit"
 					id="button"
 				>
 					Save Changes
 				</button>
-				{/* <div>
-					gender={this.state.gender}, weight={this.state.weight}, height=
-					{this.state.height}, name={this.state.name}
-				</div> */}
 			</form>
 		);
 	}

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SigninBtn from "../SignIn/SigninBtn.js";
 import FitAssistBtn from "./FitAssistBtn";
 import CartBtn from "./CartBtn";
+import ProfileBtn from "../Profile/ProfileBtn.js";
 
 class NavBar extends React.Component {
 	constructor(props) {
@@ -40,7 +41,6 @@ class NavBar extends React.Component {
 							<Link name="bring" onClick={this.handleClick} to="/men/shirts">
 								Shirts
 							</Link>
-
 							<Link name="company" onClick={this.handleClick} to="/men/pants">
 								Pants
 							</Link>
@@ -73,13 +73,14 @@ class NavBar extends React.Component {
 					</div>
 
 					{/* everything down should be restricted to private */}
-					<div className="subnav">
+
+					{/* <div className="subnav">
 						<button className="subnavbtn">Profile</button>
 						<div className="subnav-content">
 							<Link to="/edit/profile">Edit Profile</Link>
 							<Link to="/edit/password">Change Password</Link>
 						</div>
-					</div>
+					</div> */}
 
 					<SigninBtn
 						isLogged={this.props.isLogged}
@@ -88,6 +89,7 @@ class NavBar extends React.Component {
 						// logout={this.props.logout}
 						class="float-right"
 					/>
+					<ProfileBtn />
 					<CartBtn />
 				</div>
 
