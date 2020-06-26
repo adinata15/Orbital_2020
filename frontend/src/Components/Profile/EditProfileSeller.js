@@ -107,23 +107,43 @@ class EditProfile extends React.Component {
 		return (
 			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
 				<h1 class="text-center text-3xl mb-3">Edit Profile</h1>
-				<div>
-					<input
-						type="file"
-						hidden
-						onChange={this.handleChange}
-						// to link to the button
-						ref={(fileInput) => (this.fileInput = fileInput)}
-					/>
-					<button
-						type="button"
-						class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
-						onClick={() => this.fileInput.click()}
-					>
-						Choose file
-					</button>
-					<button onClick={this.fileUpload}>Upload</button>
+
+				<div class="w-full content-center">
+					<div class="w-full px-3">
+						<label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+							Profile picture
+						</label>
+					</div>
+					<div class="flex w-full px-3">
+						<img
+							class="rounded-full h-64 w-64 my-3 object-cover"
+							onClick={() => this.fileInput.click()}
+							src={this.state.image}
+							alt={Image}
+						/>
+						<div class="w-full px-3 self-center">
+							<label class="block  mx-5 text-gray-700 text-m mb-2" for="email">
+								Show us your smile :)
+							</label>
+							<button
+								type="button"
+								class="bg-gray-800  mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded"
+								onClick={() => this.fileInput.click()}
+							>
+								Choose file
+							</button>
+						</div>
+						<input
+							type="file"
+							name="image"
+							style={{ display: "none" }}
+							onChange={this.handleChange}
+							// to link to the button
+							ref={(fileInput) => (this.fileInput = fileInput)}
+						/>
+					</div>
 				</div>
+
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label

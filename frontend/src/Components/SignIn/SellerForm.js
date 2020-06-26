@@ -111,44 +111,9 @@ class SignUpForm extends React.Component {
 				onSubmit={this.handleSubmit}
 				class="w-full max-w-lg mx-auto my-6"
 			>
-				<p>{this.state.password}</p>
-				<p>{this.state.passwordConfirm}</p>
+				{/* <p>{this.state.password}</p>
+				<p>{this.state.passwordConfirm}</p> */}
 				<h1 class="text-center text-3xl mb-3">Create Account</h1>
-				<div class="w-full content-center">
-					<div class="w-full px-3">
-						<label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-							Profile picture
-						</label>
-					</div>
-					<div class="flex w-full px-3">
-						<img
-							class="rounded-full h-64 w-64 my-3 object-cover"
-							onClick={() => this.fileInput.click()}
-							src={this.state.image}
-							alt={Image}
-						/>
-						<div class="w-full px-3 self-center">
-							<label class="block  mx-5 text-gray-700 text-m mb-2" for="email">
-								Show us your smile :)
-							</label>
-							<button
-								type="button"
-								class="bg-gray-800  mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded"
-								onClick={() => this.fileInput.click()}
-							>
-								Choose file
-							</button>
-						</div>
-						<input
-							type="file"
-							name="image"
-							style={{ display: "none" }}
-							onChange={this.handleChange}
-							// to link to the button
-							ref={(fileInput) => (this.fileInput = fileInput)}
-						/>
-					</div>
-				</div>
 
 				<div class="flex flex-wrap -mx-3 mb-2">
 					<div class="w-full px-3">

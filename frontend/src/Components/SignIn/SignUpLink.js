@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Dialog from "@material-ui/core/Dialog";
-import SignUpForm from "./BuyerForm.js";
+import SignUpForm from "./SignupForm.js";
 import { Link, Router } from "react-router-dom";
 
 export default class SignUpLink extends Component {
@@ -28,7 +28,7 @@ export default class SignUpLink extends Component {
 		return (
 			<Link
 				class="underline text-green-600 mx-1 cursor-pointer"
-				to="/signup/buyer"
+				to="/signup"
 				onClick={this.props.handleClose}
 			>
 				Sign Up

@@ -14,31 +14,12 @@ class EditProfile extends React.Component {
 		console.log(this.state.user);
 	}
 
-	fileSelectedHandler = (e) => {
-		this.setState((prevState) => {
-			let user = { ...prevState.user }; // creating copy of state variable jasper
-			user.image = e.target.files[0]; // update the name property, assign a new value
-			return { user }; // return new object jasper object
-		});
-	};
-	fileUploadHandler = () => {
-		const imageData = new FormData();
-		imageData.append(
-			"image",
-			this.state.user.image,
-			this.state.user.image.name
-		);
-		axios.post(
-			`http://localhost:5000/api/users/${this.state.user.accounttype}`,
-			imageData
-		);
-	};
 	handleSubmit = (e) => {
 		e.preventDefault();
 
 		const config = {
 			headers: {
-				"Content-Type": " multipart/form-data",
+				"Content-Type": " application/json",
 				"x-auth-token": this.state.token,
 			},
 		};
@@ -82,13 +63,6 @@ class EditProfile extends React.Component {
 					return { user }; // return new object jasper object
 				});
 				break;
-			case "image":
-				this.setState((prevState) => {
-					let user = { ...prevState.user }; // creating copy of state variable jasper
-					user.image = trgt.files[0]; // update the name property, assign a new value
-					return { user }; // return new object jasper object
-				});
-				break;
 			case "email":
 				this.setState((prevState) => {
 					let user = { ...prevState.user }; // creating copy of state variable jasper
@@ -126,23 +100,7 @@ class EditProfile extends React.Component {
 		return (
 			<form onSubmit={this.handleSubmit} class="w-full max-w-lg mx-auto my-6">
 				<h1 class="text-center text-3xl mb-3">Edit Profile</h1>
-				<div>
-					<input
-						type="file"
-						hidden
-						onChange={this.handleChange}
-						// to link to the button
-						ref={(fileInput) => (this.fileInput = fileInput)}
-					/>
-					<button
-						type="button"
-						class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
-						onClick={() => this.fileInput.click()}
-					>
-						Choose file
-					</button>
-					<button onClick={this.fileUpload}>Upload</button>
-				</div>
+
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
@@ -180,10 +138,7 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 				</div>
-				<div
-					class="flex flex-wrap -mx-3 mb-6"
-					hidden={this.state.user.accounttype === "seller"}
-				>
+				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -202,10 +157,7 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 				</div>
-				<div
-					class="flex flex-wrap -mx-3 mb-6"
-					hidden={this.state.user.accounttype === "seller"}
-				>
+				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -225,10 +177,7 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 				</div>
-				<div
-					class="flex flex-wrap -mx-3 mb-6"
-					hidden={this.state.user.accounttype === "seller"}
-				>
+				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -259,10 +208,7 @@ class EditProfile extends React.Component {
 						</div>
 					</div>
 				</div>
-				<div
-					class="flex flex-wrap -mx-3 mb-6"
-					hidden={this.state.user.accounttype === "seller"}
-				>
+				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -281,10 +227,7 @@ class EditProfile extends React.Component {
 						/>
 					</div>
 
-					<div
-						class="w-full md:w-1/2 px-3 mb-6 md:mb-0"
-						hidden={this.state.user.accounttype === "seller"}
-					>
+					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-height"

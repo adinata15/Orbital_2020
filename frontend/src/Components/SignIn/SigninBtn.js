@@ -34,15 +34,16 @@ export default class FormDialog extends Component {
 				<Button
 					class=" float-right my-2 mx-3 bg-red-800 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
 					onClick={this.handleClickOpen}
+					// hidden={this.props.isLogged} uncomment for real thing
 				>
-					{this.props.isLogged ? <span>Logout</span> : <span>Login</span>}
+					{this.props.isLogged ? <span>Testing</span> : <span>Login</span>}
 				</Button>
 				<Dialog
 					open={this.state.open}
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-					{this.state.open ? <span>open</span> : <span>close</span>}
+					{/* {this.state.open ? <span>open</span> : <span>close</span>} */}
 					<LoginForm
 						login={this.props.login}
 						getUserInfo={this.props.getUserInfo}

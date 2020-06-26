@@ -12,23 +12,7 @@ class NavBar extends React.Component {
 		this.state = {
 			open: false,
 		};
-		// this.handleClickOpen
 	}
-
-	// handleClickOpen = () => {
-	// 	this.setState({
-	// 		open: true,
-	// 	});
-	// 	console.log("hiii");
-	// };
-
-	// handleClose = () => {
-	// 	this.setState({
-	// 		open: false,
-	// 	});
-	// 	console.log("h00i");
-	// };
-	// handleClick = () => {};
 
 	render() {
 		return (
@@ -38,13 +22,13 @@ class NavBar extends React.Component {
 					<div className="subnav">
 						<button className="subnavbtn">Men </button>
 						<div className="subnav-content">
-							<Link name="bring" onClick={this.handleClick} to="/men/shirts">
+							<Link name="bring" to="/men/shirts">
 								Shirts
 							</Link>
-							<Link name="company" onClick={this.handleClick} to="/men/pants">
+							<Link name="company" to="/men/pants">
 								Pants
 							</Link>
-							<Link name="team" onClick={this.handleClick} to="/men/shorts">
+							<Link name="team" to="/men/shorts">
 								Shorts
 							</Link>
 						</div>
@@ -78,10 +62,10 @@ class NavBar extends React.Component {
 						isLogged={this.props.isLogged}
 						login={this.props.login}
 						getUserInfo={this.props.getUserInfo}
-						// logout={this.props.logout}
 						class="float-right"
 					/>
 					<ProfileBtn
+						accounttype={this.props.user.accounttype}
 						logout={this.props.logout}
 						isLogged={this.props.isLogged}
 					/>

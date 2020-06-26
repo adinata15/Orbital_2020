@@ -4,7 +4,6 @@ import SignUpLink from "./SignUpLink";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import DialogActions from "@material-ui/core/DialogActions";
-import { getUserInfo } from "../../utils/functions.js";
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -65,7 +64,7 @@ class LoginForm extends React.Component {
 			.then((res) => {
 				console.log(res.data);
 				alert("Login successful");
-				this.props.login(res.data.token); //cause this one is loacted in app.js file?
+				this.props.login(res.data.token);
 				this.props.getUserInfo(res.data.token);
 				self.props.handleClose();
 			})
@@ -83,7 +82,7 @@ class LoginForm extends React.Component {
 					onSubmit={this.handleSubmit}
 					class="w-9/12 max-w-lg mx-auto my-6"
 				>
-					<p>{this.state.accounttype}</p>
+					{/* <p>{this.state.accounttype}</p> */}
 					<span class="float-right text-xl" id="close">
 						<Link id="closeBtn" onClick={this.props.handleClose} to="">
 							&times;

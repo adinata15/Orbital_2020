@@ -10,11 +10,10 @@ import {
 import axios from "axios";
 
 import NavBar from "./Components/NavBar/NavBar";
-import BuyerForm from "./Components/SignIn/BuyerForm";
-import SellerForm from "./Components/SignIn/SellerForm";
 import ClothesDetail from "./Components/Shop/ClothesDetail";
 import Carousel from "./Components/Carousel";
 import EditProfileSeller from "./Components/Profile/EditProfileSeller";
+import EditProfileBuyer from "./Components/Profile/EditProfileBuyer";
 import Home from "./Components/Shop/Home";
 import Sidebar from "./Components/Sidebar";
 import Breadcrumbs from "./Components/NavBar/Breadcrumbs";
@@ -29,13 +28,14 @@ import Kids from "./Components/Shop/Kids.js";
 import PostItem from "./Components/Shop/PostItem.js";
 import { withProps, setupConfig } from "./utils/functions.js";
 import PrivateRoute from "./utils/PrivateRoute.js";
+import SignupForm from "./Components/SignIn/SignupForm.js";
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			token: "this is a token",
-			isLogged: true, //change to false later
+			isLogged: false, //change to false later
 			user: {},
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
@@ -48,7 +48,7 @@ class App extends React.Component {
 			self.setState({
 				user: res.data,
 			});
-			console.log(`user's name: ${self.state.user.name}`);
+			// console.log(`user's name: ${self.state.user.name}`);
 		});
 	};
 
@@ -57,13 +57,13 @@ class App extends React.Component {
 			isLogged: true,
 			token: inputToken, //update token
 		});
-
 		return <Redirect to="/home" />;
 	};
 
 	logout = () => {
 		this.setState({
 			isLogged: false,
+			token: "",
 		});
 		console.log("huu");
 	};
@@ -76,6 +76,7 @@ class App extends React.Component {
 				{/* <PostItem /> */}
 				<NavBar
 					isLogged={this.state.isLogged}
+					user={this.state.user}
 					login={this.login}
 					logout={this.logout}
 					getUserInfo={this.getUserInfo}
@@ -84,14 +85,10 @@ class App extends React.Component {
 				<Carousel />
 				<Switch>
 					<Route
-						path="/signup/buyer"
-						login={this.login}
-						component={BuyerForm}
-					/>
-					<Route
-						path="/signup/seller"
-						login={this.login}
-						component={SellerForm}
+						path="/signup"
+						component={() => (
+							<SignupForm getUserInfo={this.getUserInfo} login={this.login} />
+						)}
 					/>
 					<Route exact path="/home" component={Home} />
 					<Route path="/home/men" component={Men} />
@@ -102,7 +99,14 @@ class App extends React.Component {
 						component={withProps(EditProfileSeller, {
 							...this.state,
 						})}
-						path="/edit/profile"
+						path="/edit/profile/seller"
+					/>
+					<PrivateRoute
+						isLogged={this.state.isLogged}
+						component={withProps(EditProfileBuyer, {
+							...this.state,
+						})}
+						path="/edit/profile/buyer"
 					/>
 				</Switch>
 				<Payment />

@@ -6,7 +6,6 @@ import Image from "../../images/plus.jpg";
 
 export default function SimpleMenu(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
-	// super(props);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -33,7 +32,14 @@ export default function SimpleMenu(props) {
 				onClose={handleClose}
 			>
 				<MenuItem onClick={handleClose}>
-					<Link to="/edit/profile">Edit profile</Link>
+					<Link
+						to={() => {
+							if (props.accounttype === "buyer") return "/edit/profile/buyer";
+							else return "/edit/profile/seller";
+						}}
+					>
+						Edit profile
+					</Link>
 				</MenuItem>
 				<MenuItem onClick={handleClose}>
 					<Link to="/myaccount">My account</Link>

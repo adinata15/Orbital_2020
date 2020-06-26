@@ -1,3 +1,5 @@
+//not redirect to homw page after sign up
+
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -13,7 +15,7 @@ class SignUpForm extends React.Component {
 			gender: "male",
 			weight: "",
 			height: "",
-			accountType: "buyer",
+			accountType: "",
 		};
 		//this.handleClose = this.handleClose.bind(this);
 	}
@@ -29,24 +31,41 @@ class SignUpForm extends React.Component {
 					"Content-Type": "application/json",
 				},
 			};
-			let user = {
-				name: this.state.name, //this is user-id
-				email: this.state.email,
-				password: this.state.pass,
-				gender: this.state.gender,
-				weight: this.state.weight,
-				height: this.state.height,
-			};
+			let user = {};
+			if (this.state.accountType === "buyer") {
+				user = {
+					name: this.state.name, //this is user-id
+					email: this.state.email,
+					password: this.state.pass,
+					gender: this.state.gender,
+					weight: this.state.weight,
+					height: this.state.height,
+					accounttype: this.state.accountType,
+				};
+			} else {
+				user = {
+					name: this.state.name, //this is user-id
+					email: this.state.email,
+					password: this.state.pass,
+					accounttype: this.state.accountType,
+				};
+			}
 
 			user = JSON.stringify(user);
 			console.log(user);
+			let self = this;
 
 			axios
-				.post("http://localhost:5000/api/users/buyer", user, config)
+				.post(
+					`http://localhost:5000/api/users/${this.state.accountType}`,
+					user,
+					config
+				)
 				.then((res) => {
 					console.log(res.data);
 					alert("Sign up succeed");
-					this.props.login();
+					this.props.login(res.data.token);
+					this.props.getUserInfo(res.data.token);
 				})
 				.catch((err) => {
 					console.error(err);
@@ -55,12 +74,12 @@ class SignUpForm extends React.Component {
 		}
 	};
 
-	// handleClick = (e) => {
-	// 	this.setState({
-	// 		accountType: e.target.id,
-	// 	});
-	// 	// console.log(this.state.accountType);
-	// };
+	handleClick = async (e) => {
+		await this.setState({
+			accountType: e.target.id,
+		});
+		console.log(this.state.accountType);
+	};
 
 	handleChange = (e) => {
 		switch (e.target.id) {
@@ -111,9 +130,9 @@ class SignUpForm extends React.Component {
 			);
 	};
 
-	redirect = () => {
-		window.location = "http://localhost:3000/signup/seller";
-	};
+	// redirect = () => {
+	// 	window.location = "http://localhost:3000/signup/seller";
+	// };
 
 	render() {
 		return (
@@ -130,12 +149,11 @@ class SignUpForm extends React.Component {
 
 						<div class="pl-5 pb-3">
 							<input
+								onClick={this.handleClick}
 								type="radio"
 								id="buyer"
 								name="accountType"
 								class="justify-center mr-2"
-								checked
-								// onClick={this.handleClick}
 								required
 							/>
 							<label
@@ -151,7 +169,6 @@ class SignUpForm extends React.Component {
 								name="accountType"
 								class="justify-center items-center mr-2"
 								type="radio"
-								onClick={this.redirect}
 								required
 							/>
 							<label
@@ -223,7 +240,7 @@ class SignUpForm extends React.Component {
 					</div>
 				</div>
 
-				<div class="flex flex-wrap -mx-3 mb-6">
+				<div class="flex flex-wrap -mx-3 mb-4">
 					<div class="w-full px-3">
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -245,15 +262,18 @@ class SignUpForm extends React.Component {
 					{this.showError()}
 				</div>
 
-				<div class="flex flex-wrap -mx-3 mb-6">
-					<div class="w-full px-3">
+				<div
+					class="flex flex-wrap -mx-3 mb-6"
+					hidden={this.state.accountType === "seller"}
+				>
+					<div class="w-full px-3" hidden={this.state.accountType === "seller"}>
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-gender"
 						>
 							Gender
 						</label>
-						<div class="relative">
+						<div class="relative" hidden={this.state.accountType === "seller"}>
 							<select
 								class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 								id="gender"
@@ -263,7 +283,10 @@ class SignUpForm extends React.Component {
 								<option>Female</option>
 								<option>Others</option>
 							</select>
-							<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+							<div
+								class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+								hidden={this.state.accountType === "seller"}
+							>
 								<svg
 									class="fill-current h-4 w-4"
 									xmlns="http://www.w3.org/2000/svg"
@@ -276,8 +299,14 @@ class SignUpForm extends React.Component {
 					</div>
 				</div>
 
-				<div class="flex flex-wrap -mx-3 mb-6">
-					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+				<div
+					class="flex flex-wrap -mx-3 mb-6"
+					hidden={this.state.accountType === "seller"}
+				>
+					<div
+						class="w-full md:w-1/2 px-3 mb-6 md:mb-0"
+						hidden={this.state.accountType === "seller"}
+					>
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-weight"
@@ -294,7 +323,10 @@ class SignUpForm extends React.Component {
 						/>
 					</div>
 
-					<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+					<div
+						class="w-full md:w-1/2 px-3 mb-6 md:mb-0"
+						hidden={this.state.accountType === "seller"}
+					>
 						<label
 							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
 							for="grid-height"
@@ -311,11 +343,6 @@ class SignUpForm extends React.Component {
 						/>
 					</div>
 				</div>
-				{/* 				
-				<p hidden={this.state.match} class="text-red-500 text-xs italic">
-					All * field is required :)
-				</p>
-				<br /> */}
 
 				<button
 					class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
