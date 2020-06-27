@@ -2095,4 +2095,36 @@ router.delete('/seller/item/:item_id', auth, async (req, res) => {
   }
 });
 
+// @route GET api/users/buyer/cart
+// @desc Get all users cart items
+// @access Private
+router.get('/buyer/cart', auth, async (req, res) => {
+  try {
+    const buyer = await Buyer.findOne({ _id: req.user.id });
+    if (!buyer) {
+      return res.status(404).json({ msg: 'Account not found' });
+    }
+    res.json(buyer.cart);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route GET api/users/buyer/wishlist
+// @desc Get all users liked items
+// @access Private
+router.get('/buyer/wishlist', auth, async (req, res) => {
+  try {
+    const buyer = await Buyer.findOne({ _id: req.user.id });
+    if (!buyer) {
+      return res.status(404).json({ msg: 'Account not found' });
+    }
+    res.json(buyer.wishlist);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

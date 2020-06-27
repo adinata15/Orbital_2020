@@ -1,0 +1,42 @@
+import React from 'react';
+import Card from './Card.js';
+import axios from 'axios';
+
+class ShopBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+    };
+  }
+  getitem = () => {
+    let self = this;
+    axios
+      .get(`http://localhost:5000/api/items/category/${this.props.category}`)
+      .then(res => {
+        self.setState({
+          items: res.data,
+        });
+        alert('Loaded shop items');
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Load fail');
+      });
+  };
+  componentWillMount() {
+    this.getitem();
+  }
+  render() {
+    let item = this.state.items;
+    return (
+      <div class="flex flex-wrap justify-center mb-3 border-solid border-2 rounded">
+        {item.map(item => (
+          <Card key={item._id} item={item} class="flex-none" />
+        ))}
+      </div>
+    );
+  }
+}
+
+export default ShopBar;
