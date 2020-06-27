@@ -5,6 +5,7 @@ const SellerSchema = new mongoose.Schema({
     type: String,
     default: 'seller',
   },
+  stripeseller: {},
   name: {
     type: String,
     required: true,

@@ -1,6 +1,6 @@
-const express = require("express");
-const connectDB = require("./config/db");
-var cors = require("cors");
+const express = require('express');
+const connectDB = require('./config/db');
+var cors = require('cors');
 
 const app = express();
 
@@ -13,12 +13,13 @@ connectDB();
 //Init middleware to read data sent in req.body
 app.use(express.json({ extended: false }));
 
-app.get("/", (req, res) => res.send("API running"));
+app.get('/', (req, res) => res.send('API running'));
 
 //Define routes
-app.use("/api/users", require("./routes/api/users"));
-app.use("/api/auth", require("./routes/api/auth"));
-app.use("/api/items", require("./routes/api/items"));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/items', require('./routes/api/items'));
+app.use('/api/stripe', require('./routes/api/stripe'));
 
 const PORT = process.env.PORT || 5000;
 
