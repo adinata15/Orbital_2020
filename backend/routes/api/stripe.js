@@ -6,16 +6,20 @@ const stripeState = require('config').get('stripeState');
 const stripe = require('stripe')(stripeSecretKey);
 
 const Seller = require('../../model/Seller');
+const Item = require('../../model/Item');
 
-// @route GET api/stripe/connect/oauth
+// @route GET api/stripe/connect/oauth?code=code&state=state
 // @desc Update sellers stripe ID in database
-// @access Public
+// @access Private
 router.get('/connect/oauth', auth, async (req, res) => {
-  const { code, state } = req.query;
+  const { code, state, error, error_description } = req.query;
 
   try {
-    // Assert the state matches the state you provided in the OAuth link (optional).
-    if (!stateMatches(state)) {
+    if (error) {
+      return res.status(400).json({ error: error_description });
+    }
+    // Assert the state matches the state you provided in the OAuth link (optional)
+    if (state !== stripeState) {
       return res
         .status(403)
         .json({ error: 'Incorrect state parameter: ' + state });
@@ -23,14 +27,16 @@ router.get('/connect/oauth', auth, async (req, res) => {
 
     let seller = await Seller.findOne({ _id: req.user.id });
 
-    const stripeuserid = await stripe.oauth.token({
+    const response = await stripe.oauth.token({
       grant_type: 'authorization_code',
       code,
-    }).stripe_user_id;
+    });
+
+    const stripeseller = response.stripe_user_id;
 
     seller = await Seller.findOneAndUpdate(
       { _id: req.user.id },
-      { $set: { stripeseller: stripeuserid } },
+      { $set: { stripeseller } },
       { new: true }
     ).select('-password');
 
@@ -46,11 +52,113 @@ router.get('/connect/oauth', auth, async (req, res) => {
   }
 });
 
-const stateMatches = state_parameter => {
-  // Load the same state value that you randomly generated for your OAuth link.
-  const saved_state = stripeState;
+// @route POST api/stripe/create-checkout-session
+// @desc Allow buyer to pay for his/her items
+// @access Private
+router.post('/create-checkout-session', auth, async (req, res) => {
+  try {
+    const { items } = req.body;
+    if (!items || items.length === 0) {
+      return res.status(400).json({ msg: 'Cart is empty' });
+    }
 
-  return saved_state === state_parameter;
-};
+    const line_items = [];
+    const totalPricePerItem = [];
+    const itemPromisesArray = [];
+
+    items.forEach(item => {
+      const line_item = {
+        name: item.title,
+        images: [item.image],
+        quantity: item.quantity,
+        currency: 'SGD',
+        amount: item.price * 100,
+      };
+      line_items.push(line_item);
+      totalPricePerItem.push(item.quantity * item.price * 100);
+      itemPromisesArray.push(Item.findOne({ _id: item.item }));
+    });
+
+    const itemsArray = await Promise.all(itemPromisesArray);
+    const sellerPromisesArray = [];
+
+    itemsArray.forEach(item =>
+      sellerPromisesArray.push(Seller.findOne({ _id: item.seller }))
+    );
+    let sellersArray = await Promise.all(sellerPromisesArray);
+    sellersArray = sellersArray.map(seller => seller.stripeseller);
+
+    const uniqueSellersArray = [[], []];
+    for (var i = 0; i < sellersArray.length; i++) {
+      const sellerIndex = uniqueSellersArray[0].indexOf(sellersArray[i]);
+      if (sellerIndex < 0) {
+        uniqueSellersArray[0].push(sellersArray[i]);
+        uniqueSellersArray[1].push(totalPricePerItem[i]);
+      } else {
+        uniqueSellersArray[1][sellerIndex] += totalPricePerItem[i];
+      }
+    }
+
+    const sellerInfo = {};
+    for (var i = 0; i < uniqueSellersArray[0].length; i++) {
+      sellerInfo[uniqueSellersArray[0][i]] = uniqueSellersArray[1][i];
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'payment',
+      line_items,
+      payment_intent_data: {
+        transfer_group: Date.now(),
+        metadata: sellerInfo,
+      },
+      success_url: 'http://localhost:3000/checkout/success',
+      cancel_url: 'http://localhost:3000/home',
+    });
+
+    res.json({ sessionId: session.id });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route GET api/stripe/checkout/success?session_id=session_id
+// @desc Make transfers to sellers upon buyer's successful payment
+// @access Private
+// Still need to make changes
+router.get('/checkout/success', auth, async (req, res) => {
+  const { session_id } = req.query;
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      session.payment_intent
+    );
+    const transfer_group = paymentIntent.transfer_group;
+    const sellerInfo = paymentIntent.metadata;
+    const promisesArray = [];
+
+    for (const seller in sellerInfo) {
+      const amount = parseInt(sellerInfo[seller] * 0.966 - 50);
+      promisesArray.push(
+        stripe.transfers.create({
+          amount: amount,
+          currency: 'SGD',
+          source_transaction: paymentIntent.id,
+          destination: seller,
+          transfer_group,
+        })
+      );
+    }
+
+    const transfers = await Promise.all(promisesArray);
+
+    res.json(transfers);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;
