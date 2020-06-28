@@ -34,11 +34,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVlNzVmMjAxOWM2NDYxZWYwZGFjYjI5In0sImlhdCI6MTU5MzI3MDYzOSwiZXhwIjo1MTkzMjcwNjM5fQ.ZKq0ZaB2CWSs_yZSjod_83OwLfmuiM8cYqo93ZWNrJo',
+      token: '',
       isLogged: true, //change to false later
       user: {},
-      category: 'men-top',
+      category: '',
     };
     //can bind function here! (we didnt bind here because we use arrow function below)
   }

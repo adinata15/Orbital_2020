@@ -2,14 +2,83 @@ import React from 'react';
 import Image from '../../images/green.jpg';
 import CartItem from './CartItem.js';
 import axios from 'axios';
+import Stripe from 'stripe';
+import { loadStripe } from '@stripe/stripe-js';
 
 class ShopForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cart: [],
+      stripe: window.Stripe(
+        'pk_test_51GxnjfGgFpE6He4tT6kxFKbZpYoNhNPFCQBWx6LeWBXRkhmQu5JFYq71V4XvpjHJV8nT3dEffaqVfkOHzNNLMFbU00KyFazIJN'
+      ),
+      sessionId: '',
     };
   }
+
+  // componentDidMount() {
+  //   const script = document.createElement('script');
+
+  //   script.src = 'https://js.stripe.com/v3/';
+  //   script.async = true;
+
+  //   document.body.appendChild(script);
+  // }
+
+  onPay = event => {
+    let self = this;
+    console.log(this.state.stripe);
+    let transfers;
+    let cart = {
+      items: this.state.cart,
+    };
+    cart = JSON.stringify(cart);
+    console.log(cart);
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': this.props.token,
+      },
+    };
+    const config2 = {
+      headers: {
+        'x-auth-token': this.props.token,
+      },
+    };
+    let sessionId;
+    axios
+      .post(
+        'http://localhost:5000/api/stripe/create-checkout-session',
+        cart,
+        config
+      )
+      .then(res => {
+        console.log('Session ID: ' + res.data.sessionId);
+        this.setState({ sessionId: res.data.sessionId });
+      })
+      .then(() => {
+        this.state.stripe.redirectToCheckout({
+          sessionId: self.state.sessionId,
+        });
+        console.log('Success');
+      })
+      .then(() => {
+        alert('Payment succeed');
+        transfers = axios.get(
+          `http://localhost:5000/api/stripe/checkout/success?session_id=${self.state.sessionId}`,
+          config2
+        );
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `result.error.message`.
+      })
+      .then(transfers => {
+        console.log(transfers);
+      })
+      .catch(err => console.log(err.message));
+  };
 
   getitem = token => {
     let self = this;
@@ -47,7 +116,11 @@ class ShopForm extends React.Component {
           <CartItem key={item.id} item={item} />
         ))}
         <div class="pt-12 pb-8">
-          <button class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full">
+          <button
+            onClick={this.onPay}
+            role="link"
+            class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
+          >
             Checkout
           </button>
           <button
