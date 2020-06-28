@@ -4,14 +4,12 @@
 
 import React from "react";
 import axios from "axios";
-// import { getUserInfo } from "../utils/functions.js";
 import Image from "../../images/plus.jpg";
 
 class EditProfile extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { ...this.props, password: "" };
-		console.log(this.state.user);
 	}
 
 	handleSubmit = (e) => {
@@ -49,7 +47,6 @@ class EditProfile extends React.Component {
 
 	handleChange = (e) => {
 		let val = e.target.value;
-		let trgt = e.target;
 		switch (e.target.name) {
 			case "password":
 				this.setState({
