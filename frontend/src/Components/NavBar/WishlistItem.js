@@ -1,11 +1,15 @@
 import React from "react";
+import axios from "axios";
+import Image from "../../images/cart.png";
 
 class ShopForm extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = { ...this.props };
 	}
-
+	toCart = () => {
+		//to do
+	};
 	render() {
 		return (
 			<div class=" p-2 font-sans antialiased text-gray-900 leading-normal tracking-wider">
@@ -24,9 +28,12 @@ class ShopForm extends React.Component {
 							<p class="pt-4 pl-4 text-base items-center justify-center lg:justify-start">
 								Size: {this.props.item.size}
 							</p>
-							<p class="pt-4 pl-4 text-base items-center justify-center lg:justify-start">
-								Quantity: {this.props.item.quantity}
-							</p>
+							<img
+								class="h-8 w-8 ml-3 my-3 right-0 bottom-0"
+								onClick={this.toCart}
+								style={{ transform: "scaleX(-1)" }}
+								src={Image}
+							/>
 						</div>
 					</div>
 					<div class="lg:w-32 lg:h-32 float-right">

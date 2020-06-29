@@ -19,12 +19,20 @@ class ClothesDetail extends React.Component {
 				"x-auth-token": this.props.token,
 			},
 		};
+		let data = {
+			...this.state,
+		};
 
+		data = JSON.stringify(data);
 		axios
-			.put(`http://localhost:5000/api/items/cart/${this.props.item.id}`, config)
+			.put(
+				`http://localhost:5000/api/items/cart/${this.props.item._id}`,
+				data,
+				config
+			)
 			.then((res) => {
 				console.log(res.data);
-				alert("Editted user data");
+				alert("Sent items to cart");
 			})
 			.catch((err) => {
 				console.error(err);
@@ -36,6 +44,7 @@ class ClothesDetail extends React.Component {
 		this.setState({
 			[e.target.id]: e.target.value,
 		});
+		console.log(this.state);
 	};
 	render() {
 		return (
@@ -70,13 +79,14 @@ class ClothesDetail extends React.Component {
 									</label>
 									<div>
 										<select
+											value={this.state.size}
 											class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 											id="size"
 											onChange={this.handleChange}
 										>
-											<option>S</option>
-											<option>M</option>
-											<option>L</option>
+											<option value="S">S</option>
+											<option value="M">M</option>
+											<option value="L">L</option>
 										</select>
 										{/* <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
 											<svg
@@ -102,7 +112,7 @@ class ClothesDetail extends React.Component {
 										class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 										id="quantity"
 										type="number"
-										placeholder="in kg"
+										placeholder="in pieces"
 										onChange={this.handleChange}
 									/>
 								</div>

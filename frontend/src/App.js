@@ -26,8 +26,8 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			token:
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVlNzVmMjAxOWM2NDYxZWYwZGFjYjI5In0sImlhdCI6MTU5MzQwMDY1MCwiZXhwIjo1MTkzNDAwNjUwfQ.dhGAKA4Q1VSjC6Zjxu8JhhefS676wy1QaUhxZMo97yI",
-			isLogged: false, //change to false later
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVmOWY0NWQ4ZWEyNGMxYjA0OTNhN2I1In0sImlhdCI6MTU5MzQzOTMyNSwiZXhwIjo1MTkzNDM5MzI1fQ.BS9G2xwJjo5J_dKD6jktgjt2uoLARmzSrfVdkWMkWkw",
+			isLogged: true, //change to false later
 			user: {},
 			category: "men-shirt",
 		};
@@ -67,8 +67,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				{/* <p>Login is {this.state.isLogged ? "true" : "false"}</p>
-				<p>Token is {this.state.token}</p> */}
+				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
+				<p>Token is {this.state.token}</p>
 				<NavBar
 					menuSelect={this.menuSelect}
 					isLogged={this.state.isLogged}
@@ -90,7 +90,11 @@ class App extends React.Component {
 						exact
 						path="/shop"
 						component={() => (
-							<Shop items={this.state.items} category={this.state.category} />
+							<Shop
+								items={this.state.items}
+								token={this.state.token}
+								category={this.state.category}
+							/>
 						)}
 					/>
 

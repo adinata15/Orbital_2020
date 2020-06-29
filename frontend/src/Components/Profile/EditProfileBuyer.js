@@ -184,14 +184,15 @@ class EditProfile extends React.Component {
 						</label>
 						<div class="relative">
 							<select
+								value={this.state.gender}
 								class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 								id="gender"
 								defaultValue={this.state.user.gender}
 								onChange={this.handleChange}
 							>
-								<option>Male</option>
-								<option>Female</option>
-								<option>Others</option>
+								<option value="male">Male</option>
+								<option value="female">Female</option>
+								<option value="others">Others</option>
 							</select>
 							<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
 								<svg

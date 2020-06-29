@@ -116,6 +116,7 @@ class ShopForm extends React.Component {
 	render() {
 		return (
 			<div>
+				<h1 class="py-3 px-12 text-center text-3xl mb-3">Cart items</h1>
 				{this.cartItems()}
 				<div class="pt-3 px-12">
 					<button
