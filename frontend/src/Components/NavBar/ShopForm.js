@@ -86,7 +86,7 @@ class ShopForm extends React.Component {
 				self.setState({
 					cart: res.data,
 				});
-				alert("Loaded cart items");
+				// alert("Loaded cart items");
 				console.log("Here", self.state.cart);
 			})
 			.catch((err) => {
@@ -110,7 +110,7 @@ class ShopForm extends React.Component {
 					<button
 						onClick={this.onPay}
 						role="link"
-						class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
+						class="bg-teal-700 hover:bg-teal-900 text-white font-bold m-5 py-2 px-8 rounded-full"
 					>
 						Checkout
 					</button>

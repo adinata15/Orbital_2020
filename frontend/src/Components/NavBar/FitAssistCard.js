@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "../../images/green.jpg";
+import Image from "../../images/clothes.jpg";
 
 class FitAssistCard extends React.Component {
 	// constructor(props) {

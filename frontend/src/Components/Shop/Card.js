@@ -1,6 +1,7 @@
 //not done: make multiple in one row, image not distorted
 import React from "react";
-import Image from "../../images/heart.png";
+import heartImg from "../../images/heart.png";
+import cartImg from "../../images/cart.png";
 import ClothesDetail from "./ClothesDetail";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
@@ -87,7 +88,7 @@ class Card extends React.Component {
 					<img
 						class="h-8 w-8 my-3 float-right"
 						onClick={this.addWishlist}
-						src={Image}
+						src={heartImg}
 					/>
 				</div>
 			</div>

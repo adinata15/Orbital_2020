@@ -6,6 +6,7 @@ import {
 	Route,
 	Switch,
 	Redirect,
+	useHistory,
 } from "react-router-dom";
 import axios from "axios";
 
@@ -15,16 +16,12 @@ import Carousel from "./Components/Carousel";
 import EditProfileSeller from "./Components/Profile/EditProfileSeller";
 import EditProfileBuyer from "./Components/Profile/EditProfileBuyer";
 import Shop from "./Components/Shop/Shop";
-import Sidebar from "./Components/Sidebar";
-import Breadcrumbs from "./Components/NavBar/Breadcrumbs";
 import FooterBar from "./Components/FooterBar";
 import TrialAPI from "./Components/TrialAPI";
 import PersonInput from "./Components/PersonInput";
 import FitAssistCard from "./Components/NavBar/FitAssistCard";
 import Payment from "./Components/Payment.js";
-import Men from "./Components/Shop/Men.js";
-import Women from "./Components/Shop/Women.js";
-import Kids from "./Components/Shop/Kids.js";
+
 import PostItem from "./Components/Shop/PostItem.js";
 import { withProps, setupConfig } from "./utils/functions.js";
 import PrivateRoute from "./utils/PrivateRoute.js";
@@ -34,10 +31,11 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			token: "",
-			isLogged: true, //change to false later
+			token:
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVlNzVmMjAxOWM2NDYxZWYwZGFjYjI5In0sImlhdCI6MTU5MzQwMDY1MCwiZXhwIjo1MTkzNDAwNjUwfQ.dhGAKA4Q1VSjC6Zjxu8JhhefS676wy1QaUhxZMo97yI",
+			isLogged: false, //change to false later
 			user: {},
-			category: "",
+			category: "men-shirt",
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
 	}
@@ -49,16 +47,18 @@ class App extends React.Component {
 			self.setState({
 				user: res.data,
 			});
-			// console.log(`user's name: ${self.state.user.name}`);
 		});
 	};
 
 	login = (inputToken) => {
+		let self = this;
+		let history = useHistory();
 		this.setState({
 			isLogged: true,
 			token: inputToken, //update token
 		});
-		return <Redirect to="/home" />;
+		self.props.navigator.push({ component: Shop });
+		// return <Redirect to="/home" />;
 	};
 
 	logout = () => {
@@ -89,7 +89,6 @@ class App extends React.Component {
 					getUserInfo={this.getUserInfo}
 					logout={this.logout}
 				/>
-				<Carousel />
 				<Switch>
 					<Route
 						path="/signup"
@@ -104,8 +103,6 @@ class App extends React.Component {
 							<Shop items={this.state.items} category={this.state.category} />
 						)}
 					/>
-					<Route path="/home/men" component={Men} />
-					<Route path="/home/women" component={Women} />
 
 					<PrivateRoute
 						isLogged={this.state.isLogged}
@@ -122,8 +119,6 @@ class App extends React.Component {
 						path="/edit/profile/buyer"
 					/>
 				</Switch>
-				<Payment />
-				<Breadcrumbs />
 				<FooterBar />
 			</Router>
 		);

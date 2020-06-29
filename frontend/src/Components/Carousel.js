@@ -5,7 +5,9 @@ import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
-import Image from "../images/green.jpg";
+import Image from "../images/sale.jpg";
+import Image2 from "../images/sale2.jpg";
+import Image3 from "../images/clothes.jpg";
 
 class DemoCarousel extends React.Component {
 	constructor(props) {
@@ -13,14 +15,6 @@ class DemoCarousel extends React.Component {
 		this.state = {};
 		//can bind function here! (we didnt bind here because we use arrow function below)
 	}
-
-	// handleClick = (e) => {
-	// 	//for the thing inside target it can be anything!
-	// 	// this.setState({
-	// 	// 	option: e.target.id,
-	// 	// });
-	// 	console.log("hi i am clicked");
-	// };
 	render() {
 		return (
 			<Carousel
@@ -36,7 +30,7 @@ class DemoCarousel extends React.Component {
 				<div>
 					<img
 						class="object-fill w-full"
-						style={{ height: "26em" }}
+						style={{ height: "30em" }}
 						src={Image}
 					/>
 					<p className="legend">This is image 1</p>
@@ -44,16 +38,16 @@ class DemoCarousel extends React.Component {
 				<div>
 					<img
 						class="object-fill w-full"
-						style={{ height: "26em" }}
-						src={Image}
+						style={{ height: "30em" }}
+						src={Image2}
 					/>
 					<p className="legend">This is image 2</p>
 				</div>
 				<div>
 					<img
 						class="object-fill w-full"
-						style={{ height: "26em" }}
-						src={Image}
+						style={{ height: "30em" }}
+						src={Image3}
 					/>
 					<p className="legend">This is image 3</p>
 				</div>

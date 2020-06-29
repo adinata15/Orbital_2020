@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "./Card.js";
 import axios from "axios";
+import Carousel from "../Carousel";
 
 class ShopBar extends React.Component {
 	constructor(props) {
@@ -17,11 +18,11 @@ class ShopBar extends React.Component {
 				self.setState({
 					items: res.data,
 				});
-				alert("Loaded shop items");
+				// alert("Loaded shop items");
 			})
 			.catch((err) => {
 				console.error(err);
-				alert("Load fail");
+				// alert("Load fail");
 			});
 	};
 	componentWillMount() {
@@ -30,15 +31,18 @@ class ShopBar extends React.Component {
 	render() {
 		let item = this.state.items;
 		return (
-			<div class="flex flex-wrap justify-center mb-3 border-solid border-2 rounded">
-				{item.map((item) => (
-					<Card
-						token={this.props.token}
-						key={item._id}
-						item={item}
-						class="flex-none"
-					/>
-				))}
+			<div>
+				<Carousel />
+				<div class="flex flex-wrap justify-center mb-3 border-solid border-2 rounded">
+					{item.map((item) => (
+						<Card
+							token={this.props.token}
+							key={item._id}
+							item={item}
+							class="flex-none"
+						/>
+					))}
+				</div>
 			</div>
 		);
 	}
