@@ -37,7 +37,7 @@ export default class CartBtn extends Component {
 					open={this.state.open}
 					onClose={this.handleClose}
 					fullWidth={true}
-					maxWidth={"md"}
+					maxWidth={"sm"}
 					scroll={"body"}
 				>
 					<ShopForm token={this.props.token} handleClose={this.handleClose} />

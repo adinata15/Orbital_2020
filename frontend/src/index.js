@@ -11,6 +11,7 @@ import App from "./App";
 
 import "./style/tailwind.generated.css";
 import "./style/index.css";
+import { BrowserRouter as Router } from "react-router-dom";
 
 //store is like the place to store the global state
 const myStore = createStore(
@@ -19,8 +20,8 @@ const myStore = createStore(
 );
 
 ReactDOM.render(
-	<Provider store={myStore}>
+	<Router>
 		<App />
-	</Provider>,
+	</Router>,
 	document.getElementById("root")
 );

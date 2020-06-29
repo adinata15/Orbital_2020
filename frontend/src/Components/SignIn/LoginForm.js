@@ -72,6 +72,7 @@ class LoginForm extends React.Component {
 				console.error(err);
 				alert("Login fail");
 			});
+		return <Redirect to="/home" />;
 	};
 
 	render() {

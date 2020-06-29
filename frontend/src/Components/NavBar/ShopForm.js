@@ -79,7 +79,6 @@ class ShopForm extends React.Component {
 				"x-auth-token": token,
 			},
 		};
-		console.log(token);
 		axios
 			.get(`http://localhost:5000/api/users/buyer/cart`, config)
 			.then((res) => {
@@ -87,7 +86,7 @@ class ShopForm extends React.Component {
 					cart: res.data,
 				});
 				// alert("Loaded cart items");
-				console.log("Here", self.state.cart);
+				console.log(self.state.cart);
 			})
 			.catch((err) => {
 				console.error(err);
@@ -99,14 +98,26 @@ class ShopForm extends React.Component {
 		this.getitem(this.props.token);
 	}
 
-	render() {
+	cartItems = () => {
 		let cartItems = this.state.cart;
+		if (cartItems[0]) {
+			console.log("if case");
+			return cartItems.map((item) => <CartItem key={item.id} item={item} />);
+		} else {
+			console.log("else case");
+			return (
+				<div class="text-3xl px-8 font-bold pt-24 lg:pt-12">
+					Your cart is empty
+				</div>
+			);
+		}
+	};
+
+	render() {
 		return (
 			<div>
-				{cartItems.map((item) => (
-					<CartItem key={item.id} item={item} />
-				))}
-				<div class="pt-12 pb-8">
+				{this.cartItems()}
+				<div class="pt-3 px-12">
 					<button
 						onClick={this.onPay}
 						role="link"

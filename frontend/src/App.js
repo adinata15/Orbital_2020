@@ -1,13 +1,7 @@
 //Press alt+click to edit multiple lines at once
 
 import React, { useState } from "react";
-import {
-	BrowserRouter as Router,
-	Route,
-	Switch,
-	Redirect,
-	useHistory,
-} from "react-router-dom";
+import { Router, Route, Switch, Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
 
 import NavBar from "./Components/NavBar/NavBar";
@@ -39,7 +33,7 @@ class App extends React.Component {
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
 	}
-	//get user info cant be used yet
+
 	getUserInfo = (token) => {
 		let self = this;
 		let config = setupConfig(token);
@@ -51,14 +45,11 @@ class App extends React.Component {
 	};
 
 	login = (inputToken) => {
-		let self = this;
-		let history = useHistory();
 		this.setState({
 			isLogged: true,
 			token: inputToken, //update token
 		});
-		self.props.navigator.push({ component: Shop });
-		// return <Redirect to="/home" />;
+		this.props.history.push(`/shop`); //redirect to home page
 	};
 
 	logout = () => {
@@ -75,10 +66,9 @@ class App extends React.Component {
 	};
 	render() {
 		return (
-			<Router>
+			<div>
 				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
 				<p>Token is {this.state.token}</p>
-				{/* <PostItem /> */}
 				<NavBar
 					menuSelect={this.menuSelect}
 					isLogged={this.state.isLogged}
@@ -120,12 +110,12 @@ class App extends React.Component {
 					/>
 				</Switch>
 				<FooterBar />
-			</Router>
+			</div>
 		);
 	}
 }
 
-export default App;
+export default withRouter(App);
 /* Components
 -------------------------------
 Not done:

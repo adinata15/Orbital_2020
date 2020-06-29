@@ -36,7 +36,7 @@ export default class CartBtn extends Component {
 					open={this.state.open}
 					onClose={this.handleClose}
 					fullWidth={true}
-					maxWidth={"md"}
+					maxWidth={"sm"}
 					scroll={"body"}
 				>
 					<WishlistForm

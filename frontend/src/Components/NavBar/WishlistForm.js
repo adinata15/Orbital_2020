@@ -7,7 +7,7 @@ class ShopForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			cart: [],
+			wishlist: [],
 		};
 	}
 
@@ -24,10 +24,10 @@ class ShopForm extends React.Component {
 			.get(`http://localhost:5000/api/users/buyer/wishlist`, config)
 			.then((res) => {
 				self.setState({
-					cart: res.data,
+					wishlist: res.data,
 				});
-				alert("Loaded liked items");
-				console.log("Here", self.state.cart);
+				// alert("Loaded liked items");
+				// console.log("Here", self.state.cart);
 			})
 			.catch((err) => {
 				console.error(err);
@@ -39,22 +39,30 @@ class ShopForm extends React.Component {
 		this.getitem(this.props.token);
 	}
 
+	wishlistItems = () => {
+		let wishlistItems = this.state.wishlist;
+		if (wishlistItems[0]) {
+			console.log("if case");
+			return wishlistItems.map((item) => (
+				<WishlistItem key={item.id} item={item} />
+			));
+		} else {
+			console.log("else case");
+			return (
+				<div class="text-3xl px-8 font-bold pt-24 lg:pt-12">No liked items</div>
+			);
+		}
+	};
 	render() {
-		let cartItems = this.state.cart;
 		return (
 			<div>
-				{cartItems.map((item) => (
-					<WishlistItem key={item.id} item={item} />
-				))}
-				<div class="pt-12 pb-8">
-					<button class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full">
-						Checkout
-					</button>
+				{this.wishlistItems()}
+				<div class="py-3 px-12">
 					<button
 						onClick={this.props.handleClose}
-						class="bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
+						class="bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-3 px-8 rounded-full"
 					>
-						Continue shopping
+						Back to shopping
 					</button>
 				</div>
 			</div>
