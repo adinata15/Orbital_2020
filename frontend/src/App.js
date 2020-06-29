@@ -67,8 +67,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
-				<p>Token is {this.state.token}</p>
+				{/* <p>Login is {this.state.isLogged ? "true" : "false"}</p>
+				<p>Token is {this.state.token}</p> */}
 				<NavBar
 					menuSelect={this.menuSelect}
 					isLogged={this.state.isLogged}
