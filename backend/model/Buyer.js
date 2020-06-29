@@ -94,8 +94,28 @@ const BuyerSchema = new mongoose.Schema({
       default: true,
     },
     address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'address',
+      addressid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'address',
+      },
+      firstname: {
+        type: String,
+      },
+      lastname: {
+        type: String,
+      },
+      cellphone: {
+        type: Number,
+      },
+      telephone: {
+        type: Number,
+      },
+      address: {
+        type: String,
+      },
+      postcode: {
+        type: Number,
+      },
     },
   },
   shippingaddress: {
@@ -104,8 +124,28 @@ const BuyerSchema = new mongoose.Schema({
       default: true,
     },
     address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'address',
+      addressid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'address',
+      },
+      firstname: {
+        type: String,
+      },
+      lastname: {
+        type: String,
+      },
+      cellphone: {
+        type: Number,
+      },
+      telephone: {
+        type: Number,
+      },
+      address: {
+        type: String,
+      },
+      postcode: {
+        type: Number,
+      },
     },
   },
   addresses: [

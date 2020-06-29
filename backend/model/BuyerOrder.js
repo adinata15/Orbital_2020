@@ -6,18 +6,66 @@ const BuyerOrderSchema = new mongoose.Schema({
     ref: 'buyer',
   },
   shippingaddress: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'address',
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    cellphone: {
+      type: Number,
+      required: true,
+    },
+    telephone: {
+      type: Number,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    postcode: {
+      type: Number,
+      required: true,
+    },
   },
   billingaddress: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'address',
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    cellphone: {
+      type: Number,
+      required: true,
+    },
+    telephone: {
+      type: Number,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    postcode: {
+      type: Number,
+      required: true,
+    },
   },
   items: [
     {
       item: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'item',
+      },
+      brand: {
+        type: String,
+        required: true,
       },
       title: {
         type: String,
@@ -35,8 +83,16 @@ const BuyerOrderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      quantity: {
+        type: Number,
+        required: true,
+      },
     },
   ],
+  total: {
+    type: Number,
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,

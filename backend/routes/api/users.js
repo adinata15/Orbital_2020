@@ -13,6 +13,8 @@ const Buyer = require('../../model/Buyer');
 const Seller = require('../../model/Seller');
 const Address = require('../../model/Address');
 const Item = require('../../model/Item');
+const BuyerOrder = require('../../model/BuyerOrder');
+const SellerOrder = require('../../model/SellerOrder');
 
 // @route POST api/users/buyer
 // @desc Register buyer
@@ -456,10 +458,26 @@ router.post(
 
       if (buyer.billingaddress.empty && buyer.shippingaddress.empty) {
         buyer.billingaddress.empty = false;
-        buyer.billingaddress.address = newAdd._id;
+        buyer.billingaddress.address = {
+          addressid: newAdd._id,
+          firstname: newAdd.firstname,
+          lastname: newAdd.lastname,
+          cellphone: newAdd.cellphone,
+          telephone: newAdd.telephone,
+          address: newAdd.address,
+          postcode: newAdd.postcode,
+        };
         newAdd.billingaddress = true;
         buyer.shippingaddress.empty = false;
-        buyer.shippingaddress.address = newAdd._id;
+        buyer.shippingaddress.address = {
+          addressid: newAdd._id,
+          firstname: newAdd.firstname,
+          lastname: newAdd.lastname,
+          cellphone: newAdd.cellphone,
+          telephone: newAdd.telephone,
+          address: newAdd.address,
+          postcode: newAdd.postcode,
+        };
         newAdd.shippingaddress = true;
       }
       await newAdd.save();
@@ -524,7 +542,15 @@ router.post(
       buyer.addresses.push({ address: newAdd._id });
 
       buyer.billingaddress.empty = false;
-      buyer.billingaddress.address = newAdd._id;
+      buyer.billingaddress.address = {
+        addressid: newAdd._id,
+        firstname: newAdd.firstname,
+        lastname: newAdd.lastname,
+        cellphone: newAdd.cellphone,
+        telephone: newAdd.telephone,
+        address: newAdd.address,
+        postcode: newAdd.postcode,
+      };
       newAdd.billingaddress = true;
 
       await newAdd.save();
@@ -589,7 +615,15 @@ router.post(
       buyer.addresses.push({ address: newAdd._id });
 
       buyer.shippingaddress.empty = false;
-      buyer.shippingaddress.address = newAdd._id;
+      buyer.shippingaddress.address = {
+        addressid: newAdd._id,
+        firstname: newAdd.firstname,
+        lastname: newAdd.lastname,
+        cellphone: newAdd.cellphone,
+        telephone: newAdd.telephone,
+        address: newAdd.address,
+        postcode: newAdd.postcode,
+      };
       newAdd.shippingaddress = true;
 
       await newAdd.save();
@@ -619,7 +653,7 @@ router.put('/buyer/shippingaddress/:address_id', auth, async (req, res) => {
     }
 
     const oldAddress = await Address.findOne({
-      _id: buyer.shippingaddress.address,
+      _id: buyer.shippingaddress.address.addressid,
     });
 
     if (oldAddress.id === address.id) {
@@ -628,7 +662,15 @@ router.put('/buyer/shippingaddress/:address_id', auth, async (req, res) => {
       oldAddress.shippingaddress = false;
       await oldAddress.save();
 
-      buyer.shippingaddress.address = address._id;
+      buyer.shippingaddress.address = {
+        addressid: address._id,
+        firstname: address.firstname,
+        lastname: address.lastname,
+        cellphone: address.cellphone,
+        telephone: address.telephone,
+        address: address.address,
+        postcode: address.postcode,
+      };
       address.shippingaddress = true;
       await buyer.save();
       await address.save();
@@ -659,7 +701,7 @@ router.put('/buyer/billingaddress/:address_id', auth, async (req, res) => {
     }
 
     const oldAddress = await Address.findOne({
-      _id: buyer.billingaddress.address,
+      _id: buyer.billingaddress.address.addressid,
     });
     if (oldAddress.id === address.id) {
       res.json(buyer.billingaddress);
@@ -667,7 +709,15 @@ router.put('/buyer/billingaddress/:address_id', auth, async (req, res) => {
       oldAddress.billingaddress = false;
       await oldAddress.save();
 
-      buyer.billingaddress.address = address._id;
+      buyer.billingaddress.address = {
+        addressid: address._id,
+        firstname: address.firstname,
+        lastname: address.lastname,
+        cellphone: address.cellphone,
+        telephone: address.telephone,
+        address: address.address,
+        postcode: address.postcode,
+      };
       address.billingaddress = true;
       await buyer.save();
       await address.save();
@@ -745,6 +795,32 @@ router.put(
       );
       await oldAddress.save();
 
+      if (
+        buyer.billingaddress.address.addressid.toString() ===
+        req.params.address_id
+      ) {
+        buyer.billingaddress.address.firstname = firstname;
+        buyer.billingaddress.address.lastname = lastname;
+        buyer.billingaddress.address.cellphone = cellphone;
+        buyer.billingaddress.address.telephone = telephone;
+        buyer.billingaddress.address.address = address;
+        buyer.billingaddress.address.postcode = postcode;
+      }
+
+      if (
+        buyer.shippingaddress.address.addressid.toString() ===
+        req.params.address_id
+      ) {
+        buyer.shippingaddress.address.firstname = firstname;
+        buyer.shippingaddress.address.lastname = lastname;
+        buyer.shippingaddress.address.cellphone = cellphone;
+        buyer.shippingaddress.address.telephone = telephone;
+        buyer.shippingaddress.address.address = address;
+        buyer.shippingaddress.address.postcode = postcode;
+      }
+
+      await buyer.save();
+
       res.json(buyer.addresses);
     } catch (err) {
       console.log(err.message);
@@ -792,8 +868,10 @@ router.delete('/buyer/address/:address_id', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Address not found' });
     }
     if (
-      buyer.shippingaddress.address.toString() === req.params.address_id ||
-      buyer.billingaddress.address.toString() === req.params.address_id
+      buyer.shippingaddress.address.addressid.toString() ===
+        req.params.address_id ||
+      buyer.billingaddress.address.addressid.toString() ===
+        req.params.address_id
     ) {
       return res.status(400).json({ msg: 'Bad request' });
     }
@@ -2121,6 +2199,50 @@ router.get('/buyer/wishlist', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Account not found' });
     }
     res.json(buyer.wishlist);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route GET api/users/buyer/orders
+// @desc Get all buyers orders
+// @access Private
+router.get('/buyer/orders', auth, async (req, res) => {
+  try {
+    const buyer = await Buyer.findOne({ _id: req.user.id });
+    if (!buyer) {
+      return res.status(404).json({ msg: 'Account not found' });
+    }
+    let orders = buyer.orders;
+    const ordersArray = [];
+    orders.forEach(order =>
+      ordersArray.push(BuyerOrder.findOne({ _id: order.order }))
+    );
+    orders = await Promise.all(ordersArray);
+    res.json(orders);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route GET api/users/seller/orders
+// @desc Get all sellers orders
+// @access Private
+router.get('/seller/orders', auth, async (req, res) => {
+  try {
+    const seller = await Seller.findOne({ _id: req.user.id });
+    if (!seller) {
+      return res.status(404).json({ msg: 'Account not found' });
+    }
+    let orders = seller.orders;
+    const ordersArray = [];
+    orders.forEach(order =>
+      ordersArray.push(SellerOrder.findOne({ _id: order.order }))
+    );
+    orders = await Promise.all(ordersArray);
+    res.json(orders);
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server error');

@@ -1,19 +1,23 @@
 const mongoose = require('mongoose');
 
 const SellerOrderSchema = new mongoose.Schema({
-  seller: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'seller',
-  },
   buyer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'buyer',
+  },
+  seller: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'seller',
   },
   items: [
     {
       item: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'item',
+      },
+      brand: {
+        type: String,
+        required: true,
       },
       title: {
         type: String,
@@ -31,8 +35,16 @@ const SellerOrderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      quantity: {
+        type: Number,
+        required: true,
+      },
     },
   ],
+  total: {
+    type: Number,
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,
