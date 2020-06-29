@@ -1443,7 +1443,7 @@ router.post(
               .then(data =>
                 sharp(data.Body)
                   .rotate()
-                  .resize(250, 600)
+                  .resize(350, 600)
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
               )
@@ -1491,7 +1491,7 @@ router.post(
               .promise()
               .then(data =>
                 sharp(data.Body)
-                  .resize(250, 600)
+                  .resize(350, 600)
                   .withMetadata()
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
@@ -2021,7 +2021,7 @@ router.put(
               .then(data =>
                 sharp(data.Body)
                   .rotate()
-                  .resize(250, 600)
+                  .resize(350, 600)
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
               )
@@ -2069,7 +2069,7 @@ router.put(
               .promise()
               .then(data =>
                 sharp(data.Body)
-                  .resize(250, 600)
+                  .resize(350, 600)
                   .withMetadata()
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
