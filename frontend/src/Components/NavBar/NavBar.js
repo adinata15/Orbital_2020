@@ -1,6 +1,6 @@
 // use Link instead of a+href to prevent website from reloading
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SigninBtn from "../SignIn/SigninBtn.js";
 import FitAssistBtn from "./FitAssistBtn";
 import CartBtn from "./CartBtn";
@@ -19,7 +19,7 @@ class NavBar extends React.Component {
 		return (
 			<Fragment>
 				<div className="navbar">
-					<Link to="/home">Home</Link>
+					<Link to="/">Home</Link>
 					<div className="subnav">
 						<button className="subnavbtn">Men </button>
 						<div className="subnav-content">

@@ -6,13 +6,45 @@ class ClothesDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			size: "",
+			size: "S",
 			quantity: "",
+			alert: "",
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
 	}
+	addWishlist = () => {
+		let self = this;
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				"x-auth-token": this.props.token,
+			},
+		};
+		console.log(this.props.token);
+		let data = { size: this.state.size };
+		data = JSON.stringify(data);
+
+		axios
+			.put(
+				`http://localhost:5000/api/items/wishlist/${this.props.item._id}`,
+				data,
+				config
+			)
+			.then((res) => {
+				console.log(res.data);
+				alert("Submitted liked data");
+			})
+			.catch((err) => {
+				console.error(err);
+				self.setState({ alert: "Item is already liked :)" });
+			});
+	};
 
 	addCart = () => {
+		if (!this.state.quantity) {
+			this.setState({ alert: "Please add desired quantity to add cart" });
+			return;
+		}
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
@@ -88,15 +120,6 @@ class ClothesDetail extends React.Component {
 											<option value="M">M</option>
 											<option value="L">L</option>
 										</select>
-										{/* <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-											<svg
-												class="fill-current h-4 w-4"
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 20 20"
-											>
-												<path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-											</svg>
-										</div> */}
 									</div>
 								</div>
 
@@ -120,26 +143,27 @@ class ClothesDetail extends React.Component {
 
 							<p class="pt-8 text-sm">Description: {this.props.item.desc} </p>
 
-							<div class="pt-8 pb-8">
+							<div class="flex pt-8 pb-8">
 								<button
 									onClick={this.addCart}
-									class="bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
+									class="flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
 								>
 									Add to cart
 								</button>
 								<button
-									onClick={this.props.addWishlist}
-									class="bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
+									onClick={this.addWishlist}
+									class="flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
 								>
 									Like
 								</button>
 								<button
 									onClick={this.props.onClose}
-									class="bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
+									class="flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
 								>
 									Back to shop
 								</button>
 							</div>
+							<p class="text-sm text-red-600">{this.state.alert}</p>
 						</div>
 					</div>
 					<div class="lg:w-1/5 lg:h-auto inset-y-0 right-0">

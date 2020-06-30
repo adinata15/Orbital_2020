@@ -100,16 +100,16 @@ class ShopForm extends React.Component {
 
 	cartItems = () => {
 		let cartItems = this.state.cart;
-		if (cartItems[0]) {
+		if (!this.props.token) {
+			return (
+				<p class="text-3xl px-8 font-bold my-3">You need to sign in first</p>
+			);
+		} else if (cartItems[0]) {
 			console.log("if case");
 			return cartItems.map((item) => <CartItem key={item.id} item={item} />);
 		} else {
 			console.log("else case");
-			return (
-				<div class="text-3xl px-8 font-bold pt-24 lg:pt-12">
-					Your cart is empty
-				</div>
-			);
+			return <p class="text-3xl px-8 font-bold my-3">Cart is empty</p>;
 		}
 	};
 

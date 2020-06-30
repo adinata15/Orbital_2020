@@ -63,7 +63,7 @@ class LoginForm extends React.Component {
 			.post("http://localhost:5000/api/auth", user, config)
 			.then((res) => {
 				console.log(res.data);
-				alert("Login successful");
+				// alert("Login successful");
 				this.props.login(res.data.token);
 				this.props.getUserInfo(res.data.token);
 				self.props.handleClose();
@@ -72,7 +72,6 @@ class LoginForm extends React.Component {
 				console.error(err);
 				alert("Login fail");
 			});
-		return <Redirect to="/home" />;
 	};
 
 	render() {

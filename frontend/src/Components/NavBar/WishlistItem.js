@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import Image from "../../images/cart.png";
+import Cart from "../../images/cart.png";
+import Heart from "../../images/heart.png";
 
 class ShopForm extends React.Component {
 	constructor(props) {
@@ -9,6 +10,34 @@ class ShopForm extends React.Component {
 	}
 	toCart = () => {
 		//to do
+	};
+
+	removeLiked = () => {
+		let self = this;
+		let config = {
+			headers: {
+				"Content-Type": "application/json",
+				"x-auth-token": this.state.token,
+			},
+		};
+		// config = JSON.stringify(config);
+		console.log(config);
+
+		axios
+			.put(
+				`http://localhost:5000/api/items/unlike/${this.props.item.item}/${this.props.item.size}`,
+				config
+			)
+			.then((res) => {
+				console.log(res.data);
+				self.setState({
+					item: res.data,
+				});
+			})
+			.catch((err) => {
+				console.error(err);
+				alert("Edit fail");
+			});
 	};
 	render() {
 		return (
@@ -28,12 +57,21 @@ class ShopForm extends React.Component {
 							<p class="pt-4 pl-4 text-base items-center justify-center lg:justify-start">
 								Size: {this.props.item.size}
 							</p>
-							<img
-								class="h-8 w-8 ml-3 my-3 right-0 bottom-0"
-								onClick={this.toCart}
-								style={{ transform: "scaleX(-1)" }}
-								src={Image}
-							/>
+							<div class="flex">
+								<img
+									name="cart"
+									class="h-8 w-8 ml-3 my-3 right-0 bottom-0"
+									onClick={this.toCart}
+									style={{ transform: "scaleX(-1)" }}
+									src={Cart}
+								/>
+								<img
+									name="heart"
+									class="h-8 w-8 ml-3 my-3 right-0 bottom-0"
+									onClick={this.removeLiked}
+									src={Heart}
+								/>
+							</div>
 						</div>
 					</div>
 					<div class="lg:w-32 lg:h-32 float-right">

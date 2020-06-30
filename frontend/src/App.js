@@ -14,7 +14,7 @@ import FooterBar from "./Components/FooterBar";
 import TrialAPI from "./Components/TrialAPI";
 import PersonInput from "./Components/PersonInput";
 import FitAssistCard from "./Components/NavBar/FitAssistCard";
-import Payment from "./Components/Payment.js";
+import Home from "./Components/Home.js";
 
 import PostItem from "./Components/Shop/PostItem.js";
 import { withProps, setupConfig } from "./utils/functions.js";
@@ -26,7 +26,7 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			token:
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVmOWY0NWQ4ZWEyNGMxYjA0OTNhN2I1In0sImlhdCI6MTU5MzQzOTMyNSwiZXhwIjo1MTkzNDM5MzI1fQ.BS9G2xwJjo5J_dKD6jktgjt2uoLARmzSrfVdkWMkWkw",
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVmOWY0NWQ4ZWEyNGMxYjA0OTNhN2I1In0sImlhdCI6MTU5MzUyMTA3OCwiZXhwIjo1MTkzNTIxMDc4fQ._c3iha57sM0RSq_P9crsrp-Lho6TxKkaIALmp6g2pL8",
 			isLogged: true, //change to false later
 			user: {},
 			category: "men-shirt",
@@ -49,7 +49,7 @@ class App extends React.Component {
 			isLogged: true,
 			token: inputToken, //update token
 		});
-		this.props.history.push(`/shop`); //redirect to home page
+		this.props.history.push(`/`); //redirect to home page
 	};
 
 	logout = () => {
@@ -57,6 +57,7 @@ class App extends React.Component {
 			isLogged: false,
 			token: "",
 		});
+		this.props.history.push(`/`);
 	};
 
 	menuSelect = (cat) => {
@@ -85,6 +86,11 @@ class App extends React.Component {
 						component={() => (
 							<SignupForm getUserInfo={this.getUserInfo} login={this.login} />
 						)}
+					/>
+					<Route
+						path="/"
+						exact
+						component={() => <Home menuSelect={this.menuSelect} />}
 					/>
 					<Route
 						exact

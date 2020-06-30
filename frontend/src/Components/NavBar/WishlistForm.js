@@ -41,16 +41,17 @@ class ShopForm extends React.Component {
 
 	wishlistItems = () => {
 		let wishlistItems = this.state.wishlist;
-		if (wishlistItems[0]) {
-			console.log("if case");
+		let token = this.props.token;
+		if (!this.props.token) {
+			return (
+				<p class="text-3xl px-8 font-bold my-3">You need to sign in first</p>
+			);
+		} else if (wishlistItems[0]) {
 			return wishlistItems.map((item) => (
-				<WishlistItem key={item.id} item={item} />
+				<WishlistItem token={token} key={item.id} item={item} />
 			));
 		} else {
-			console.log("else case");
-			return (
-				<div class="text-3xl px-8 font-bold pt-24 lg:pt-12">No liked items</div>
-			);
+			return <p class="text-3xl px-8 font-bold my-3">No liked items</p>;
 		}
 	};
 	render() {

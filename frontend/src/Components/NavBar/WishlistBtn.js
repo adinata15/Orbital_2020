@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import WishlistForm from "./WishlistForm.js";
-import Image from "../../images/heart.png";
+import Image from "../../images/heart.jpg";
 
 export default class CartBtn extends Component {
 	constructor(props) {
