@@ -923,7 +923,7 @@ router.post('/seller/profile_pict', auth, async (req, res) => {
               sharp(data.Body)
                 .resize(200, 200)
                 .withMetadata()
-                .toFormat('jpeg', { quality: 80 })
+                .toFormat('jpeg', { quality: 95 })
                 .toBuffer()
             )
             .then(buffer =>
@@ -985,7 +985,7 @@ router.post('/seller/profile_pict', auth, async (req, res) => {
 // @route POST api/users/seller/item
 // @desc Add item to sell
 // @access Private
-// Remind sellers that pic must be of certain dimensions! (?)
+// Remind sellers that pic is preferably <= 1080*1080
 router.post(
   '/seller/item',
   [
@@ -1326,9 +1326,17 @@ router.post(
       if (!seller) {
         return res.status(404).json({ msg: 'Account not found' });
       }
-      if (!req.files.itemImages) {
+      if (!req.files.displayImage) {
         return res.status(400).json({ msg: 'Please provide item images' });
       }
+
+      // Create item without images so as to allows S3 to access item ID
+      itemFields.seller = seller._id;
+      let item = new Item(itemFields);
+      await item.save();
+
+      const sellerId = seller._id.toString();
+      const itemId = item._id.toString();
 
       const promiseArray = [];
       const s3 = new aws.S3();
@@ -1347,7 +1355,6 @@ router.post(
                 .then(data =>
                   sharp(data.Body)
                     .rotate()
-                    .resize(600, 200)
                     .toFormat('jpeg', { quality: 90 })
                     .toBuffer()
                 )
@@ -1357,10 +1364,17 @@ router.post(
                       Body: buffer,
                       Bucket: config.get('s3bucket'),
                       ContentType: 'image/jpeg',
-                      Key:
+                      Key: `${sellerId}/${itemId}/sizechart/${
                         sc.key.slice(-4) === 'jpeg'
-                          ? sc.key.slice(0, sc.key.length - 5) + 'Updated.jpeg'
-                          : sc.key.slice(0, sc.key.length - 4) + 'Updated.jpeg',
+                          ? sc.key.slice(
+                              sellerId.length + 14,
+                              sc.key.length - 5
+                            ) + 'Updated.jpeg'
+                          : sc.key.slice(
+                              sellerId.length + 14,
+                              sc.key.length - 4
+                            ) + 'Updated.jpeg'
+                      }`,
                       ACL: 'public-read',
                     })
                     .promise()
@@ -1369,10 +1383,17 @@ router.post(
                   sizechart.push(
                     `https://${config.get(
                       's3bucket'
-                    )}.s3-ap-southeast-1.amazonaws.com/` +
-                      (sc.key.slice(-4) === 'jpeg'
-                        ? sc.key.slice(0, sc.key.length - 5) + 'Updated.jpeg'
-                        : sc.key.slice(0, sc.key.length - 4) + 'Updated.jpeg')
+                    )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/sizechart/${
+                      sc.key.slice(-4) === 'jpeg'
+                        ? sc.key.slice(
+                            sellerId.length + 14,
+                            sc.key.length - 5
+                          ) + 'Updated.jpeg'
+                        : sc.key.slice(
+                            sellerId.length + 14,
+                            sc.key.length - 4
+                          ) + 'Updated.jpeg'
+                    }`
                   );
                 })
                 .catch(err => {
@@ -1390,11 +1411,7 @@ router.post(
                 })
                 .promise()
                 .then(data =>
-                  sharp(data.Body)
-                    .resize(600, 200)
-                    .withMetadata()
-                    .toFormat('jpeg', { quality: 90 })
-                    .toBuffer()
+                  sharp(data.Body).toFormat('jpeg', { quality: 90 }).toBuffer()
                 )
                 .then(buffer =>
                   s3
@@ -1402,10 +1419,17 @@ router.post(
                       Body: buffer,
                       Bucket: config.get('s3bucket'),
                       ContentType: 'image/jpeg',
-                      Key:
+                      Key: `${sellerId}/${itemId}/sizechart/${
                         sc.key.slice(-4) === 'jpeg'
-                          ? sc.key.slice(0, sc.key.length - 5) + 'Updated.jpeg'
-                          : sc.key.slice(0, sc.key.length - 4) + 'Updated.jpeg',
+                          ? sc.key.slice(
+                              sellerId.length + 14,
+                              sc.key.length - 5
+                            ) + 'Updated.jpeg'
+                          : sc.key.slice(
+                              sellerId.length + 14,
+                              sc.key.length - 4
+                            ) + 'Updated.jpeg'
+                      }`,
                       ACL: 'public-read',
                     })
                     .promise()
@@ -1414,10 +1438,17 @@ router.post(
                   sizechart.push(
                     `https://${config.get(
                       's3bucket'
-                    )}.s3-ap-southeast-1.amazonaws.com/` +
-                      (sc.key.slice(-4) === 'jpeg'
-                        ? sc.key.slice(0, sc.key.length - 5) + 'Updated.jpeg'
-                        : sc.key.slice(0, sc.key.length - 4) + 'Updated.jpeg')
+                    )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/sizechart/${
+                      sc.key.slice(-4) === 'jpeg'
+                        ? sc.key.slice(
+                            sellerId.length + 14,
+                            sc.key.length - 5
+                          ) + 'Updated.jpeg'
+                        : sc.key.slice(
+                            sellerId.length + 14,
+                            sc.key.length - 4
+                          ) + 'Updated.jpeg'
+                    }`
                   );
                 })
                 .catch(err => {
@@ -1431,6 +1462,132 @@ router.post(
       }
 
       const images = [];
+      const displayImage = req.files.displayImage[0];
+
+      if (displayImage.key.slice(-4) === 'jpeg') {
+        promiseArray.push(
+          s3
+            .getObject({
+              Bucket: config.get('s3bucket'),
+              Key: displayImage.key,
+            })
+            .promise()
+            .then(data =>
+              sharp(data.Body)
+                .rotate()
+                .resize(1080, 1080, {
+                  fit: 'cover',
+                })
+                .toFormat('jpeg', { quality: 90 })
+                .toBuffer()
+            )
+            .then(buffer =>
+              s3
+                .putObject({
+                  Body: buffer,
+                  Bucket: config.get('s3bucket'),
+                  ContentType: 'image/jpeg',
+                  Key: `${sellerId}/${itemId}/${
+                    displayImage.key.slice(-4) === 'jpeg'
+                      ? displayImage.key.slice(
+                          sellerId.length + 15,
+                          displayImage.key.length - 5
+                        ) + 'Updated.jpeg'
+                      : displayImage.key.slice(
+                          sellerId.length + 15,
+                          displayImage.key.length - 4
+                        ) + 'Updated.jpeg'
+                  }`,
+                  ACL: 'public-read',
+                })
+                .promise()
+            )
+            .then(() => {
+              images.unshift(
+                `https://${config.get(
+                  's3bucket'
+                )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
+                  displayImage.key.slice(-4) === 'jpeg'
+                    ? displayImage.key.slice(
+                        sellerId.length + 15,
+                        displayImage.key.length - 5
+                      ) + 'Updated.jpeg'
+                    : displayImage.key.slice(
+                        sellerId.length + 15,
+                        displayImage.key.length - 4
+                      ) + 'Updated.jpeg'
+                }`
+              );
+            })
+            .catch(err => {
+              if (err.code === 'NoSuchKey') err.message = 'Image not found';
+              console.log(err.message);
+              return res.status(500).send('Server error');
+            })
+        );
+      } else {
+        promiseArray.push(
+          s3
+            .getObject({
+              Bucket: config.get('s3bucket'),
+              Key: displayImage.key,
+            })
+            .promise()
+            .then(data =>
+              sharp(data.Body)
+                .resize(1080, 1080, {
+                  fit: 'cover',
+                })
+                .withMetadata()
+                .toFormat('jpeg', { quality: 90 })
+                .toBuffer()
+            )
+            .then(buffer =>
+              s3
+                .putObject({
+                  Body: buffer,
+                  Bucket: config.get('s3bucket'),
+                  ContentType: 'image/jpeg',
+                  Key: `${sellerId}/${itemId}/${
+                    displayImage.key.slice(-4) === 'jpeg'
+                      ? displayImage.key.slice(
+                          sellerId.length + 15,
+                          displayImage.key.length - 5
+                        ) + 'Updated.jpeg'
+                      : displayImage.key.slice(
+                          sellerId.length + 15,
+                          displayImage.key.length - 4
+                        ) + 'Updated.jpeg'
+                  }`,
+                  ACL: 'public-read',
+                })
+                .promise()
+            )
+            .then(() => {
+              images.unshift(
+                `https://${config.get(
+                  's3bucket'
+                )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
+                  displayImage.key.slice(-4) === 'jpeg'
+                    ? displayImage.key.slice(
+                        sellerId.length + 15,
+                        displayImage.key.length - 5
+                      ) + 'Updated.jpeg'
+                    : displayImage.key.slice(
+                        sellerId.length + 15,
+                        displayImage.key.length - 4
+                      ) + 'Updated.jpeg'
+                }`
+              );
+            })
+            .catch(err => {
+              if (err.code === 'NoSuchKey') err.message = 'Image not found';
+              console.log(err.message);
+              return res.status(500).send('Server error');
+            })
+        );
+      }
+
       req.files.itemImages.forEach(image => {
         if (image.key.slice(-4) === 'jpeg') {
           promiseArray.push(
@@ -1443,7 +1600,9 @@ router.post(
               .then(data =>
                 sharp(data.Body)
                   .rotate()
-                  .resize(350, 600)
+                  .resize(1080, 1080, {
+                    fit: 'cover',
+                  })
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
               )
@@ -1453,12 +1612,17 @@ router.post(
                     Body: buffer,
                     Bucket: config.get('s3bucket'),
                     ContentType: 'image/jpeg',
-                    Key:
+                    Key: `${sellerId}/${itemId}/${
                       image.key.slice(-4) === 'jpeg'
-                        ? image.key.slice(0, image.key.length - 5) +
-                          'Updated.jpeg'
-                        : image.key.slice(0, image.key.length - 4) +
-                          'Updated.jpeg',
+                        ? image.key.slice(
+                            sellerId.length + 15,
+                            image.key.length - 5
+                          ) + 'Updated.jpeg'
+                        : image.key.slice(
+                            sellerId.length + 15,
+                            image.key.length - 4
+                          ) + 'Updated.jpeg'
+                    }`,
                     ACL: 'public-read',
                   })
                   .promise()
@@ -1467,12 +1631,17 @@ router.post(
                 images.push(
                   `https://${config.get(
                     's3bucket'
-                  )}.s3-ap-southeast-1.amazonaws.com/` +
-                    (image.key.slice(-4) === 'jpeg'
-                      ? image.key.slice(0, image.key.length - 5) +
-                        'Updated.jpeg'
-                      : image.key.slice(0, image.key.length - 4) +
-                        'Updated.jpeg')
+                  )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
+                    image.key.slice(-4) === 'jpeg'
+                      ? image.key.slice(
+                          sellerId.length + 15,
+                          image.key.length - 5
+                        ) + 'Updated.jpeg'
+                      : image.key.slice(
+                          sellerId.length + 15,
+                          image.key.length - 4
+                        ) + 'Updated.jpeg'
+                  }`
                 );
               })
               .catch(err => {
@@ -1491,7 +1660,9 @@ router.post(
               .promise()
               .then(data =>
                 sharp(data.Body)
-                  .resize(350, 600)
+                  .resize(1080, 1080, {
+                    fit: 'cover',
+                  })
                   .withMetadata()
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
@@ -1502,12 +1673,17 @@ router.post(
                     Body: buffer,
                     Bucket: config.get('s3bucket'),
                     ContentType: 'image/jpeg',
-                    Key:
+                    Key: `${sellerId}/${itemId}/${
                       image.key.slice(-4) === 'jpeg'
-                        ? image.key.slice(0, image.key.length - 5) +
-                          'Updated.jpeg'
-                        : image.key.slice(0, image.key.length - 4) +
-                          'Updated.jpeg',
+                        ? image.key.slice(
+                            sellerId.length + 15,
+                            image.key.length - 5
+                          ) + 'Updated.jpeg'
+                        : image.key.slice(
+                            sellerId.length + 15,
+                            image.key.length - 4
+                          ) + 'Updated.jpeg'
+                    }`,
                     ACL: 'public-read',
                   })
                   .promise()
@@ -1516,12 +1692,17 @@ router.post(
                 images.push(
                   `https://${config.get(
                     's3bucket'
-                  )}.s3-ap-southeast-1.amazonaws.com/` +
-                    (image.key.slice(-4) === 'jpeg'
-                      ? image.key.slice(0, image.key.length - 5) +
-                        'Updated.jpeg'
-                      : image.key.slice(0, image.key.length - 4) +
-                        'Updated.jpeg')
+                  )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
+                    image.key.slice(-4) === 'jpeg'
+                      ? image.key.slice(
+                          sellerId.length + 15,
+                          image.key.length - 5
+                        ) + 'Updated.jpeg'
+                      : image.key.slice(
+                          sellerId.length + 15,
+                          image.key.length - 4
+                        ) + 'Updated.jpeg'
+                  }`
                 );
               })
               .catch(err => {
@@ -1535,15 +1716,18 @@ router.post(
 
       await Promise.all(promiseArray);
 
-      itemFields.seller = seller._id;
       itemFields.images = images;
       if (sizechart.length > 0) itemFields.sizechart = sizechart;
 
-      const item = new Item(itemFields);
+      item = await Item.findOneAndUpdate(
+        { _id: itemId },
+        { $set: itemFields },
+        { new: true }
+      );
+      await item.save();
 
       seller.listings.push({ item: item._id });
 
-      await item.save();
       await seller.save();
       res.json(seller.listings);
     } catch (err) {
@@ -1556,7 +1740,7 @@ router.post(
 // @route PUT api/users/seller/item/:item_id
 // @desc Update item/listing
 // @access Private
-// Remind sellers that pic must be of certain dimensions! (?)
+// Remind sellers that pic is preferably <= 1080*1080
 router.put(
   '/seller/item/:item_id',
   [
@@ -1897,7 +2081,7 @@ router.put(
       if (!seller) {
         return res.status(404).json({ msg: 'Account not found' });
       }
-      if (!req.files.itemImages) {
+      if (!req.files.displayImage) {
         return res.status(400).json({ msg: 'Please provide item images' });
       }
       let item = await Item.findOne({ _id: req.params.item_id });
@@ -1907,6 +2091,9 @@ router.put(
       if (item.seller.toString() !== req.user.id) {
         return res.status(400).json({ msg: 'User is not authorised' });
       }
+
+      const sellerId = seller._id.toString();
+      const itemId = item._id.toString();
 
       const promiseArray = [];
       const s3 = new aws.S3();
@@ -1925,7 +2112,6 @@ router.put(
                 .then(data =>
                   sharp(data.Body)
                     .rotate()
-                    .resize(600, 200)
                     .toFormat('jpeg', { quality: 90 })
                     .toBuffer()
                 )
@@ -1935,10 +2121,17 @@ router.put(
                       Body: buffer,
                       Bucket: config.get('s3bucket'),
                       ContentType: 'image/jpeg',
-                      Key:
+                      Key: `${sellerId}/${itemId}/sizechart/${
                         sc.key.slice(-4) === 'jpeg'
-                          ? sc.key.slice(0, sc.key.length - 5) + 'Updated.jpeg'
-                          : sc.key.slice(0, sc.key.length - 4) + 'Updated.jpeg',
+                          ? sc.key.slice(
+                              sellerId.length + 14,
+                              sc.key.length - 5
+                            ) + 'Updated.jpeg'
+                          : sc.key.slice(
+                              sellerId.length + 14,
+                              sc.key.length - 4
+                            ) + 'Updated.jpeg'
+                      }`,
                       ACL: 'public-read',
                     })
                     .promise()
@@ -1947,10 +2140,17 @@ router.put(
                   sizechart.push(
                     `https://${config.get(
                       's3bucket'
-                    )}.s3-ap-southeast-1.amazonaws.com/` +
-                      (sc.key.slice(-4) === 'jpeg'
-                        ? sc.key.slice(0, sc.key.length - 5) + 'Updated.jpeg'
-                        : sc.key.slice(0, sc.key.length - 4) + 'Updated.jpeg')
+                    )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/sizechart/${
+                      sc.key.slice(-4) === 'jpeg'
+                        ? sc.key.slice(
+                            sellerId.length + 14,
+                            sc.key.length - 5
+                          ) + 'Updated.jpeg'
+                        : sc.key.slice(
+                            sellerId.length + 14,
+                            sc.key.length - 4
+                          ) + 'Updated.jpeg'
+                    }`
                   );
                 })
                 .catch(err => {
@@ -1968,11 +2168,7 @@ router.put(
                 })
                 .promise()
                 .then(data =>
-                  sharp(data.Body)
-                    .resize(600, 200)
-                    .withMetadata()
-                    .toFormat('jpeg', { quality: 90 })
-                    .toBuffer()
+                  sharp(data.Body).toFormat('jpeg', { quality: 90 }).toBuffer()
                 )
                 .then(buffer =>
                   s3
@@ -1980,10 +2176,17 @@ router.put(
                       Body: buffer,
                       Bucket: config.get('s3bucket'),
                       ContentType: 'image/jpeg',
-                      Key:
+                      Key: `${sellerId}/${itemId}/sizechart/${
                         sc.key.slice(-4) === 'jpeg'
-                          ? sc.key.slice(0, sc.key.length - 5) + 'Updated.jpeg'
-                          : sc.key.slice(0, sc.key.length - 4) + 'Updated.jpeg',
+                          ? sc.key.slice(
+                              sellerId.length + 14,
+                              sc.key.length - 5
+                            ) + 'Updated.jpeg'
+                          : sc.key.slice(
+                              sellerId.length + 14,
+                              sc.key.length - 4
+                            ) + 'Updated.jpeg'
+                      }`,
                       ACL: 'public-read',
                     })
                     .promise()
@@ -1992,10 +2195,17 @@ router.put(
                   sizechart.push(
                     `https://${config.get(
                       's3bucket'
-                    )}.s3-ap-southeast-1.amazonaws.com/` +
-                      (sc.key.slice(-4) === 'jpeg'
-                        ? sc.key.slice(0, sc.key.length - 5) + 'Updated.jpeg'
-                        : sc.key.slice(0, sc.key.length - 4) + 'Updated.jpeg')
+                    )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/sizechart/${
+                      sc.key.slice(-4) === 'jpeg'
+                        ? sc.key.slice(
+                            sellerId.length + 14,
+                            sc.key.length - 5
+                          ) + 'Updated.jpeg'
+                        : sc.key.slice(
+                            sellerId.length + 14,
+                            sc.key.length - 4
+                          ) + 'Updated.jpeg'
+                    }`
                   );
                 })
                 .catch(err => {
@@ -2009,6 +2219,132 @@ router.put(
       }
 
       const images = [];
+      const displayImage = req.files.displayImage[0];
+
+      if (displayImage.key.slice(-4) === 'jpeg') {
+        promiseArray.push(
+          s3
+            .getObject({
+              Bucket: config.get('s3bucket'),
+              Key: displayImage.key,
+            })
+            .promise()
+            .then(data =>
+              sharp(data.Body)
+                .rotate()
+                .resize(1080, 1080, {
+                  fit: 'cover',
+                })
+                .toFormat('jpeg', { quality: 90 })
+                .toBuffer()
+            )
+            .then(buffer =>
+              s3
+                .putObject({
+                  Body: buffer,
+                  Bucket: config.get('s3bucket'),
+                  ContentType: 'image/jpeg',
+                  Key: `${sellerId}/${itemId}/${
+                    displayImage.key.slice(-4) === 'jpeg'
+                      ? displayImage.key.slice(
+                          sellerId.length + 15,
+                          displayImage.key.length - 5
+                        ) + 'Updated.jpeg'
+                      : displayImage.key.slice(
+                          sellerId.length + 15,
+                          displayImage.key.length - 4
+                        ) + 'Updated.jpeg'
+                  }`,
+                  ACL: 'public-read',
+                })
+                .promise()
+            )
+            .then(() => {
+              images.unshift(
+                `https://${config.get(
+                  's3bucket'
+                )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
+                  displayImage.key.slice(-4) === 'jpeg'
+                    ? displayImage.key.slice(
+                        sellerId.length + 15,
+                        displayImage.key.length - 5
+                      ) + 'Updated.jpeg'
+                    : displayImage.key.slice(
+                        sellerId.length + 15,
+                        displayImage.key.length - 4
+                      ) + 'Updated.jpeg'
+                }`
+              );
+            })
+            .catch(err => {
+              if (err.code === 'NoSuchKey') err.message = 'Image not found';
+              console.log(err.message);
+              return res.status(500).send('Server error');
+            })
+        );
+      } else {
+        promiseArray.push(
+          s3
+            .getObject({
+              Bucket: config.get('s3bucket'),
+              Key: displayImage.key,
+            })
+            .promise()
+            .then(data =>
+              sharp(data.Body)
+                .resize(1080, 1080, {
+                  fit: 'cover',
+                })
+                .withMetadata()
+                .toFormat('jpeg', { quality: 90 })
+                .toBuffer()
+            )
+            .then(buffer =>
+              s3
+                .putObject({
+                  Body: buffer,
+                  Bucket: config.get('s3bucket'),
+                  ContentType: 'image/jpeg',
+                  Key: `${sellerId}/${itemId}/${
+                    displayImage.key.slice(-4) === 'jpeg'
+                      ? displayImage.key.slice(
+                          sellerId.length + 15,
+                          displayImage.key.length - 5
+                        ) + 'Updated.jpeg'
+                      : displayImage.key.slice(
+                          sellerId.length + 15,
+                          displayImage.key.length - 4
+                        ) + 'Updated.jpeg'
+                  }`,
+                  ACL: 'public-read',
+                })
+                .promise()
+            )
+            .then(() => {
+              images.unshift(
+                `https://${config.get(
+                  's3bucket'
+                )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
+                  displayImage.key.slice(-4) === 'jpeg'
+                    ? displayImage.key.slice(
+                        sellerId.length + 15,
+                        displayImage.key.length - 5
+                      ) + 'Updated.jpeg'
+                    : displayImage.key.slice(
+                        sellerId.length + 15,
+                        displayImage.key.length - 4
+                      ) + 'Updated.jpeg'
+                }`
+              );
+            })
+            .catch(err => {
+              if (err.code === 'NoSuchKey') err.message = 'Image not found';
+              console.log(err.message);
+              return res.status(500).send('Server error');
+            })
+        );
+      }
+
       req.files.itemImages.forEach(image => {
         if (image.key.slice(-4) === 'jpeg') {
           promiseArray.push(
@@ -2021,7 +2357,9 @@ router.put(
               .then(data =>
                 sharp(data.Body)
                   .rotate()
-                  .resize(350, 600)
+                  .resize(1080, 1080, {
+                    fit: 'cover',
+                  })
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
               )
@@ -2031,12 +2369,17 @@ router.put(
                     Body: buffer,
                     Bucket: config.get('s3bucket'),
                     ContentType: 'image/jpeg',
-                    Key:
+                    Key: `${sellerId}/${itemId}/${
                       image.key.slice(-4) === 'jpeg'
-                        ? image.key.slice(0, image.key.length - 5) +
-                          'Updated.jpeg'
-                        : image.key.slice(0, image.key.length - 4) +
-                          'Updated.jpeg',
+                        ? image.key.slice(
+                            sellerId.length + 15,
+                            image.key.length - 5
+                          ) + 'Updated.jpeg'
+                        : image.key.slice(
+                            sellerId.length + 15,
+                            image.key.length - 4
+                          ) + 'Updated.jpeg'
+                    }`,
                     ACL: 'public-read',
                   })
                   .promise()
@@ -2045,12 +2388,17 @@ router.put(
                 images.push(
                   `https://${config.get(
                     's3bucket'
-                  )}.s3-ap-southeast-1.amazonaws.com/` +
-                    (image.key.slice(-4) === 'jpeg'
-                      ? image.key.slice(0, image.key.length - 5) +
-                        'Updated.jpeg'
-                      : image.key.slice(0, image.key.length - 4) +
-                        'Updated.jpeg')
+                  )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
+                    image.key.slice(-4) === 'jpeg'
+                      ? image.key.slice(
+                          sellerId.length + 15,
+                          image.key.length - 5
+                        ) + 'Updated.jpeg'
+                      : image.key.slice(
+                          sellerId.length + 15,
+                          image.key.length - 4
+                        ) + 'Updated.jpeg'
+                  }`
                 );
               })
               .catch(err => {
@@ -2069,7 +2417,9 @@ router.put(
               .promise()
               .then(data =>
                 sharp(data.Body)
-                  .resize(350, 600)
+                  .resize(1080, 1080, {
+                    fit: 'cover',
+                  })
                   .withMetadata()
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
@@ -2080,12 +2430,17 @@ router.put(
                     Body: buffer,
                     Bucket: config.get('s3bucket'),
                     ContentType: 'image/jpeg',
-                    Key:
+                    Key: `${sellerId}/${itemId}/${
                       image.key.slice(-4) === 'jpeg'
-                        ? image.key.slice(0, image.key.length - 5) +
-                          'Updated.jpeg'
-                        : image.key.slice(0, image.key.length - 4) +
-                          'Updated.jpeg',
+                        ? image.key.slice(
+                            sellerId.length + 15,
+                            image.key.length - 5
+                          ) + 'Updated.jpeg'
+                        : image.key.slice(
+                            sellerId.length + 15,
+                            image.key.length - 4
+                          ) + 'Updated.jpeg'
+                    }`,
                     ACL: 'public-read',
                   })
                   .promise()
@@ -2094,12 +2449,17 @@ router.put(
                 images.push(
                   `https://${config.get(
                     's3bucket'
-                  )}.s3-ap-southeast-1.amazonaws.com/` +
-                    (image.key.slice(-4) === 'jpeg'
-                      ? image.key.slice(0, image.key.length - 5) +
-                        'Updated.jpeg'
-                      : image.key.slice(0, image.key.length - 4) +
-                        'Updated.jpeg')
+                  )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
+                    image.key.slice(-4) === 'jpeg'
+                      ? image.key.slice(
+                          sellerId.length + 15,
+                          image.key.length - 5
+                        ) + 'Updated.jpeg'
+                      : image.key.slice(
+                          sellerId.length + 15,
+                          image.key.length - 4
+                        ) + 'Updated.jpeg'
+                  }`
                 );
               })
               .catch(err => {
@@ -2110,6 +2470,7 @@ router.put(
           );
         }
       });
+      console.log(images);
 
       await Promise.all(promiseArray);
 

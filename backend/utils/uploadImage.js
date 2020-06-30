@@ -39,7 +39,10 @@ const uploadImage = multer({
       if (file.fieldname === 'sizeChart') {
         cb(null, { imageDesc: 'sizeChart' });
       }
-      if (file.fieldname === 'itemImages') {
+      if (
+        file.fieldname === 'itemImages' ||
+        file.fieldname === 'displayImage'
+      ) {
         cb(null, { imageDesc: 'itemPic' });
       }
     },
@@ -56,16 +59,19 @@ const uploadImage = multer({
         cb(
           null,
           req.user.id.toString() +
-            '/item/sizeChart/' +
+            '/oriSizechart/' +
             Date.now().toString() +
             path.extname(file.originalname).toLowerCase()
         );
       }
-      if (file.fieldname === 'itemImages') {
+      if (
+        file.fieldname === 'itemImages' ||
+        file.fieldname === 'displayImage'
+      ) {
         cb(
           null,
           req.user.id.toString() +
-            '/item/' +
+            '/oriItemImages/' +
             Date.now().toString() +
             path.extname(file.originalname).toLowerCase()
         );
@@ -78,7 +84,8 @@ const uploadImage = multer({
 }).fields([
   { name: 'profileImage', maxCount: 1 },
   { name: 'sizeChart', maxCount: 3 },
-  { name: 'itemImages', maxCount: 8 },
+  { name: 'displayImage', maxCount: 1 },
+  { name: 'itemImages', maxCount: 7 },
 ]);
 
 /*const uploadItemPict = multer({

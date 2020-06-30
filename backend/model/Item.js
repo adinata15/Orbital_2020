@@ -22,7 +22,6 @@ const ItemSchema = new mongoose.Schema({
   },
   images: {
     type: [String],
-    required: true,
   },
   price: {
     type: Number,

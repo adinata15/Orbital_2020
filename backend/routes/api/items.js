@@ -237,6 +237,7 @@ router.put("/cart/minus/:item_id/:size", auth, async (req, res) => {
 // @desc Add an item to wishlist
 // @access Private
 router.put(
+<<<<<<< HEAD
 	"/wishlist/:item_id",
 	[auth, check("size", "Size is required").not().isEmpty()],
 	async (req, res) => {
@@ -303,6 +304,74 @@ router.put(
 			res.status(500).send("Server error");
 		}
 	}
+=======
+  '/like/:item_id',
+  [auth, check('size', 'Size is required').not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { size } = req.body;
+
+    try {
+      const buyer = await Buyer.findOne({
+        _id: req.user.id,
+      });
+      if (!buyer) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      const newItem = await Item.findOne({
+        _id: req.params.item_id,
+      });
+      if (!newItem) {
+        return res.status(404).json({ msg: 'Item not found' });
+      }
+
+      //If the item is already present in buyer's wishlist
+      if (
+        buyer.wishlist.filter(
+          item =>
+            item.item.toString() === req.params.item_id && item.size === size
+        ).length > 0
+      ) {
+        return res.status(404).json({ msg: 'Item is already in wishlist' });
+      }
+
+      //If the item is already present in buyer's wishlist
+      if (
+        buyer.cart.filter(
+          item =>
+            item.item.toString() === req.params.item_id && item.size === size
+        ).length > 0
+      ) {
+        return res.status(404).json({ msg: 'Item is already in cart' });
+      }
+
+      //Item is not present in buyer's wishlist
+      buyer.wishlist.push({
+        item: newItem._id,
+        brand: newItem.brand,
+        title: newItem.title,
+        price: newItem.price,
+        image: newItem.images[0],
+        size,
+      });
+
+      await buyer.save();
+
+      res.json(buyer.wishlist);
+    } catch (err) {
+      console.log(err.message);
+      if (err.kind == 'ObjectId') {
+        return res.status(400).json({ msg: 'Item not found' });
+      }
+      res.status(500).send('Server error');
+    }
+  }
+>>>>>>> 3e2c321... Changed folder arrangement at S3 to make it neater, Added a new fieldname for add-item feature to allow seller to specify which image to be put on display/to be display image
 );
 
 // @route PUT api/items/unlike/:item_id/:size
