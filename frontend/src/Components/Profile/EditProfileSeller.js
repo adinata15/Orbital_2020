@@ -4,7 +4,6 @@
 
 import React from 'react';
 import axios from 'axios';
-// import { getUserInfo } from "../utils/functions.js";
 import Image from '../../images/plus.jpg';
 import omit from 'lodash/omit';
 
@@ -16,6 +15,7 @@ class EditProfile extends React.Component {
 
   imageUpload = (e) => {
     e.preventDefault();
+    let self = this;
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -31,6 +31,9 @@ class EditProfile extends React.Component {
       .then((res) => {
         console.log('res data');
         console.log(res.data);
+        self.setState({
+          user: res.data,
+        });
         alert('Editted profile pic');
       })
       .catch((err) => {

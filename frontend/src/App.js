@@ -25,9 +25,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVlNzFjM2I0NDM1NzYyYWJjNDdlYzIwIn0sImlhdCI6MTU5MzYwMDM3OCwiZXhwIjo1MTkzNjAwMzc4fQ.xzei-ct2O-qL4KVaX3d3mEi-Et2-VnjmZliMuufngrM',
-      isLogged: true, //change to false later
+      token: '',
+      isLogged: false, //change to false later
       user: {},
       category: 'men-shirt',
     };
@@ -64,6 +63,7 @@ class App extends React.Component {
     this.setState({
       category: cat,
     });
+    console.log(this.state.category);
   };
   render() {
     return (
