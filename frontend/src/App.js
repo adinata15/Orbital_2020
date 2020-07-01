@@ -1,128 +1,128 @@
 //Press alt+click to edit multiple lines at once
 
-import React, { useState } from "react";
-import { Router, Route, Switch, Redirect, withRouter } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import axios from 'axios';
 
-import NavBar from "./Components/NavBar/NavBar";
-import ClothesDetail from "./Components/Shop/ClothesDetail";
-import Carousel from "./Components/Carousel";
-import EditProfileSeller from "./Components/Profile/EditProfileSeller";
-import EditProfileBuyer from "./Components/Profile/EditProfileBuyer";
-import Shop from "./Components/Shop/Shop";
-import FooterBar from "./Components/FooterBar";
-import TrialAPI from "./Components/TrialAPI";
-import PersonInput from "./Components/PersonInput";
-import FitAssistCard from "./Components/NavBar/FitAssistCard";
-import Home from "./Components/Home.js";
+import NavBar from './Components/NavBar/NavBar';
+import ClothesDetail from './Components/Shop/ClothesDetail';
+import Carousel from './Components/Carousel';
+import EditProfileSeller from './Components/Profile/EditProfileSeller';
+import EditProfileBuyer from './Components/Profile/EditProfileBuyer';
+import Shop from './Components/Shop/Shop';
+import FooterBar from './Components/FooterBar';
+import TrialAPI from './Components/TrialAPI';
+import PersonInput from './Components/PersonInput';
+import FitAssistCard from './Components/NavBar/FitAssistCard';
+import Home from './Components/Home.js';
 
-import PostItem from "./Components/Shop/PostItem.js";
-import { withProps, setupConfig } from "./utils/functions.js";
-import PrivateRoute from "./utils/PrivateRoute.js";
-import SignupForm from "./Components/SignIn/SignupForm.js";
+import PostItem from './Components/Shop/PostItem.js';
+import { withProps, setupConfig } from './utils/functions.js';
+import PrivateRoute from './utils/PrivateRoute.js';
+import SignupForm from './Components/SignIn/SignupForm.js';
 
 class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			token:
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVmOWY0NWQ4ZWEyNGMxYjA0OTNhN2I1In0sImlhdCI6MTU5MzUyMTA3OCwiZXhwIjo1MTkzNTIxMDc4fQ._c3iha57sM0RSq_P9crsrp-Lho6TxKkaIALmp6g2pL8",
-			isLogged: true, //change to false later
-			user: {},
-			category: "men-shirt",
-		};
-		//can bind function here! (we didnt bind here because we use arrow function below)
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVlNzFjM2I0NDM1NzYyYWJjNDdlYzIwIn0sImlhdCI6MTU5MzYwMDM3OCwiZXhwIjo1MTkzNjAwMzc4fQ.xzei-ct2O-qL4KVaX3d3mEi-Et2-VnjmZliMuufngrM',
+      isLogged: true, //change to false later
+      user: {},
+      category: 'men-shirt',
+    };
+    //can bind function here! (we didnt bind here because we use arrow function below)
+  }
 
-	getUserInfo = (token) => {
-		let self = this;
-		let config = setupConfig(token);
-		axios.get("http://localhost:5000/api/users/me", config).then((res) => {
-			self.setState({
-				user: res.data,
-			});
-		});
-	};
+  getUserInfo = (token) => {
+    let self = this;
+    let config = setupConfig(token);
+    axios.get('http://localhost:5000/api/users/me', config).then((res) => {
+      self.setState({
+        user: res.data,
+      });
+    });
+  };
 
-	login = (inputToken) => {
-		this.setState({
-			isLogged: true,
-			token: inputToken, //update token
-		});
-		this.props.history.push(`/`); //redirect to home page
-	};
+  login = (inputToken) => {
+    this.setState({
+      isLogged: true,
+      token: inputToken, //update token
+    });
+    this.props.history.push(`/`); //redirect to home page
+  };
 
-	logout = () => {
-		this.setState({
-			isLogged: false,
-			token: "",
-		});
-		this.props.history.push(`/`);
-	};
+  logout = () => {
+    this.setState({
+      isLogged: false,
+      token: '',
+    });
+    this.props.history.push(`/`);
+  };
 
-	menuSelect = (cat) => {
-		this.setState({
-			category: cat,
-		});
-	};
-	render() {
-		return (
-			<div>
-				<p>Login is {this.state.isLogged ? "true" : "false"}</p>
-				<p>Token is {this.state.token}</p>
-				<NavBar
-					menuSelect={this.menuSelect}
-					isLogged={this.state.isLogged}
-					token={this.state.token}
-					user={this.state.user}
-					login={this.login}
-					logout={this.logout}
-					getUserInfo={this.getUserInfo}
-					logout={this.logout}
-				/>
-				<Switch>
-					<Route
-						path="/signup"
-						component={() => (
-							<SignupForm getUserInfo={this.getUserInfo} login={this.login} />
-						)}
-					/>
-					<Route
-						path="/"
-						exact
-						component={() => <Home menuSelect={this.menuSelect} />}
-					/>
-					<Route
-						exact
-						path="/shop"
-						component={() => (
-							<Shop
-								items={this.state.items}
-								token={this.state.token}
-								category={this.state.category}
-							/>
-						)}
-					/>
+  menuSelect = (cat) => {
+    this.setState({
+      category: cat,
+    });
+  };
+  render() {
+    return (
+      <div>
+        <p>Login is {this.state.isLogged ? 'true' : 'false'}</p>
+        <p>Token is {this.state.token}</p>
+        <NavBar
+          menuSelect={this.menuSelect}
+          isLogged={this.state.isLogged}
+          token={this.state.token}
+          user={this.state.user}
+          login={this.login}
+          logout={this.logout}
+          getUserInfo={this.getUserInfo}
+          logout={this.logout}
+        />
+        <Switch>
+          <Route
+            path='/signup'
+            component={() => (
+              <SignupForm getUserInfo={this.getUserInfo} login={this.login} />
+            )}
+          />
+          <Route
+            path='/'
+            exact
+            component={() => <Home menuSelect={this.menuSelect} />}
+          />
+          <Route
+            exact
+            path='/shop'
+            component={() => (
+              <Shop
+                items={this.state.items}
+                token={this.state.token}
+                category={this.state.category}
+              />
+            )}
+          />
 
-					<PrivateRoute
-						isLogged={this.state.isLogged}
-						component={withProps(EditProfileSeller, {
-							...this.state,
-						})}
-						path="/edit/profile/seller"
-					/>
-					<PrivateRoute
-						isLogged={this.state.isLogged}
-						component={withProps(EditProfileBuyer, {
-							...this.state,
-						})}
-						path="/edit/profile/buyer"
-					/>
-				</Switch>
-				<FooterBar />
-			</div>
-		);
-	}
+          <PrivateRoute
+            isLogged={this.state.isLogged}
+            component={withProps(EditProfileSeller, {
+              ...this.state,
+            })}
+            path='/edit/profile/seller'
+          />
+          <PrivateRoute
+            isLogged={this.state.isLogged}
+            component={withProps(EditProfileBuyer, {
+              ...this.state,
+            })}
+            path='/edit/profile/buyer'
+          />
+        </Switch>
+        <FooterBar />
+      </div>
+    );
+  }
 }
 
 export default withRouter(App);
@@ -180,7 +180,7 @@ handleClick = (e) => {
 // 	});
 
 {
-	/* To include upload pic button
+  /* To include upload pic button
 	<input
 	type="file"
 	style={{ display: "none" }}
