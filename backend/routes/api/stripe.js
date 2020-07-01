@@ -4,6 +4,7 @@ const auth = require('../../middleware/auth');
 const stripeSecretKey = require('config').get('stripeSecretKey');
 const stripeState = require('config').get('stripeState');
 const stripe = require('stripe')(stripeSecretKey);
+const bodyParser = require('body-parser');
 
 const Buyer = require('../../model/Buyer');
 const Seller = require('../../model/Seller');
@@ -261,6 +262,8 @@ router.get('/checkout/success', auth, async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.retrieve(
       session.payment_intent
     );
+    console.log(paymentIntent);
+    console.log(paymentIntent.charges.data);
     const transfer_group = paymentIntent.transfer_group;
     const sellerInfo = paymentIntent.metadata;
     const promisesArray = [];
@@ -286,5 +289,59 @@ router.get('/checkout/success', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+router.post(
+  '/webhook',
+  bodyParser.raw({ type: 'application/json' }),
+  async (req, res) => {
+    const webhookSecret = require('config').get('webhookSecret');
+    const sig = req.headers['stripe-signature'];
+
+    let event;
+
+    // Verify webhook signature and extract the event
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    } catch (err) {
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    try {
+      if (event.type === 'checkout.session.completed') {
+        const session = event.data.object;
+        const paymentIntent = await stripe.paymentIntents.retrieve(
+          session.payment_intent
+        );
+        const chargeId = paymentIntent.charges.data[0].id;
+        const transfer_group = paymentIntent.transfer_group;
+        const sellerInfo = paymentIntent.metadata;
+        const promisesArray = [];
+        console.log(paymentIntent);
+        console.log(paymentIntent.charges.data);
+        console.log(chargeId);
+
+        for (const seller in sellerInfo) {
+          const amount = parseInt(sellerInfo[seller] * 0.966 - 50);
+          promisesArray.push(
+            stripe.transfers.create({
+              amount: amount,
+              currency: 'SGD',
+              source_transaction: chargeId,
+              destination: seller,
+              transfer_group,
+            })
+          );
+        }
+
+        const transfers = await Promise.all(promisesArray);
+
+        res.json(transfers);
+      }
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 module.exports = router;

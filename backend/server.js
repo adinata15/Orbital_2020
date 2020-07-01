@@ -11,7 +11,14 @@ app.use(cors({ origin: true, credentials: true }));
 connectDB();
 
 //Init middleware to read data sent in req.body
-app.use(express.json({ extended: false }));
+// app.use(express.json({ extended: false }));
+app.use((req, res, next) => {
+  if (req.originalUrl === '/api/stripe/webhook') {
+    next();
+  } else {
+    express.json({ extended: false })(req, res, next);
+  }
+});
 
 app.get('/', (req, res) => res.send('API running'));
 

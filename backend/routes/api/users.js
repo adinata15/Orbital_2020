@@ -900,6 +900,7 @@ router.delete('/buyer/address/:address_id', auth, async (req, res) => {
 // @route POST api/users/seller/profile_pict
 // @desc Add or update profile pict
 // @access Private
+// Remind sellers that pic is preferably <= 1080*1080
 router.post('/seller/profile_pict', auth, async (req, res) => {
   try {
     const seller = await Seller.findOne({ _id: req.user.id });
@@ -921,7 +922,7 @@ router.post('/seller/profile_pict', auth, async (req, res) => {
             .promise()
             .then(data =>
               sharp(data.Body)
-                .resize(200, 200)
+                .resize(1080, 1080)
                 .withMetadata()
                 .toFormat('jpeg', { quality: 95 })
                 .toBuffer()
