@@ -64,6 +64,7 @@ class ShopForm extends React.Component {
         alert('Edit fail');
       });
   };
+
   render() {
     return (
       <div class=' p-2 font-sans antialiased text-gray-900 leading-normal tracking-wider'>

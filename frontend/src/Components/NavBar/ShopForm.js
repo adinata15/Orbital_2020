@@ -85,6 +85,10 @@ class ShopForm extends React.Component {
     this.getitem(this.props.token);
   }
 
+  componentDidUpdate() {
+    this.getitem(this.props.token);
+  }
+
   cartItems = () => {
     let cartItems = this.state.cart;
     if (!this.props.token) {
