@@ -5,14 +5,13 @@ import { Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import NavBar from './Components/NavBar/NavBar';
+import SellForm from './Components/NavBar/SellForm';
 import ClothesDetail from './Components/Shop/ClothesDetail';
 import Carousel from './Components/Carousel';
 import EditProfileSeller from './Components/Profile/EditProfileSeller';
 import EditProfileBuyer from './Components/Profile/EditProfileBuyer';
 import Shop from './Components/Shop/Shop';
 import FooterBar from './Components/FooterBar';
-import TrialAPI from './Components/TrialAPI';
-import PersonInput from './Components/PersonInput';
 import FitAssistCard from './Components/NavBar/FitAssistCard';
 import Home from './Components/Home.js';
 
@@ -110,6 +109,13 @@ class App extends React.Component {
               ...this.state,
             })}
             path='/edit/profile/seller'
+          />
+          <PrivateRoute
+            isLogged={this.state.isLogged}
+            component={withProps(SellForm, {
+              ...this.state,
+            })}
+            path='/sell'
           />
           <PrivateRoute
             isLogged={this.state.isLogged}
