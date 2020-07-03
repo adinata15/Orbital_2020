@@ -489,7 +489,6 @@ router.post('/create-order', auth, async (req, res) => {
       }
     }
 
-    const sellerOrdersArray = [];
     for (var i = 0; i < uniqueSellersArray[0].length; i++) {
       const seller = await Seller.findOne({ _id: uniqueSellersArray[0][i] });
       let sellerTotal = 0;
@@ -518,11 +517,9 @@ router.post('/create-order', auth, async (req, res) => {
       await sellerOrder.save();
       seller.orders.push({ order: sellerOrder });
       await seller.save();
-
-      sellerOrdersArray.push(sellerOrder);
     }
 
-    res.json({ buyerOrder, sellerOrder: sellerOrdersArray });
+    res.json(buyerOrder);
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server error');
