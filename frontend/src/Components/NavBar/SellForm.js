@@ -12,20 +12,21 @@ export default class CartBtn extends Component {
       price: '',
       title: '',
       brand: '',
-      size: '', //available sizes (how to send?)
+      size: '', //available size (how to send?)
       category: 'male',
       image: [],
       tempImage: [],
-      columns: [
-        { title: 'Size', field: 'size' },
-        { title: 'Height', field: 'height', type: 'numeric' },
-        { title: 'Chest', field: 'chest', type: 'numeric' },
-        { title: 'Waist', field: 'waist', type: 'numeric' },
-      ],
-      data: [
-        { size: 'S', height: 12, chest: 1987, waist: 63 },
-        { size: 'm', height: 12, chest: 34, waist: 63 },
-      ],
+      tableSize: 4,
+      // columns: [
+      //   { title: 'size', field: 'size' },
+      //   { title: 'Height', field: 'height', type: 'numeric' },
+      //   { title: 'Chest', field: 'chest', type: 'numeric' },
+      //   { title: 'Waist', field: 'waist', type: 'numeric' },
+      // ],
+      // data: [
+      //   { tableSize: 'S', height: 12, chest: 1987, waist: 63 },
+      //   { tableSize: 'm', height: 12, chest: 34, waist: 63 },
+      // ],
     };
   }
 
@@ -148,10 +149,48 @@ export default class CartBtn extends Component {
     }
   };
 
+  createTable = () => {
+    let self = this;
+    let rows = [];
+    for (var i = 0; i < this.state.tableSize; i++) {
+      let rowID = `row${i}`;
+      let cell = [];
+      for (var idx = 0; idx < 4; idx++) {
+        let cellID = `cell${i}-${idx}`;
+        cell.push(
+          <td
+            class='flex-1 border-dashed border-2 border-gray-600'
+            key={cellID}
+            id={cellID}>
+            {cellID}
+          </td>
+        );
+      }
+      rows.push(
+        <tr class='flex bg-red-400 items-center' key={i} id={rowID}>
+          <img class='w-4 h-4' onClick={self.removeRow(rowID)} src={Image} />
+          {cell}
+        </tr>
+      );
+    }
+    return rows;
+  };
+
+  removeRow = (rowID) => {
+    //to do
+  };
+
+  addRow = () => {
+    this.setState((prevState) => {
+      return { tableSize: prevState.tableSize + 1 };
+    });
+    console.log(this.state.tableSize);
+  };
+
   render() {
     return (
       <form
-        action=''
+        action='/'
         onSubmit={this.handleSubmit}
         class='w-9/12 max-w-lg mx-auto my-6'>
         <div class='flex w-full px-3'>
@@ -254,57 +293,78 @@ export default class CartBtn extends Component {
             />
           </div>
 
+          <div>
+            <table id='tableSizeTable'>
+              <tr class='flex border-solid bg-gray-400'>
+                <th class='flex-1 border-4 border-gray-600'></th>
+                <th class='flex-1 border-4 border-gray-600'>Size</th>
+                <th class='flex-1 border-4 border-gray-600'>Height</th>
+                <th class='flex-1 border-4 border-gray-600'>Chest</th>
+                <th class='flex-1 border-4 border-gray-600'>Waist</th>
+              </tr>
+              <tbody>{this.createTable()}</tbody>
+            </table>
+          </div>
+
+          <button
+            type='button'
+            onClick={this.addRow}
+            class='bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'>
+            Add size
+          </button>
+
           <button
             type='submit'
             class='bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'>
             Submit file
           </button>
         </div>
-        <MaterialTable
-          title='Size chart'
-          columns={this.state.columns}
-          data={this.state.data}
-          options={{ search: false, paging: false }}
-          // components={}
-          editable={{
-            onRowAdd: (newData) =>
-              new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve();
-                  this.setState((prevState) => {
-                    const data = [...prevState.data];
-                    data.push(newData);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              }),
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve();
-                  if (oldData) {
-                    this.setState((prevState) => {
-                      const data = [...prevState.data];
-                      data[data.indexOf(oldData)] = newData;
-                      return { ...prevState, data };
-                    });
-                  }
-                }, 600);
-              }),
-            onRowDelete: (oldData) =>
-              new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve();
-                  this.setState((prevState) => {
-                    const data = [...prevState.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              }),
-          }}
-        />
       </form>
     );
   }
 }
+
+// <MaterialTable
+//           title='tableSize chart'
+//           columns={this.state.columns}
+//           data={this.state.data}
+//           options={{ search: false, paging: false }}
+//           // components={}
+//           editable={{
+//             onRowAdd: (newData) =>
+//               new Promise((resolve) => {
+//                 setTimeout(() => {
+//                   resolve();
+//                   this.setState((prevState) => {
+//                     const data = [...prevState.data];
+//                     data.push(newData);
+//                     return { ...prevState, data };
+//                   });
+//                 }, 600);
+//               }),
+//             onRowUpdate: (newData, oldData) =>
+//               new Promise((resolve) => {
+//                 setTimeout(() => {
+//                   resolve();
+//                   if (oldData) {
+//                     this.setState((prevState) => {
+//                       const data = [...prevState.data];
+//                       data[data.indexOf(oldData)] = newData;
+//                       return { ...prevState, data };
+//                     });
+//                   }
+//                 }, 600);
+//               }),
+//             onRowDelete: (oldData) =>
+//               new Promise((resolve) => {
+//                 setTimeout(() => {
+//                   resolve();
+//                   this.setState((prevState) => {
+//                     const data = [...prevState.data];
+//                     data.splice(data.indexOf(oldData), 1);
+//                     return { ...prevState, data };
+//                   });
+//                 }, 600);
+//               }),
+//           }}
+//         />
