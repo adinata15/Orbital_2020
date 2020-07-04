@@ -8,6 +8,7 @@ import NavBar from './Components/NavBar/NavBar';
 import SellForm from './Components/NavBar/SellForm';
 import ClothesDetail from './Components/Shop/ClothesDetail';
 import Carousel from './Components/Carousel';
+import Checkout from './Components/Checkout';
 import EditProfileSeller from './Components/Profile/EditProfileSeller';
 import EditProfileBuyer from './Components/Profile/EditProfileBuyer';
 import Shop from './Components/Shop/Shop';
@@ -47,6 +48,7 @@ class App extends React.Component {
       isLogged: true,
       token: inputToken, //update token
     });
+    localStorage.setItem('token', inputToken);
     this.props.history.push(`/`); //redirect to home page
   };
 
@@ -64,7 +66,9 @@ class App extends React.Component {
     });
     console.log(this.state.category);
   };
+
   render() {
+    console.log(localStorage.getItem('token'));
     return (
       <div>
         <p>Login is {this.state.isLogged ? 'true' : 'false'}</p>
@@ -116,6 +120,13 @@ class App extends React.Component {
               ...this.state,
             })}
             path='/sell'
+          />
+          <PrivateRoute
+            isLogged={this.state.isLogged}
+            component={withProps(Checkout, {
+              ...this.state,
+            })}
+            path='/checkout/success'
           />
           <PrivateRoute
             isLogged={this.state.isLogged}
