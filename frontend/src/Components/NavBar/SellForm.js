@@ -1,3 +1,5 @@
+//bug: always remove last row only
+
 import React, { Component } from 'react';
 import axios from 'axios';
 import Image from '../../images/plus.jpg';
@@ -16,17 +18,8 @@ export default class CartBtn extends Component {
       category: 'male',
       image: [],
       tempImage: [],
-      tableSize: 4,
-      // columns: [
-      //   { title: 'size', field: 'size' },
-      //   { title: 'Height', field: 'height', type: 'numeric' },
-      //   { title: 'Chest', field: 'chest', type: 'numeric' },
-      //   { title: 'Waist', field: 'waist', type: 'numeric' },
-      // ],
-      // data: [
-      //   { tableSize: 'S', height: 12, chest: 1987, waist: 63 },
-      //   { tableSize: 'm', height: 12, chest: 34, waist: 63 },
-      // ],
+      tableData: [],
+      tableSize: 2,
     };
   }
 
@@ -105,35 +98,6 @@ export default class CartBtn extends Component {
     );
   };
 
-  // imageUpload = (e) => {
-  //   e.preventDefault();
-  //   let self = this;
-  //   const config = {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data',
-  //       'x-auth-token': this.state.token,
-  //     },
-  //   };
-  //   const data = new FormData();
-  //   data.append('profileImage', this.state.image);
-  //   console.log(data.get('profileImage'));
-
-  //   axios
-  //     .post(`http://localhost:5000/api/users/seller/item`, data, config)
-  //     .then((res) => {
-  //       console.log('res data');
-  //       console.log(res.data);
-  //       self.setState({
-  //         user: res.data,
-  //       });
-  //       alert('Editted profile pic');
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //       alert('Edit fail');
-  //     });
-  // };
-
   imageItems = () => {
     let tempImage = this.state.tempImage;
     if (tempImage[0]) {
@@ -150,40 +114,70 @@ export default class CartBtn extends Component {
   };
 
   createTable = () => {
-    let self = this;
     let rows = [];
     for (var i = 0; i < this.state.tableSize; i++) {
-      let rowID = `row${i}`;
       let cell = [];
-      for (var idx = 0; idx < 4; idx++) {
-        let cellID = `cell${i}-${idx}`;
+      for (var idx = 0; idx < 8; idx++) {
+        let self = this;
         cell.push(
           <td
             class='flex-1 border-dashed border-2 border-gray-600'
-            key={cellID}
-            id={cellID}>
-            {cellID}
-          </td>
+            contenteditable='true'
+            onChange={(e) => {
+              this.handleChangeTable(e, i, idx);
+            }} //to incorporate event with other params
+            key={`${i}-${idx}`} //row no
+            id={idx} //cell no
+          ></td>
         );
       }
       rows.push(
-        <tr class='flex bg-red-400 items-center' key={i} id={rowID}>
-          <img class='w-4 h-4' onClick={self.removeRow(rowID)} src={Image} />
+        <tr class='flex bg-red-400 items-center' key={i} id={i}>
+          <img
+            id={i}
+            class='w-4 h-4'
+            onClick={() => {
+              this.removeRow(i);
+            }}
+            src={Image}
+          />
           {cell}
         </tr>
       );
     }
+
     return rows;
   };
 
-  removeRow = (rowID) => {
-    //to do
+  handleChangeTable = (e, row, cell) => {
+    e.preventDefault();
+    this.setState((prevState) => {
+      let tableData = [...prevState.tableData];
+      tableData[row][cell] = e.target.value;
+      return { tableData };
+    });
+    console.log(this.state.tableData[row][cell]);
+  };
+
+  removeRow = (row) => {
+    this.setState((prevState) => {
+      let tableData = [...prevState.tableData];
+      tableData.splice(row, 1);
+      return { tableData };
+    });
+    this.setState((prevState) => {
+      let tableSize = prevState.tableSize;
+      tableSize--;
+      return { tableSize };
+    });
+    console.log(`removed ${row}`);
   };
 
   addRow = () => {
     this.setState((prevState) => {
       return { tableSize: prevState.tableSize + 1 };
     });
+    console.log('added');
     console.log(this.state.tableSize);
   };
 
@@ -194,6 +188,7 @@ export default class CartBtn extends Component {
         onSubmit={this.handleSubmit}
         class='w-9/12 max-w-lg mx-auto my-6'>
         <div class='flex w-full px-3'>
+          <p>{this.state.tableData[0]}</p>
           <img
             class='rounded-full h-64 w-64 my-3 object-cover'
             onClick={() => this.fileInput.click()}
@@ -296,11 +291,15 @@ export default class CartBtn extends Component {
           <div>
             <table id='tableSizeTable'>
               <tr class='flex border-solid bg-gray-400'>
-                <th class='flex-1 border-4 border-gray-600'></th>
+                <th class='w-4'></th>
                 <th class='flex-1 border-4 border-gray-600'>Size</th>
-                <th class='flex-1 border-4 border-gray-600'>Height</th>
                 <th class='flex-1 border-4 border-gray-600'>Chest</th>
+                <th class='flex-1 border-4 border-gray-600'>Bl</th>
                 <th class='flex-1 border-4 border-gray-600'>Waist</th>
+                <th class='flex-1 border-4 border-gray-600'>Hip</th>
+                <th class='flex-1 border-4 border-gray-600'>Tl</th>
+                <th class='flex-1 border-4 border-gray-600'>Bust</th>
+                <th class='flex-1 border-4 border-gray-600'>Sl</th>
               </tr>
               <tbody>{this.createTable()}</tbody>
             </table>
@@ -368,3 +367,42 @@ export default class CartBtn extends Component {
 //               }),
 //           }}
 //         />
+// columns: [
+//   { title: 'size', field: 'size' },
+//   { title: 'Height', field: 'height', type: 'numeric' },
+//   { title: 'Chest', field: 'chest', type: 'numeric' },
+//   { title: 'Waist', field: 'waist', type: 'numeric' },
+// ],
+// data: [
+//   { tableSize: 'S', height: 12, chest: 1987, waist: 63 },
+//   { tableSize: 'm', height: 12, chest: 34, waist: 63 },
+// ],
+
+// imageUpload = (e) => {
+//   e.preventDefault();
+//   let self = this;
+//   const config = {
+//     headers: {
+//       'Content-Type': 'multipart/form-data',
+//       'x-auth-token': this.state.token,
+//     },
+//   };
+//   const data = new FormData();
+//   data.append('profileImage', this.state.image);
+//   console.log(data.get('profileImage'));
+
+//   axios
+//     .post(`http://localhost:5000/api/users/seller/item`, data, config)
+//     .then((res) => {
+//       console.log('res data');
+//       console.log(res.data);
+//       self.setState({
+//         user: res.data,
+//       });
+//       alert('Editted profile pic');
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       alert('Edit fail');
+//     });
+// };
