@@ -2,39 +2,14 @@ import React from 'react';
 import axios from 'axios';
 import Cart from '../../images/cart.png';
 
-class ShopForm extends React.Component {
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { uncartItem } from '../../actions/shopActions';
+
+class CartItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
-
-  unCart = () => {
-    let self = this;
-    let config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': this.props.token,
-      },
-    };
-    console.log(config);
-    let data = {};
-    axios
-      .put(
-        `http://localhost:5000/api/items/uncart/${this.props.item.item}/${this.props.item.size}`,
-        data,
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-        self.setState({
-          item: res.data,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('Edit fail');
-      });
-  };
 
   render() {
     return (
@@ -61,7 +36,12 @@ class ShopForm extends React.Component {
             <img
               name='cart'
               class='h-8 w-8 ml-3 my-3 right-0 bottom-0'
-              onClick={this.unCart}
+              onClick={() => {
+                this.props.uncartItem(
+                  this.props.item.item,
+                  this.props.item.size
+                );
+              }}
               style={{ transform: 'scaleX(-1)' }}
               src={Cart}
             />
@@ -78,4 +58,8 @@ class ShopForm extends React.Component {
   }
 }
 
-export default ShopForm;
+CartItem.propTypes = {
+  uncartItem: PropTypes.func,
+};
+
+export default connect(null, { uncartItem })(CartItem);

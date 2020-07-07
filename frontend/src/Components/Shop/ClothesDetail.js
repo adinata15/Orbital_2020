@@ -1,6 +1,9 @@
 import React from 'react';
-import Image from '../../images/green.jpg';
 import axios from 'axios';
+
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { cartItem, likeItem } from '../../actions/shopActions';
 
 class ClothesDetail extends React.Component {
   constructor(props) {
@@ -12,62 +15,22 @@ class ClothesDetail extends React.Component {
     };
     //can bind function here! (we didnt bind here because we use arrow function below)
   }
-  addWishlist = () => {
-    let self = this;
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': this.props.token,
-      },
-    };
 
+  likeItem = () => {
     let data = { size: this.state.size };
-    data = JSON.stringify(data);
-    axios
-      .put(
-        `http://localhost:5000/api/items/like/${this.props.item._id}`,
-        data,
-        config
-      )
-      .then((res) => {
-        alert('Submitted liked data');
-      })
-      .catch((err) => {
-        console.error(err);
-        self.setState({ alert: 'Item is already liked :)' });
-      });
+    this.props.likeItem(data, this.props.item._id);
   };
 
-  addCart = () => {
+  cartItem = () => {
     if (!this.state.quantity) {
       this.setState({ alert: 'Please add desired quantity to add cart' });
-      return;
+    } else {
+      let data = {
+        size: this.state.size,
+        quantity: this.state.quantity,
+      };
+      this.props.cartItem(data, this.props.item._id);
     }
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': this.props.token,
-      },
-    };
-    let data = {
-      ...this.state,
-    };
-
-    data = JSON.stringify(data);
-    axios
-      .put(
-        `http://localhost:5000/api/items/cart/${this.props.item._id}`,
-        data,
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-        alert('Sent items to cart');
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('Edit fail');
-      });
   };
 
   handleChange = (e) => {
@@ -75,6 +38,7 @@ class ClothesDetail extends React.Component {
       [e.target.id]: e.target.value,
     });
   };
+
   render() {
     return (
       <div class='font-sans antialiased text-gray-900 leading-normal tracking-wider'>
@@ -139,12 +103,12 @@ class ClothesDetail extends React.Component {
 
               <div class='flex pt-8 pb-8'>
                 <button
-                  onClick={this.addCart}
+                  onClick={this.cartItem}
                   class='flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'>
                   Add to cart
                 </button>
                 <button
-                  onClick={this.addWishlist}
+                  onClick={this.likeItem}
                   class='flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'>
                   Like
                 </button>
@@ -169,4 +133,9 @@ class ClothesDetail extends React.Component {
   }
 }
 
-export default ClothesDetail;
+ClothesDetail.propTypes = {
+  likeItem: PropTypes.func,
+  cartItem: PropTypes.func,
+};
+
+export default connect(null, { cartItem, likeItem })(ClothesDetail);

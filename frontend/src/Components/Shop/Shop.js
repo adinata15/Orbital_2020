@@ -1,48 +1,33 @@
 import React from 'react';
-import Card from './Card.js';
 import axios from 'axios';
-import Carousel from '../Carousel';
 
-class ShopBar extends React.Component {
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getItems } from '../../actions/shopActions';
+
+import Carousel from '../Carousel';
+import Card from './Card.js';
+
+class ShopMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      items: [],
-    };
+    // this.state = {
+    //   items: [],
+    // };
   }
-  getitem = () => {
-    let self = this;
-    axios
-      .get(`http://localhost:5000/api/items/category/${this.props.category}`)
-      .then((res) => {
-        self.setState({
-          items: res.data,
-        });
-        console.log(self.items);
-        console.log(res.data);
-        // alert("Loaded shop items");
-      })
-      .catch((err) => {
-        console.error(err);
-        // alert("Load fail");
-      });
-  };
   componentWillMount() {
-    this.getitem();
+    this.props.getItems(this.props.menuChosen);
   }
+
   render() {
-    let item = this.state.items;
+    let item = this.props.itemDisplayed;
+
     return (
       <div>
         <Carousel />
         <div class='flex flex-wrap justify-center mb-3 border-solid border-2 rounded'>
           {item.map((item) => (
-            <Card
-              token={this.props.token}
-              key={item._id}
-              item={item}
-              class='flex-none'
-            />
+            <Card key={item._id} item={item} class='flex-none' />
           ))}
         </div>
       </div>
@@ -50,4 +35,14 @@ class ShopBar extends React.Component {
   }
 }
 
-export default ShopBar;
+ShopMenu.propTypes = {
+  getItems: PropTypes.func.isRequired,
+  menuChosen: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  menuChosen: state.menu.menuChosen,
+  itemDisplayed: state.shop.itemDisplayed,
+});
+
+export default connect(mapStateToProps, { getItems })(ShopMenu);

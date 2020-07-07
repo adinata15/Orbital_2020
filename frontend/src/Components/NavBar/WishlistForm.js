@@ -1,9 +1,11 @@
 import React from 'react';
-import Image from '../../images/green.jpg';
 import WishlistItem from './WishlistItem.js';
-import axios from 'axios';
 
-class ShopForm extends React.Component {
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getLikedItems } from '../../actions/shopActions';
+
+class WishlistForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,53 +13,22 @@ class ShopForm extends React.Component {
     };
   }
 
-  getitem = (token) => {
-    let self = this;
-
-    let config = {
-      headers: {
-        'x-auth-token': token,
-      },
-    };
-    console.log(token);
-    axios
-      .get(`http://localhost:5000/api/users/buyer/wishlist`, config)
-      .then((res) => {
-        self.setState({
-          wishlist: res.data,
-        });
-        // alert("Loaded liked items");
-        // console.log("Here", self.state.cart);
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('Load fail');
-      });
-  };
-
   componentWillMount() {
-    this.getitem(this.props.token);
-  }
-
-  componentDidUpdate() {
-    this.getitem(this.props.token);
+    this.props.getLikedItems();
   }
 
   wishlistItems = () => {
-    let wishlistItems = this.state.wishlist;
-    let token = this.props.token;
-    if (!this.props.token) {
-      return (
-        <p class='text-3xl px-8 font-bold my-3'>You need to sign in first</p>
-      );
-    } else if (wishlistItems[0]) {
+    let wishlistItems = this.props.itemLiked;
+
+    if (wishlistItems[0]) {
       return wishlistItems.map((item) => (
-        <WishlistItem token={token} key={item.id} item={item} />
+        <WishlistItem key={item.id} item={item} />
       ));
     } else {
       return <p class='text-3xl px-8 font-bold my-3'>No liked items</p>;
     }
   };
+
   render() {
     return (
       <div>
@@ -75,4 +46,13 @@ class ShopForm extends React.Component {
   }
 }
 
-export default ShopForm;
+WishlistForm.propTypes = {
+  getLikedItems: PropTypes.func,
+  itemLiked: PropTypes.array,
+};
+
+const mapStateToProps = (state) => ({
+  itemLiked: state.shop.itemLiked,
+});
+
+export default connect(mapStateToProps, { getLikedItems })(WishlistForm);

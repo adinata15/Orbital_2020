@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import ShopForm from './ShopForm.js';
 import Image from '../../images/cart.png';
+import CartForm from './CartForm';
 
-export default class CartBtn extends Component {
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+class CartBtn extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
     };
-    //this.handleClose = this.handleClose.bind(this);
   }
 
   handleClickOpen = () => {
@@ -40,9 +42,19 @@ export default class CartBtn extends Component {
           fullWidth={true}
           maxWidth={'sm'}
           scroll={'body'}>
-          <ShopForm token={this.props.token} handleClose={this.handleClose} />
+          <CartForm handleClose={this.handleClose} />
         </Dialog>
       </span>
     );
   }
 }
+
+CartBtn.propTypes = {
+  accounttype: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  accounttype: state.auth.user.accounttype,
+});
+
+export default connect(mapStateToProps, null)(CartBtn);

@@ -1,18 +1,24 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-// import { isLogin } from "../utils";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoute = ({ isLogged, component: Component, ...rest }) => {
-	return (
-		// Show the component only when the user is logged in
-		// Otherwise, redirect the user to /signup page
-		<Route
-			{...rest}
-			render={(props) =>
-				isLogged ? <Component {...props} /> : <Redirect to="/signup/buyer" />
-			}
-		/>
-	);
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+const PrivateRoute = (props) => {
+  if (!props.isAuthenticated) return <Redirect to='/signup' />;
+  else {
+    return <Route path={props.path} component={props.component} />;
+  }
+  // Show the component only when the user is logged in
+  // Otherwise, redirect the user to /signup page
 };
 
-export default PrivateRoute;
+PrivateRoute.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, null)(PrivateRoute);

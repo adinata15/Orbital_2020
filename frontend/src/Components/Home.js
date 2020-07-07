@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { menuSelect } from '../actions/menuSelect';
+
 import Men from '../images/men.png';
 import Women from '../images/women.png';
-// import Men from "../images/men.png";
 
-class ShopBar extends React.Component {
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div class=' bg-gray-200'>
@@ -39,4 +46,8 @@ class ShopBar extends React.Component {
   }
 }
 
-export default ShopBar;
+Home.propTypes = {
+  menuSelect: PropTypes.func.isRequired,
+};
+
+export default connect(null, { menuSelect })(Home);

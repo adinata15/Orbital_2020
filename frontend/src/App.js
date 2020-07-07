@@ -1,140 +1,62 @@
-//Press alt+click to edit multiple lines at once
+//problem upload profile pic
+//sellform on progress
 
-import React, { useState } from 'react';
-import { Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import axios from 'axios';
+//Press alt+click to edit multiple lines at once
+import './App.css';
+import React from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import NavBar from './Components/NavBar/NavBar';
 import SellForm from './Components/NavBar/SellForm';
-import ClothesDetail from './Components/Shop/ClothesDetail';
-import Carousel from './Components/Carousel';
+import Shop from './Components/Shop/Shop';
 import Checkout from './Components/Checkout';
 import EditProfileSeller from './Components/Profile/EditProfileSeller';
 import EditProfileBuyer from './Components/Profile/EditProfileBuyer';
-import Shop from './Components/Shop/Shop';
 import FooterBar from './Components/FooterBar';
-import FitAssistCard from './Components/NavBar/FitAssistCard';
 import Home from './Components/Home.js';
 
-import PostItem from './Components/Shop/PostItem.js';
-import { withProps, setupConfig } from './utils/functions.js';
 import PrivateRoute from './utils/PrivateRoute.js';
 import SignupForm from './Components/SignIn/SignupForm.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      token: '',
-      isLogged: false, //change to false later
-      user: {},
-      category: 'men-shirt',
-    };
-    //can bind function here! (we didnt bind here because we use arrow function below)
   }
 
-  getUserInfo = (token) => {
-    let self = this;
-    let config = setupConfig(token);
-    axios.get('http://localhost:5000/api/users/me', config).then((res) => {
-      self.setState({
-        user: res.data,
-      });
-    });
-  };
-
-  login = (inputToken) => {
-    this.setState({
-      isLogged: true,
-      token: inputToken, //update token
-    });
-    localStorage.setItem('token', inputToken);
-    this.props.history.push(`/`); //redirect to home page
-  };
-
-  logout = () => {
-    this.setState({
-      isLogged: false,
-      token: '',
-    });
-    this.props.history.push(`/`);
-  };
-
-  menuSelect = (cat) => {
-    this.setState({
-      category: cat,
-    });
-    console.log(this.state.category);
-  };
-
   render() {
-    console.log(localStorage.getItem('token'));
     return (
       <div>
-        <p>Login is {this.state.isLogged ? 'true' : 'false'}</p>
-        <p>Token is {this.state.token}</p>
         <NavBar
-          menuSelect={this.menuSelect}
-          isLogged={this.state.isLogged}
-          token={this.state.token}
-          user={this.state.user}
-          login={this.login}
-          logout={this.logout}
-          getUserInfo={this.getUserInfo}
-          logout={this.logout}
+        // menuSelect={this.menuSelect}
+        //
+        // token={this.state.token}
+        // user={this.state.user}
+        // login={this.login}
+        // logout={this.logout}
+        // getUserInfo={this.getUserInfo}
+        // logout={this.logout}
         />
         <Switch>
-          <Route
-            path='/signup'
-            component={() => (
-              <SignupForm getUserInfo={this.getUserInfo} login={this.login} />
-            )}
-          />
-          <Route
-            path='/'
-            exact
-            component={() => <Home menuSelect={this.menuSelect} />}
-          />
-          <Route
-            exact
-            path='/shop'
-            component={() => (
-              <Shop
-                items={this.state.items}
-                token={this.state.token}
-                category={this.state.category}
-              />
-            )}
-          />
+          <Route path='/signup' component={SignupForm} />
+          <Route path='/' exact component={Home} />
+          <Route exact path='/shop' component={Shop} />
 
           <PrivateRoute
-            isLogged={this.state.isLogged}
-            component={withProps(EditProfileSeller, {
-              ...this.state,
-            })}
             path='/edit/profile/seller'
+            component={EditProfileSeller}
           />
           <PrivateRoute
-            isLogged={this.state.isLogged}
-            component={withProps(SellForm, {
-              ...this.state,
-            })}
-            path='/sell'
+            path='/edit/profile/buyer'
+            component={EditProfileBuyer}
           />
-          <PrivateRoute
-            isLogged={this.state.isLogged}
+          <PrivateRoute path='/sell' component={SellForm} />
+          {/* <PrivateRoute
+            
             component={withProps(Checkout, {
               ...this.state,
             })}
             path='/checkout/success'
-          />
-          <PrivateRoute
-            isLogged={this.state.isLogged}
-            component={withProps(EditProfileBuyer, {
-              ...this.state,
-            })}
-            path='/edit/profile/buyer'
-          />
+          /> */}
         </Switch>
         <FooterBar />
       </div>
@@ -145,17 +67,7 @@ class App extends React.Component {
 export default withRouter(App);
 /* Components
 -------------------------------
-Not done:
-<FitAssistCard />
-<Form />
-<Dialog />
-<Sidebar />
-<ClothesDetail />
-<TrialAPI />
-<PersonInput />
 
-Done:
-<FooterBar />
 -------------------------------
 */
 
@@ -177,11 +89,6 @@ handleClick = (e) => {
 	});
 };
 ---------------------------------
-*/
-
-/* 
-
-*/
 
 // axios
 // 	.get("http://localhost:5000")
@@ -213,8 +120,8 @@ handleClick = (e) => {
 >
 	Choose file
 </button>
-<button onClick={this.fileUpload}>Upload</button> */
-}
+<button onClick={this.fileUpload}>Upload</button> 
+}*/
 
 // const formData = new FormData();
 //     formData.append('file',file)

@@ -3,14 +3,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Image from '../../images/plus.jpg';
-import MaterialTable from 'material-table';
 import { AddBox, ArrowDownward } from '@material-ui/icons';
 
-export default class CartBtn extends Component {
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { menuSelect } from '../../actions/menuSelect';
+
+export default class SellForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: this.props.token,
       price: '',
       title: '',
       brand: '',
@@ -28,7 +30,6 @@ export default class CartBtn extends Component {
     let config = {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'x-auth-token': this.state.token,
       },
     };
 
@@ -55,47 +56,21 @@ export default class CartBtn extends Component {
   };
 
   handleChange = (e) => {
-    switch (e.target.id) {
-      case 'title':
-        this.setState({
-          title: e.target.value,
-        });
-        break;
-      case 'price':
-        this.setState({
-          price: e.target.value,
-        });
-        break;
-      case 'category':
-        this.setState({
-          category: e.target.value,
-        });
-        break;
-      case 'brand':
-        this.setState({
-          brand: e.target.value,
-        });
-        break;
-    }
-    console.log(this.state);
+    this.setState({
+      ...this.state,
+      [e.target.id]: e.target.value,
+    });
   };
 
   handleImage = (e) => {
-    let trgt = e.target;
-    this.setState(
-      {
-        tempImage: this.state.tempImage.concat(
-          URL.createObjectURL(trgt.files[0])
-        ),
-      },
-      () => console.log(this.state.tempImage)
-    );
-    this.setState(
-      {
-        image: this.state.image.concat(trgt.files[0]),
-      },
-      () => console.log(this.state.image)
-    );
+    this.setState({
+      tempImage: this.state.tempImage.concat(
+        URL.createObjectURL(e.target.files[0])
+      ),
+    });
+    this.setState({
+      image: this.state.image.concat(e.target.files[0]),
+    });
   };
 
   imageItems = () => {
@@ -123,12 +98,17 @@ export default class CartBtn extends Component {
           <td
             class='flex-1 border-dashed border-2 border-gray-600'
             contenteditable='true'
-            onChange={(e) => {
-              this.handleChangeTable(e, i, idx);
-            }} //to incorporate event with other params
             key={`${i}-${idx}`} //row no
             id={idx} //cell no
-          ></td>
+          >
+            <input
+              onChange={(e) => {
+                this.handleChangeTable(e, i, idx);
+              }} //to incorporate event with other params
+              key={`${i}-${idx}`} //row no
+              id={idx} //cell no
+            ></input>
+          </td>
         );
       }
       rows.push(
@@ -323,86 +303,15 @@ export default class CartBtn extends Component {
   }
 }
 
-// <MaterialTable
-//           title='tableSize chart'
-//           columns={this.state.columns}
-//           data={this.state.data}
-//           options={{ search: false, paging: false }}
-//           // components={}
-//           editable={{
-//             onRowAdd: (newData) =>
-//               new Promise((resolve) => {
-//                 setTimeout(() => {
-//                   resolve();
-//                   this.setState((prevState) => {
-//                     const data = [...prevState.data];
-//                     data.push(newData);
-//                     return { ...prevState, data };
-//                   });
-//                 }, 600);
-//               }),
-//             onRowUpdate: (newData, oldData) =>
-//               new Promise((resolve) => {
-//                 setTimeout(() => {
-//                   resolve();
-//                   if (oldData) {
-//                     this.setState((prevState) => {
-//                       const data = [...prevState.data];
-//                       data[data.indexOf(oldData)] = newData;
-//                       return { ...prevState, data };
-//                     });
-//                   }
-//                 }, 600);
-//               }),
-//             onRowDelete: (oldData) =>
-//               new Promise((resolve) => {
-//                 setTimeout(() => {
-//                   resolve();
-//                   this.setState((prevState) => {
-//                     const data = [...prevState.data];
-//                     data.splice(data.indexOf(oldData), 1);
-//                     return { ...prevState, data };
-//                   });
-//                 }, 600);
-//               }),
-//           }}
-//         />
-// columns: [
-//   { title: 'size', field: 'size' },
-//   { title: 'Height', field: 'height', type: 'numeric' },
-//   { title: 'Chest', field: 'chest', type: 'numeric' },
-//   { title: 'Waist', field: 'waist', type: 'numeric' },
-// ],
-// data: [
-//   { tableSize: 'S', height: 12, chest: 1987, waist: 63 },
-//   { tableSize: 'm', height: 12, chest: 34, waist: 63 },
-// ],
+SellForm.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  menuSelect: PropTypes.func,
+  user: PropTypes.object,
+};
 
-// imageUpload = (e) => {
-//   e.preventDefault();
-//   let self = this;
-//   const config = {
-//     headers: {
-//       'Content-Type': 'multipart/form-data',
-//       'x-auth-token': this.state.token,
-//     },
-//   };
-//   const data = new FormData();
-//   data.append('profileImage', this.state.image);
-//   console.log(data.get('profileImage'));
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  accounttype: state.auth.user.accounttype,
+});
 
-//   axios
-//     .post(`http://localhost:5000/api/users/seller/item`, data, config)
-//     .then((res) => {
-//       console.log('res data');
-//       console.log(res.data);
-//       self.setState({
-//         user: res.data,
-//       });
-//       alert('Editted profile pic');
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       alert('Edit fail');
-//     });
-// };
+export default connect(mapStateToProps, { menuSelect })(SellForm);

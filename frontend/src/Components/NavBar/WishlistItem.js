@@ -3,67 +3,14 @@ import axios from 'axios';
 import Cart from '../../images/cart.png';
 import Heart from '../../images/heart.png';
 
-class ShopForm extends React.Component {
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { unlikeItem, like2cart } from '../../actions/shopActions';
+
+class WishlistItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ...this.props };
   }
-  toCart = () => {
-    let self = this;
-    let config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': this.state.token,
-      },
-    };
-
-    let data = {};
-    axios
-      .put(
-        `http://localhost:5000/api/items/wishlist/cart/${this.props.item.item}/${this.props.item.size}`,
-        data,
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-        self.setState({
-          item: res.data,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('Edit fail');
-      });
-  };
-
-  removeLiked = () => {
-    let self = this;
-    let config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': this.state.token,
-      },
-    };
-    // config = JSON.stringify(config);
-    console.log(config);
-    let data = {};
-    axios
-      .put(
-        `http://localhost:5000/api/items/unlike/${this.props.item.item}/${this.props.item.size}`,
-        data,
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-        self.setState({
-          item: res.data,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('Edit fail');
-      });
-  };
 
   render() {
     return (
@@ -87,14 +34,24 @@ class ShopForm extends React.Component {
                 <img
                   name='cart'
                   class='h-8 w-8 ml-3 my-3 right-0 bottom-0'
-                  onClick={this.toCart}
+                  onClick={() => {
+                    this.props.like2cart(
+                      this.props.item.item,
+                      this.props.item.size
+                    );
+                  }}
                   style={{ transform: 'scaleX(-1)' }}
                   src={Cart}
                 />
                 <img
                   name='heart'
                   class='h-8 w-8 ml-3 my-3 right-0 bottom-0'
-                  onClick={this.removeLiked}
+                  onClick={() => {
+                    this.props.unlikeItem(
+                      this.props.item.item,
+                      this.props.item.size
+                    );
+                  }}
                   src={Heart}
                 />
               </div>
@@ -112,4 +69,9 @@ class ShopForm extends React.Component {
   }
 }
 
-export default ShopForm;
+WishlistItem.propTypes = {
+  unlikeItem: PropTypes.func,
+  like2cart: PropTypes.func,
+};
+
+export default connect(null, { unlikeItem, like2cart })(WishlistItem);

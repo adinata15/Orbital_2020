@@ -3,7 +3,10 @@ import Dialog from '@material-ui/core/Dialog';
 import WishlistForm from './WishlistForm.js';
 import Image from '../../images/heart.jpg';
 
-export default class CartBtn extends Component {
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+class WishlistBtn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +26,7 @@ export default class CartBtn extends Component {
       open: false,
     });
   };
+
   render() {
     return (
       <span>
@@ -39,12 +43,19 @@ export default class CartBtn extends Component {
           fullWidth={true}
           maxWidth={'sm'}
           scroll={'body'}>
-          <WishlistForm
-            token={this.props.token}
-            handleClose={this.handleClose}
-          />
+          <WishlistForm handleClose={this.handleClose} />
         </Dialog>
       </span>
     );
   }
 }
+
+WishlistBtn.propTypes = {
+  accounttype: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  accounttype: state.auth.user.accounttype,
+});
+
+export default connect(mapStateToProps, null)(WishlistBtn);
