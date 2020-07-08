@@ -1,5 +1,6 @@
 //problem upload profile pic
 //sellform on progress
+//how to handle error (error not handled yet)
 
 //Press alt+click to edit multiple lines at once
 import './App.css';
