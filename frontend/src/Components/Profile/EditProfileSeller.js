@@ -68,12 +68,16 @@ class EditProfile extends React.Component {
         break;
       case 'name':
       case 'email':
+      case 'oldPassword':
+      case 'newPassword':
+      case 'newPassword2':
         this.setState({
           ...this.state,
           [e.target.name]: e.target.value,
         });
         break;
       default:
+        console.log('Something is weird');
         break;
     }
   };

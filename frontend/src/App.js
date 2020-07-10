@@ -1,7 +1,6 @@
 //problem upload profile pic
 //sellform on progress
 //how to handle error (error not handled yet)
-//update password 
 
 //Press alt+click to edit multiple lines at once
 import './App.css';
@@ -28,16 +27,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <NavBar
-        // menuSelect={this.menuSelect}
-        //
-        // token={this.state.token}
-        // user={this.state.user}
-        // login={this.login}
-        // logout={this.logout}
-        // getUserInfo={this.getUserInfo}
-        // logout={this.logout}
-        />
+        <NavBar />
         <Switch>
           <Route path='/signup' component={SignupForm} />
           <Route path='/' exact component={Home} />

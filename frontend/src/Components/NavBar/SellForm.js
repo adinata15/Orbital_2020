@@ -151,15 +151,10 @@ class SellForm extends Component {
     // });
     // console.log(this.state.tableData[row][cell]);
     console.log('here');
-    if (
-      ['size', 'chest', 'bl', 'waist', 'hip', 'tl', 'bust', 'sl'].includes(
-        e.target.name
-      )
-    ) {
-      let sizeTable = [...this.state.sizeTable];
-      sizeTable[e.target.dataset.id][e.target.name] = e.target.value;
-      console.log(this.state.sizeTable);
-    }
+    console.log(e);
+    let sizeTable = [...this.state.sizeTable];
+    sizeTable[e.target.dataset.id][e.target.name] = e.target.value;
+    console.log(this.state.sizeTable);
   };
 
   removeRow = (row) => {

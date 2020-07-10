@@ -38,6 +38,7 @@ class EditProfile extends React.Component {
       ...this.state,
       [e.target.name]: e.target.value,
     });
+    console.log(this.state);
   };
 
   render() {
@@ -80,43 +81,7 @@ class EditProfile extends React.Component {
             />
           </div>
         </div>
-        <div class='flex flex-wrap -mx-3 mb-6'>
-          <div class='w-full px-3'>
-            <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-              for='grid-user-id'>
-              Shipping address
-            </label>
-            <input
-              name='shipAddress'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
-              id='mailAdd'
-              // value={this.state.shippingaddress}
-              type='text'
-              placeholder='25 Lower Kent Ridge Rd, Singapore 119081'
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div class='flex flex-wrap -mx-3 mb-6'>
-          <div class='w-full px-3'>
-            <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-              for='grid-user-id'>
-              Billing address
-            </label>
-            <input
-              name='mailAddress'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
-              id='mailAddress'
-              // value={this.state.billingaddress}
-              type='text'
-              password
-              placeholder='25 Lower Kent Ridge Rd, Singapore 119081'
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
+
         <div class='flex flex-wrap -mx-3 mb-6'>
           <div class='w-full px-3'>
             <label

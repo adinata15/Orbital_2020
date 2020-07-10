@@ -11,7 +11,7 @@ const TableRow = (props) => {
       bust = `bust-${idx}`,
       sl = `sl-${idx}`;
     return (
-      <tr onChange={() => props.handleChange} key={val.index}>
+      <tr key={val.index}>
         <td class='border px-4 py-2'>
           <input
             class='w-full'
@@ -19,6 +19,7 @@ const TableRow = (props) => {
             name='size'
             data-id={idx}
             id={size}
+            onChange={(e) => props.handleChange(e)}
           />
         </td>
         <td class='border px-4 py-2'>
@@ -28,6 +29,7 @@ const TableRow = (props) => {
             name='chest'
             id={chest}
             data-id={idx}
+            onChange={(e) => props.handleChange(e)}
           />
         </td>
         <td class='border px-4 py-2'>
@@ -40,6 +42,7 @@ const TableRow = (props) => {
             name='waist'
             id={waist}
             data-id={idx}
+            onChange={(e) => props.handleChange(e)}
           />
         </td>
         <td class='border px-4 py-2'>
@@ -49,6 +52,7 @@ const TableRow = (props) => {
             name='hip'
             id={hip}
             data-id={idx}
+            onChange={(e) => props.handleChange(e)}
           />
         </td>
         <td class='border px-4 py-2'>
@@ -61,6 +65,7 @@ const TableRow = (props) => {
             name='bust'
             id={bust}
             data-id={idx}
+            onChange={() => props.handleChange()}
           />
         </td>
         <td class='border px-4 py-2'>
