@@ -4,6 +4,7 @@
 //editting file upload
 
 import React from 'react';
+import omit from 'lodash.omit';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -12,15 +13,22 @@ import { editProfile } from '../../actions/profileActions';
 class EditProfile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ...this.props.user, password: '' };
+    this.state = {
+      ...this.props.user,
+      oldPassword: '',
+      newPassword: '',
+      newPassword2: '',
+    };
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    let userData = {
-      ...this.state,
-    };
+    let userData = { ...this.state };
+
+    if (this.state.password) {
+      userData = omit(userData, 'oldPassword', 'newPassword', 'newPassword2');
+    }
 
     this.props.editProfile(userData);
   };
@@ -178,12 +186,44 @@ class EditProfile extends React.Component {
             <label
               class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               for='grid-password'>
-              Edit password here
+              Old password
             </label>
             <input
-              name='password'
+              name='oldPassword'
               class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-              id='password'
+              id='oldPassword'
+              type='password'
+              placeholder='Leave blank if no edit required'
+              minlength='8'
+              onChange={this.handleChange}
+            />
+          </div>
+          <div class='w-full px-3' hidden={!this.state.oldPassword}>
+            <label
+              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              for='grid-password'>
+              New password
+            </label>
+            <input
+              name='newPassword'
+              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              id='newPassword'
+              type='password'
+              placeholder='******************'
+              minlength='8'
+              onChange={this.handleChange}
+            />
+          </div>
+          <div class='w-full px-3' hidden={!this.state.oldPassword}>
+            <label
+              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              for='grid-password'>
+              Confirm new password
+            </label>
+            <input
+              name='newPassword2'
+              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              id='newPassword2'
               type='password'
               placeholder='******************'
               minlength='8'
