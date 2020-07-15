@@ -43,19 +43,25 @@ class EditProfile extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} class='w-full max-w-lg mx-auto my-6'>
-        <h1 class='text-center text-3xl mb-3'>Edit Profile</h1>
+      <form
+        onSubmit={this.handleSubmit}
+        className={'w-full max-w-lg mx-auto my-6'}>
+        <h1 className={'text-center text-3xl mb-3'}>Edit Profile</h1>
 
-        <div class='flex flex-wrap -mx-3 mb-6'>
-          <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+        <div className={'flex flex-wrap -mx-3 mb-6'}>
+          <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
             <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
               for='grid-user-id'>
               User ID
             </label>
             <input
               name='name'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
+              className={
+                'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
+              }
               id='name'
               value={this.state.name}
               type='text'
@@ -64,15 +70,19 @@ class EditProfile extends React.Component {
             />
           </div>
 
-          <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+          <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
             <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
               for='grid-email'>
               Email
             </label>
             <input
               name='email'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
+              className={
+                'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
+              }
               id='email'
               type='email'
               value={this.state.email}
@@ -82,17 +92,21 @@ class EditProfile extends React.Component {
           </div>
         </div>
 
-        <div class='flex flex-wrap -mx-3 mb-6'>
-          <div class='w-full px-3'>
+        <div className={'flex flex-wrap -mx-3 mb-6'}>
+          <div className={'w-full px-3'}>
             <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
               for='grid-gender'>
               Gender
             </label>
-            <div class='relative'>
+            <div className='relative'>
               <select
                 value={this.state.gender}
-                class='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                className={
+                  'block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                }
                 id='gender'
                 defaultValue={this.state.gender}
                 onChange={this.handleChange}>
@@ -100,9 +114,12 @@ class EditProfile extends React.Component {
                 <option value='female'>Female</option>
                 <option value='others'>Others</option>
               </select>
-              <div class='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
+              <div
+                className={
+                  'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'
+                }>
                 <svg
-                  class='fill-current h-4 w-4'
+                  className={'fill-current h-4 w-4'}
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 20 20'>
                   <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
@@ -111,16 +128,20 @@ class EditProfile extends React.Component {
             </div>
           </div>
         </div>
-        <div class='flex flex-wrap -mx-3 mb-6'>
-          <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+        <div className={'flex flex-wrap -mx-3 mb-6'}>
+          <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
             <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
               for='grid-weight'>
               Weight
             </label>
             <input
               name='weight'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              className={
+                'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              }
               id='weight'
               type='number'
               value={this.state.weight}
@@ -129,15 +150,19 @@ class EditProfile extends React.Component {
             />
           </div>
 
-          <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+          <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
             <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
               for='grid-height'>
               Height
             </label>
             <input
               name='height'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              className={
+                'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              }
               id='height'
               type='number'
               value={this.state.height}
@@ -146,16 +171,20 @@ class EditProfile extends React.Component {
             />
           </div>
         </div>
-        <div class='flex flex-wrap -mx-3 mb-6'>
-          <div class='w-full px-3'>
+        <div className={'flex flex-wrap -mx-3 mb-6'}>
+          <div className={'w-full px-3'}>
             <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
               for='grid-password'>
-              Old password
+              Edit password
             </label>
             <input
               name='oldPassword'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              className={
+                'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              }
               id='oldPassword'
               type='password'
               placeholder='Leave blank if no edit required'
@@ -163,15 +192,19 @@ class EditProfile extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <div class='w-full px-3' hidden={!this.state.oldPassword}>
+          <div className={'w-full px-3'} hidden={!this.state.oldPassword}>
             <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
               for='grid-password'>
               New password
             </label>
             <input
               name='newPassword'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              className={
+                'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              }
               id='newPassword'
               type='password'
               placeholder='******************'
@@ -179,15 +212,19 @@ class EditProfile extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <div class='w-full px-3' hidden={!this.state.oldPassword}>
+          <div className={'w-full px-3'} hidden={!this.state.oldPassword}>
             <label
-              class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
               for='grid-password'>
               Confirm new password
             </label>
             <input
               name='newPassword2'
-              class='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              className={
+                'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+              }
               id='newPassword2'
               type='password'
               placeholder='******************'
@@ -197,7 +234,9 @@ class EditProfile extends React.Component {
           </div>
         </div>
         <button
-          class='bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded'
+          className={
+            'bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded'
+          }
           type='submit'
           id='button'>
           Save Changes

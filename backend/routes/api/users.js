@@ -181,7 +181,7 @@ router.get('/:seller_id', async (req, res) => {
     }
 
     const listingsArray = [];
-    listings.forEach(listing =>
+    listings.forEach((listing) =>
       listingsArray.push(Item.findOne({ _id: listing.item }))
     );
     listings = await Promise.all(listingsArray);
@@ -897,7 +897,7 @@ router.get('/buyer/address', auth, async (req, res) => {
     }
     let addresses = buyer.addresses;
     const addressesArray = [];
-    addresses.forEach(address =>
+    addresses.forEach((address) =>
       addressesArray.push(Address.findOne({ _id: address.address }))
     );
     addresses = await Promise.all(addressesArray);
@@ -919,7 +919,7 @@ router.delete('/buyer/address/:address_id', auth, async (req, res) => {
     }
     if (
       buyer.addresses.filter(
-        address => address.address.toString() === req.params.address_id
+        (address) => address.address.toString() === req.params.address_id
       ).length === 0
     ) {
       return res.status(404).json({ msg: 'Address not found' });
@@ -934,7 +934,7 @@ router.delete('/buyer/address/:address_id', auth, async (req, res) => {
     }
 
     const removeIndex = buyer.addresses
-      .map(address => address.address.toString())
+      .map((address) => address.address.toString())
       .indexOf(req.params.address_id);
 
     await Address.findOneAndRemove({
@@ -964,7 +964,7 @@ router.post('/seller/profile_pict', auth, async (req, res) => {
     if (!seller) {
       return res.status(404).json({ msg: 'Account not found' });
     }
-    uploadImage(req, res, err => {
+    uploadImage(req, res, (err) => {
       if (err) {
         return res.status(500).json({ msg: err.message });
       } else {
@@ -978,14 +978,14 @@ router.post('/seller/profile_pict', auth, async (req, res) => {
             Key: req.files.profileImage[0].key,
           })
             .promise()
-            .then(data =>
+            .then((data) =>
               sharp(data.Body)
                 .resize(1080, 1080)
                 .withMetadata()
                 .toFormat('jpeg', { quality: 95 })
                 .toBuffer()
             )
-            .then(buffer =>
+            .then((buffer) =>
               s3
                 .putObject({
                   Body: buffer,
@@ -1027,7 +1027,7 @@ router.post('/seller/profile_pict', auth, async (req, res) => {
                 res.json(seller);
               });
             })
-            .catch(err => {
+            .catch((err) => {
               if (err.code === 'NoSuchKey') err.message = 'Image not found';
               console.log(err.message);
               return res.status(500).send('Server error');
@@ -1222,21 +1222,22 @@ router.post(
     ];
 
     const newSizesArray = [];
-    sizesArray.forEach(size => {
+    sizesArray.forEach((size) => {
       let sizeIndex = sizesArray.indexOf(size);
       if (size) {
         size = {
           size,
           chest: sizeArraysArray[sizeIndex][0]
-            ? sizeArraysArray[sizeIndex][0].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][0]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][0]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][0]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][0].trim(),
@@ -1247,15 +1248,16 @@ router.post(
                 to: -1,
               },
           bodylength: sizeArraysArray[sizeIndex][1]
-            ? sizeArraysArray[sizeIndex][1].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][1]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][1]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][1]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][1].trim(),
@@ -1266,15 +1268,16 @@ router.post(
                 to: -1,
               },
           waist: sizeArraysArray[sizeIndex][2]
-            ? sizeArraysArray[sizeIndex][2].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][2]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][2]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][2]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][2].trim(),
@@ -1285,15 +1288,16 @@ router.post(
                 to: -1,
               },
           hip: sizeArraysArray[sizeIndex][3]
-            ? sizeArraysArray[sizeIndex][3].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][3]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][3]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][3]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][3].trim(),
@@ -1304,15 +1308,16 @@ router.post(
                 to: -1,
               },
           totallength: sizeArraysArray[sizeIndex][4]
-            ? sizeArraysArray[sizeIndex][4].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][4]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][4]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][4]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][4].trim(),
@@ -1323,15 +1328,16 @@ router.post(
                 to: -1,
               },
           bust: sizeArraysArray[sizeIndex][5]
-            ? sizeArraysArray[sizeIndex][5].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][5]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][5]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][5]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][5].trim(),
@@ -1342,15 +1348,16 @@ router.post(
                 to: -1,
               },
           skirtlength: sizeArraysArray[sizeIndex][6]
-            ? sizeArraysArray[sizeIndex][6].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][6]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][6]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][6]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][6].trim(),
@@ -1367,16 +1374,16 @@ router.post(
 
     const itemFields = {};
     itemFields.title = title;
-    itemFields.category = category.split(',').map(cat => cat.trim());
+    itemFields.category = category.split(',').map((cat) => cat.trim());
     itemFields.brand = brand;
     itemFields.price = price;
     if (desc) itemFields.desc = desc;
     if (outofstock) {
-      itemFields.outofstock = outofstock.split(',').map(size => size.trim());
+      itemFields.outofstock = outofstock.split(',').map((size) => size.trim());
     }
 
     itemFields.sizes = [];
-    newSizesArray.forEach(size => {
+    newSizesArray.forEach((size) => {
       itemFields.sizes.push(size);
     });
 
@@ -1402,7 +1409,7 @@ router.post(
 
       const sizechart = [];
       if (req.files.sizeChart) {
-        req.files.sizeChart.forEach(sc => {
+        req.files.sizeChart.forEach((sc) => {
           if (sc.key.slice(-4) === 'jpeg') {
             promiseArray.push(
               s3
@@ -1411,13 +1418,13 @@ router.post(
                   Key: sc.key,
                 })
                 .promise()
-                .then(data =>
+                .then((data) =>
                   sharp(data.Body)
                     .rotate()
                     .toFormat('jpeg', { quality: 90 })
                     .toBuffer()
                 )
-                .then(buffer =>
+                .then((buffer) =>
                   s3
                     .putObject({
                       Body: buffer,
@@ -1455,7 +1462,7 @@ router.post(
                     }`
                   );
                 })
-                .catch(err => {
+                .catch((err) => {
                   if (err.code === 'NoSuchKey') err.message = 'Image not found';
                   console.log(err.message);
                   return res.status(500).send('Server error');
@@ -1469,10 +1476,10 @@ router.post(
                   Key: sc.key,
                 })
                 .promise()
-                .then(data =>
+                .then((data) =>
                   sharp(data.Body).toFormat('jpeg', { quality: 90 }).toBuffer()
                 )
-                .then(buffer =>
+                .then((buffer) =>
                   s3
                     .putObject({
                       Body: buffer,
@@ -1510,9 +1517,10 @@ router.post(
                     }`
                   );
                 })
-                .catch(err => {
+                .catch((err) => {
                   if (err.code === 'NoSuchKey') err.message = 'Image not found';
                   console.log(err.message);
+                  console.log('i am here');
                   return res.status(500).send('Server error');
                 })
             );
@@ -1531,7 +1539,7 @@ router.post(
               Key: displayImage.key,
             })
             .promise()
-            .then(data =>
+            .then((data) =>
               sharp(data.Body)
                 .rotate()
                 .resize(1080, 1080, {
@@ -1540,7 +1548,7 @@ router.post(
                 .toFormat('jpeg', { quality: 90 })
                 .toBuffer()
             )
-            .then(buffer =>
+            .then((buffer) =>
               s3
                 .putObject({
                   Body: buffer,
@@ -1578,9 +1586,10 @@ router.post(
                 }`
               );
             })
-            .catch(err => {
+            .catch((err) => {
               if (err.code === 'NoSuchKey') err.message = 'Image not found';
               console.log(err.message);
+              console.log('i am here 2');
               return res.status(500).send('Server error');
             })
         );
@@ -1592,7 +1601,7 @@ router.post(
               Key: displayImage.key,
             })
             .promise()
-            .then(data =>
+            .then((data) =>
               sharp(data.Body)
                 .resize(1080, 1080, {
                   fit: 'cover',
@@ -1601,7 +1610,7 @@ router.post(
                 .toFormat('jpeg', { quality: 90 })
                 .toBuffer()
             )
-            .then(buffer =>
+            .then((buffer) =>
               s3
                 .putObject({
                   Body: buffer,
@@ -1639,15 +1648,16 @@ router.post(
                 }`
               );
             })
-            .catch(err => {
+            .catch((err) => {
               if (err.code === 'NoSuchKey') err.message = 'Image not found';
               console.log(err.message);
+              console.log('i am here 3');
               return res.status(500).send('Server error');
             })
         );
       }
 
-      req.files.itemImages.forEach(image => {
+      req.files.itemImages.forEach((image) => {
         if (image.key.slice(-4) === 'jpeg') {
           promiseArray.push(
             s3
@@ -1656,7 +1666,7 @@ router.post(
                 Key: image.key,
               })
               .promise()
-              .then(data =>
+              .then((data) =>
                 sharp(data.Body)
                   .rotate()
                   .resize(1080, 1080, {
@@ -1665,7 +1675,7 @@ router.post(
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
               )
-              .then(buffer =>
+              .then((buffer) =>
                 s3
                   .putObject({
                     Body: buffer,
@@ -1703,9 +1713,10 @@ router.post(
                   }`
                 );
               })
-              .catch(err => {
+              .catch((err) => {
                 if (err.code === 'NoSuchKey') err.message = 'Image not found';
                 console.log(err.message);
+                console.log('i am here 4');
                 return res.status(500).send('Server error');
               })
           );
@@ -1717,7 +1728,7 @@ router.post(
                 Key: image.key,
               })
               .promise()
-              .then(data =>
+              .then((data) =>
                 sharp(data.Body)
                   .resize(1080, 1080, {
                     fit: 'cover',
@@ -1726,7 +1737,7 @@ router.post(
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
               )
-              .then(buffer =>
+              .then((buffer) =>
                 s3
                   .putObject({
                     Body: buffer,
@@ -1764,9 +1775,10 @@ router.post(
                   }`
                 );
               })
-              .catch(err => {
+              .catch((err) => {
                 if (err.code === 'NoSuchKey') err.message = 'Image not found';
                 console.log(err.message);
+                console.log('i am here 5');
                 return res.status(500).send('Server error');
               })
           );
@@ -1791,6 +1803,7 @@ router.post(
       res.json(seller.listings);
     } catch (err) {
       console.log(err.message);
+      console.log('i am here 6');
       res.status(500).send('Server error');
     }
   }
@@ -1977,21 +1990,22 @@ router.put(
     ];
 
     const newSizesArray = [];
-    sizesArray.forEach(size => {
+    sizesArray.forEach((size) => {
       let sizeIndex = sizesArray.indexOf(size);
       if (size) {
         size = {
           size,
           chest: sizeArraysArray[sizeIndex][0]
-            ? sizeArraysArray[sizeIndex][0].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][0]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][0]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][0]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][0].trim(),
@@ -2002,15 +2016,16 @@ router.put(
                 to: -1,
               },
           bodylength: sizeArraysArray[sizeIndex][1]
-            ? sizeArraysArray[sizeIndex][1].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][1]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][1]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][1]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][1].trim(),
@@ -2021,15 +2036,16 @@ router.put(
                 to: -1,
               },
           waist: sizeArraysArray[sizeIndex][2]
-            ? sizeArraysArray[sizeIndex][2].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][2]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][2]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][2]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][2].trim(),
@@ -2040,15 +2056,16 @@ router.put(
                 to: -1,
               },
           hip: sizeArraysArray[sizeIndex][3]
-            ? sizeArraysArray[sizeIndex][3].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][3]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][3]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][3]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][3].trim(),
@@ -2059,15 +2076,16 @@ router.put(
                 to: -1,
               },
           totallength: sizeArraysArray[sizeIndex][4]
-            ? sizeArraysArray[sizeIndex][4].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][4]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][4]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][4]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][4].trim(),
@@ -2078,15 +2096,16 @@ router.put(
                 to: -1,
               },
           bust: sizeArraysArray[sizeIndex][5]
-            ? sizeArraysArray[sizeIndex][5].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][5]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][5]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][5]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][5].trim(),
@@ -2097,15 +2116,16 @@ router.put(
                 to: -1,
               },
           skirtlength: sizeArraysArray[sizeIndex][6]
-            ? sizeArraysArray[sizeIndex][6].split('-').map(size => size.trim())
-                .length > 1
+            ? sizeArraysArray[sizeIndex][6]
+                .split('-')
+                .map((size) => size.trim()).length > 1
               ? {
                   from: sizeArraysArray[sizeIndex][6]
                     .split('-')
-                    .map(size => size.trim())[0],
+                    .map((size) => size.trim())[0],
                   to: sizeArraysArray[sizeIndex][6]
                     .split('-')
-                    .map(size => size.trim())[1],
+                    .map((size) => size.trim())[1],
                 }
               : {
                   from: sizeArraysArray[sizeIndex][6].trim(),
@@ -2122,16 +2142,16 @@ router.put(
 
     const itemFields = {};
     itemFields.title = title;
-    itemFields.category = category.split(',').map(cat => cat.trim());
+    itemFields.category = category.split(',').map((cat) => cat.trim());
     itemFields.brand = brand;
     itemFields.price = price;
     if (desc) itemFields.desc = desc;
     if (outofstock) {
-      itemFields.outofstock = outofstock.split(',').map(size => size.trim());
+      itemFields.outofstock = outofstock.split(',').map((size) => size.trim());
     }
 
     itemFields.sizes = [];
-    newSizesArray.forEach(size => {
+    newSizesArray.forEach((size) => {
       itemFields.sizes.push(size);
     });
 
@@ -2159,7 +2179,7 @@ router.put(
 
       const sizechart = [];
       if (req.files.sizeChart) {
-        req.files.sizeChart.forEach(sc => {
+        req.files.sizeChart.forEach((sc) => {
           if (sc.key.slice(-4) === 'jpeg') {
             promiseArray.push(
               s3
@@ -2168,13 +2188,13 @@ router.put(
                   Key: sc.key,
                 })
                 .promise()
-                .then(data =>
+                .then((data) =>
                   sharp(data.Body)
                     .rotate()
                     .toFormat('jpeg', { quality: 90 })
                     .toBuffer()
                 )
-                .then(buffer =>
+                .then((buffer) =>
                   s3
                     .putObject({
                       Body: buffer,
@@ -2212,7 +2232,7 @@ router.put(
                     }`
                   );
                 })
-                .catch(err => {
+                .catch((err) => {
                   if (err.code === 'NoSuchKey') err.message = 'Image not found';
                   console.log(err.message);
                   return res.status(500).send('Server error');
@@ -2226,10 +2246,10 @@ router.put(
                   Key: sc.key,
                 })
                 .promise()
-                .then(data =>
+                .then((data) =>
                   sharp(data.Body).toFormat('jpeg', { quality: 90 }).toBuffer()
                 )
-                .then(buffer =>
+                .then((buffer) =>
                   s3
                     .putObject({
                       Body: buffer,
@@ -2267,7 +2287,7 @@ router.put(
                     }`
                   );
                 })
-                .catch(err => {
+                .catch((err) => {
                   if (err.code === 'NoSuchKey') err.message = 'Image not found';
                   console.log(err.message);
                   return res.status(500).send('Server error');
@@ -2288,7 +2308,7 @@ router.put(
               Key: displayImage.key,
             })
             .promise()
-            .then(data =>
+            .then((data) =>
               sharp(data.Body)
                 .rotate()
                 .resize(1080, 1080, {
@@ -2297,7 +2317,7 @@ router.put(
                 .toFormat('jpeg', { quality: 90 })
                 .toBuffer()
             )
-            .then(buffer =>
+            .then((buffer) =>
               s3
                 .putObject({
                   Body: buffer,
@@ -2335,7 +2355,7 @@ router.put(
                 }`
               );
             })
-            .catch(err => {
+            .catch((err) => {
               if (err.code === 'NoSuchKey') err.message = 'Image not found';
               console.log(err.message);
               return res.status(500).send('Server error');
@@ -2349,7 +2369,7 @@ router.put(
               Key: displayImage.key,
             })
             .promise()
-            .then(data =>
+            .then((data) =>
               sharp(data.Body)
                 .resize(1080, 1080, {
                   fit: 'cover',
@@ -2358,7 +2378,7 @@ router.put(
                 .toFormat('jpeg', { quality: 90 })
                 .toBuffer()
             )
-            .then(buffer =>
+            .then((buffer) =>
               s3
                 .putObject({
                   Body: buffer,
@@ -2396,7 +2416,7 @@ router.put(
                 }`
               );
             })
-            .catch(err => {
+            .catch((err) => {
               if (err.code === 'NoSuchKey') err.message = 'Image not found';
               console.log(err.message);
               return res.status(500).send('Server error');
@@ -2404,7 +2424,7 @@ router.put(
         );
       }
 
-      req.files.itemImages.forEach(image => {
+      req.files.itemImages.forEach((image) => {
         if (image.key.slice(-4) === 'jpeg') {
           promiseArray.push(
             s3
@@ -2413,7 +2433,7 @@ router.put(
                 Key: image.key,
               })
               .promise()
-              .then(data =>
+              .then((data) =>
                 sharp(data.Body)
                   .rotate()
                   .resize(1080, 1080, {
@@ -2422,7 +2442,7 @@ router.put(
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
               )
-              .then(buffer =>
+              .then((buffer) =>
                 s3
                   .putObject({
                     Body: buffer,
@@ -2460,7 +2480,7 @@ router.put(
                   }`
                 );
               })
-              .catch(err => {
+              .catch((err) => {
                 if (err.code === 'NoSuchKey') err.message = 'Image not found';
                 console.log(err.message);
                 return res.status(500).send('Server error');
@@ -2474,7 +2494,7 @@ router.put(
                 Key: image.key,
               })
               .promise()
-              .then(data =>
+              .then((data) =>
                 sharp(data.Body)
                   .resize(1080, 1080, {
                     fit: 'cover',
@@ -2483,7 +2503,7 @@ router.put(
                   .toFormat('jpeg', { quality: 90 })
                   .toBuffer()
               )
-              .then(buffer =>
+              .then((buffer) =>
                 s3
                   .putObject({
                     Body: buffer,
@@ -2521,7 +2541,7 @@ router.put(
                   }`
                 );
               })
-              .catch(err => {
+              .catch((err) => {
                 if (err.code === 'NoSuchKey') err.message = 'Image not found';
                 console.log(err.message);
                 return res.status(500).send('Server error');
@@ -2566,14 +2586,14 @@ router.delete('/seller/item/:item_id', auth, async (req, res) => {
     }
     if (
       seller.listings.filter(
-        listing => listing.item.toString() === req.params.item_id
+        (listing) => listing.item.toString() === req.params.item_id
       ).length === 0
     ) {
       return res.status(404).json({ msg: 'Item not found' });
     }
 
     const removeIndex = seller.listings
-      .map(listing => listing.item.toString())
+      .map((listing) => listing.item.toString())
       .indexOf(req.params.item_id);
 
     await Item.findOneAndRemove({
@@ -2636,7 +2656,7 @@ router.get('/buyer/orders', auth, async (req, res) => {
     }
     let orders = buyer.orders;
     const ordersArray = [];
-    orders.forEach(order =>
+    orders.forEach((order) =>
       ordersArray.push(BuyerOrder.findOne({ _id: order.order }))
     );
     orders = await Promise.all(ordersArray);
@@ -2658,7 +2678,7 @@ router.get('/seller/orders', auth, async (req, res) => {
     }
     let orders = seller.orders;
     const ordersArray = [];
-    orders.forEach(order =>
+    orders.forEach((order) =>
       ordersArray.push(SellerOrder.findOne({ _id: order.order }))
     );
     orders = await Promise.all(ordersArray);

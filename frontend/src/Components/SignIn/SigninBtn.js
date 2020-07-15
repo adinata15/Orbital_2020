@@ -25,8 +25,6 @@ class SigninBtn extends Component {
     this.setState({
       open: false,
     });
-    console.log('close');
-    // e.preventDefault();
     return;
   };
 
@@ -34,7 +32,7 @@ class SigninBtn extends Component {
     return (
       <span>
         <Button
-          class=' float-right mx-2 my-2 bg-red-800 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'
+          className={' float-right mx-2 my-2 bg-red-800 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'}
           onClick={this.handleClickOpen}
           hidden={this.props.isAuthenticated} //uncomment for real thing
         >

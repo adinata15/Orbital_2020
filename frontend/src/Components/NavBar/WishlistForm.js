@@ -25,19 +25,21 @@ class WishlistForm extends React.Component {
         <WishlistItem key={item.id} item={item} />
       ));
     } else {
-      return <p class='text-3xl px-8 font-bold my-3'>No liked items</p>;
+      return <p className={'text-3xl px-8 font-bold my-3'}>No liked items</p>;
     }
   };
 
   render() {
     return (
       <div>
-        <h1 class='py-3 px-12 text-center text-3xl mb-3'>Liked items</h1>
+        <h1 className={'py-3 px-12 text-center text-3xl mb-3'}>Liked items</h1>
         {this.wishlistItems()}
-        <div class='py-3 px-12'>
+        <div className={'py-3 px-12'}>
           <button
             onClick={this.props.handleClose}
-            class='bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-3 px-8 rounded-full'>
+            className={
+              'bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-3 px-8 rounded-full'
+            }>
             Back to shopping
           </button>
         </div>

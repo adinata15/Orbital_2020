@@ -64,7 +64,7 @@ class LoginForm extends React.Component {
         <form
           action=''
           onSubmit={this.handleSubmit}
-          class='w-9/12 max-w-lg mx-auto my-6'>
+          className={'w-9/12 max-w-lg mx-auto my-6'}>
           <span class='float-right text-xl' id='close'>
             <Link id='closeBtn' onClick={this.props.handleClose} to=''>
               &times;

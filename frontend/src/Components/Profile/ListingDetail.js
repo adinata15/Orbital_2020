@@ -1,11 +1,10 @@
 import React from 'react';
-import axios from 'axios';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { cartItem, likeItem } from '../../actions/shopActions';
 
-class ClothesDetail extends React.Component {
+class ListingDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -168,9 +167,9 @@ class ClothesDetail extends React.Component {
   }
 }
 
-ClothesDetail.propTypes = {
+ListingDetail.propTypes = {
   likeItem: PropTypes.func,
   cartItem: PropTypes.func,
 };
 
-export default connect(null, { cartItem, likeItem })(ClothesDetail);
+export default connect(null, { cartItem, likeItem })(ListingDetail);

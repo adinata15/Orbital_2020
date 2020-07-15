@@ -34,10 +34,13 @@ class Card extends React.Component {
 
   render() {
     return (
-      <div class=' w-56 bg-white justify-center border rounded-lg overflow-hidden mt-2 ml-2'>
+      <div
+        className={
+          'w-56 bg-white justify-center border rounded-lg overflow-hidden mt-2 ml-2'
+        }>
         <img
           onClick={this.handleClickOpen}
-          class='h-48 w-full justify-center'
+          className={'h-48 w-full justify-center'}
           src={this.props.item.images[0]}
           alt=''
         />
@@ -55,13 +58,16 @@ class Card extends React.Component {
           />
         </Dialog>
 
-        <div class='p-2'>
-          <div class='flex items-baseline'>
-            <div class='text-gray-600 text-xs uppercase font-semibold tracking-wide'>
+        <div className={'p-2'}>
+          <div className={'flex items-baseline'}>
+            <div
+              className={
+                'text-gray-600 text-xs uppercase font-semibold tracking-wide'
+              }>
               {this.props.item.brand}
             </div>
           </div>
-          <h4 class='mt-1 font-semibold text-lg leading-tight truncate'>
+          <h4 className={'mt-1 font-semibold text-lg leading-tight truncate'}>
             {this.props.item.title}
           </h4>
           <div>${this.props.item.price}</div>

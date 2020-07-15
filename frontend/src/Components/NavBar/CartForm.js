@@ -31,25 +31,29 @@ class CartForm extends React.Component {
     if (cartItems[0]) {
       return cartItems.map((item) => <CartItem key={item.id} item={item} />);
     } else {
-      return <p class='text-3xl px-8 font-bold my-3'>Cart is empty</p>;
+      return <p className={'text-3xl px-8 font-bold my-3'}>Cart is empty</p>;
     }
   };
 
   render() {
     return (
       <div>
-        <h1 class='py-3 px-12 text-center text-3xl mb-3'>Cart items</h1>
+        <h1 className={'py-3 px-12 text-center text-3xl mb-3'}>Cart items</h1>
         {this.cartItems()}
-        <div class='pt-3 px-12'>
+        <div className='pt-3 px-12'>
           <button
             onClick={this.payItems}
             role='link'
-            class='bg-teal-700 hover:bg-teal-900 text-white font-bold m-5 py-2 px-8 rounded-full'>
+            className={
+              'bg-teal-700 hover:bg-teal-900 text-white font-bold m-5 py-2 px-8 rounded-full'
+            }>
             Checkout
           </button>
           <button
             onClick={this.props.handleClose}
-            class='bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'>
+            className={
+              'bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
+            }>
             Continue shopping
           </button>
         </div>

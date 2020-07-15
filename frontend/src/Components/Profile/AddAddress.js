@@ -2,22 +2,26 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editAddress } from '../../actions/profileActions';
+import { setAddress } from '../../actions/profileActions';
 
-class EditAddress extends React.Component {
+class AddAddress extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      ...this.props.address,
+      firstname: '',
+      lastname: '',
+      cellphone: null,
+      telephone: null,
+      address: '',
+      postcode: '',
     };
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let address_id = this.state._id;
     let addressData = { ...this.state };
-    this.props.editAddress(addressData, address_id);
+    this.props.setAddress(addressData);
     this.props.handleClose();
   };
 
@@ -50,7 +54,6 @@ class EditAddress extends React.Component {
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
               id='firstname'
-              value={this.state.firstname}
               type='text'
               placeholder='Jane'
               onChange={this.handleChange}
@@ -71,7 +74,6 @@ class EditAddress extends React.Component {
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
               id='lastname'
-              value={this.state.lastname}
               type='text'
               placeholder='Smith'
               required
@@ -93,7 +95,6 @@ class EditAddress extends React.Component {
                   'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
                 }
                 id='cellphone'
-                value={this.state.cellphone}
                 type='number'
                 placeholder='(65)9531 1217'
                 onChange={this.handleChange}
@@ -114,7 +115,6 @@ class EditAddress extends React.Component {
                   'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
                 }
                 id='telephone'
-                value={this.state.telephone}
                 type='number'
                 placeholder='(65)9531 1217'
                 onChange={this.handleChange}
@@ -137,7 +137,6 @@ class EditAddress extends React.Component {
                   'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
                 }
                 id='address'
-                value={this.state.address}
                 type='text'
                 required
                 placeholder='25 Lower Kent Ridge Rd'
@@ -158,7 +157,6 @@ class EditAddress extends React.Component {
                   'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
                 }
                 id='postcode'
-                value={this.state.postcode}
                 type='number'
                 required
                 placeholder='119081'
@@ -180,8 +178,8 @@ class EditAddress extends React.Component {
   }
 }
 
-EditAddress.propTypes = {
-  editAddress: PropTypes.func,
+AddAddress.propTypes = {
+  setAddress: PropTypes.func,
 };
 
-export default connect(null, { editAddress })(EditAddress);
+export default connect(null, { setAddress })(AddAddress);

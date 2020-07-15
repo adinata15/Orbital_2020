@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -20,10 +20,36 @@ function ProfileBtn(props) {
     setAnchorEl(null);
   };
 
+  const differentOptions = () => {
+    if (props.accounttype === 'buyer') {
+      return (
+        <span>
+          <MenuItem onClick={handleClose}>
+            <Link to='/address'>My address</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to='/order'>My order</Link>
+          </MenuItem>
+        </span>
+      );
+    } else {
+      return (
+        <span>
+          <MenuItem onClick={handleClose}>
+            <Link to='/store'>My store</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to='/wallet'>My wallet</Link>
+          </MenuItem>
+        </span>
+      );
+    }
+  };
+
   return (
     <div>
       <img
-        class='h-8 w-8 my-3 ml-3 float-right'
+        className={'h-8 w-8 my-3 ml-3 float-right'}
         onClick={handleClick}
         src={Image}
         hidden={!props.isAuthenticated}
@@ -40,12 +66,12 @@ function ProfileBtn(props) {
             to={() => {
               return `/edit/profile/${props.accounttype}`;
             }}>
-            Edit profile
+            My profile
           </Link>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to='/myaccount'>My account</Link>
-        </MenuItem>
+
+        {differentOptions()}
+
         <MenuItem
           onClick={() => {
             props.logout();

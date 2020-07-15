@@ -15,6 +15,7 @@ import {
   PAY_START,
   PAY_SUCCEED,
   PAY_FAIL,
+  GET_LISTING_DATA,
 } from '../actions/types';
 
 const initialState = {
@@ -32,6 +33,7 @@ const initialState = {
 const shop = (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
+    case GET_LISTING_DATA:
       return {
         ...state,
         itemDisplayed: action.payload,

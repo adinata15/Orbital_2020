@@ -55,6 +55,7 @@ export const register = (user, accounttype) => async (dispatch) => {
     });
 
     dispatch(loadUser());
+    dispatch(setAlert('Register successful', 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -86,6 +87,7 @@ export const login = (user) => async (dispatch) => {
     });
 
     dispatch(loadUser());
+    dispatch(setAlert('Login successful', 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
 

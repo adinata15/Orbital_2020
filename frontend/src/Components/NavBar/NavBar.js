@@ -90,7 +90,7 @@ class NavBar extends React.Component {
         {this.sellItems()}
         {/* everything down should be restricted to private */}
 
-        <SigninBtn class='float-right' />
+        <SigninBtn className='float-right' />
 
         <ProfileBtn />
         <CartBtn />

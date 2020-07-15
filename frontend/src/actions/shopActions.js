@@ -264,7 +264,7 @@ export const checkoutStripe = (stripe, sessionId) => async (dispatch) => {
 };
 
 //Post items
-export const postItems = (pictureData) => async (dispatch) => {
+export const postItems = (itemData) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -273,8 +273,8 @@ export const postItems = (pictureData) => async (dispatch) => {
     };
 
     const res = await axios.post(
-      `http://localhost:5000/api/users/seller/profile_pict`,
-      pictureData,
+      `http://localhost:5000/api/users/seller/item`,
+      itemData,
       config
     );
 
@@ -282,9 +282,10 @@ export const postItems = (pictureData) => async (dispatch) => {
       type: POST_ITEM,
       payload: res.data,
     });
+    dispatch(setAlert('Listed item', 'success'));
   } catch (err) {
     dispatch({
-      type: POST_ITEM,
+      type: POST_ERROR,
       payload: err,
     });
   }

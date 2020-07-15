@@ -12,9 +12,9 @@ const TableRow = (props) => {
       sl = `sl-${idx}`;
     return (
       <tr key={val.index}>
-        <td class='border px-4 py-2'>
+        <td className={'border px-4 py-2'}>
           <input
-            class='w-full'
+            className='w-full'
             type='text'
             name='size'
             data-id={idx}
@@ -22,9 +22,9 @@ const TableRow = (props) => {
             onChange={(e) => props.handleChange(e)}
           />
         </td>
-        <td class='border px-4 py-2'>
+        <td className={'border px-4 py-2'}>
           <input
-            class='w-full'
+            className='w-full'
             type='number'
             name='chest'
             id={chest}
@@ -32,12 +32,19 @@ const TableRow = (props) => {
             onChange={(e) => props.handleChange(e)}
           />
         </td>
-        <td class='border px-4 py-2'>
-          <input class='w-full' type='number' name='bl' id={bl} data-id={idx} />
-        </td>
-        <td class='border px-4 py-2'>
+        <td className={'border px-4 py-2'}>
           <input
-            class='w-full'
+            className='w-full'
+            type='number'
+            name='bl'
+            id={bl}
+            data-id={idx}
+            onChange={(e) => props.handleChange(e)}
+          />
+        </td>
+        <td className={'border px-4 py-2'}>
+          <input
+            className='w-full'
             type='number'
             name='waist'
             id={waist}
@@ -45,9 +52,9 @@ const TableRow = (props) => {
             onChange={(e) => props.handleChange(e)}
           />
         </td>
-        <td class='border px-4 py-2'>
+        <td className={'border px-4 py-2'}>
           <input
-            class='w-full'
+            className='w-full'
             type='number'
             name='hip'
             id={hip}
@@ -55,23 +62,37 @@ const TableRow = (props) => {
             onChange={(e) => props.handleChange(e)}
           />
         </td>
-        <td class='border px-4 py-2'>
-          <input class='w-full' type='number' name='tl' id={tl} data-id={idx} />
-        </td>
-        <td class='border px-4 py-2'>
+        <td className={'border px-4 py-2'}>
           <input
-            class='w-full'
+            className='w-full'
+            type='number'
+            name='tl'
+            id={tl}
+            data-id={idx}
+            onChange={(e) => props.handleChange(e)}
+          />
+        </td>
+        <td className={'border px-4 py-2'}>
+          <input
+            className='w-full'
             type='number'
             name='bust'
             id={bust}
             data-id={idx}
-            onChange={() => props.handleChange()}
+            onChange={(e) => props.handleChange(e)}
           />
         </td>
-        <td class='border px-4 py-2'>
-          <input class='w-full' type='number' name='sl' id={sl} data-id={idx} />
+        <td className={'border px-4 py-2'}>
+          <input
+            className='w-full'
+            type='number'
+            name='sl'
+            id={sl}
+            data-id={idx}
+            onChange={(e) => props.handleChange(e)}
+          />
         </td>
-        <td class='border px-4 py-2'>
+        <td className={'border px-4 py-2'}>
           {idx === 0 ? (
             <button onClick={() => props.add()} type='button'>
               Add

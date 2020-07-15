@@ -1,6 +1,7 @@
 //problem upload profile pic
 //sellform on progress
 //how to handle error (error not handled yet)
+//className until profile btn so far
 
 //Press alt+click to edit multiple lines at once
 import './App.css';
@@ -13,8 +14,11 @@ import Shop from './Components/Shop/Shop';
 import Checkout from './Components/Checkout';
 import EditProfileSeller from './Components/Profile/EditProfileSeller';
 import EditProfileBuyer from './Components/Profile/EditProfileBuyer';
+import ListingBook from './Components/Profile/ListingBook';
+import AddressBook from './Components/Profile/AddressBook';
 import FooterBar from './Components/FooterBar';
 import Home from './Components/Home.js';
+import Alert from './Components/Alert.js';
 
 import PrivateRoute from './utils/PrivateRoute.js';
 import SignupForm from './Components/SignIn/SignupForm.js';
@@ -28,6 +32,7 @@ class App extends React.Component {
     return (
       <div>
         <NavBar />
+        <Alert />
         <Switch>
           <Route path='/signup' component={SignupForm} />
           <Route path='/' exact component={Home} />
@@ -41,7 +46,10 @@ class App extends React.Component {
             path='/edit/profile/buyer'
             component={EditProfileBuyer}
           />
+          <PrivateRoute path='/address' component={AddressBook} />
           <PrivateRoute path='/sell' component={SellForm} />
+          <PrivateRoute path='/store' component={ListingBook} />
+
           {/* <PrivateRoute
             
             component={withProps(Checkout, {
