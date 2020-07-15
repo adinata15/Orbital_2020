@@ -177,7 +177,7 @@ router.get('/:seller_id', async (req, res) => {
 
     let listings = seller.listings;
     if (listings.length === 0) {
-      return res.status(404).json({ msg: 'Seller does not sell anything yet' });
+      return res.json({ name: seller.name, image: seller.image });
     }
 
     const listingsArray = [];
@@ -186,7 +186,7 @@ router.get('/:seller_id', async (req, res) => {
     );
     listings = await Promise.all(listingsArray);
 
-    res.json(listings);
+    res.json({ name: seller.name, image: seller.image, listings });
   } catch (err) {
     console.log(err.message);
     if (err.kind == 'ObjectId') {
