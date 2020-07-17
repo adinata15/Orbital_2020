@@ -209,6 +209,7 @@ router.post(
             })
           );
         }
+        console.log(localStorage.token);
 
         await Promise.all(promisesArray);
       }
