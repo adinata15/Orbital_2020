@@ -192,11 +192,8 @@ export const uncartItem = (item, size) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    dispatch(setAlert(err.msg, 'danger'));
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-    }
     dispatch({
       type: LIKE_FAIL,
     });
@@ -213,14 +210,13 @@ export const payItems = (cartItem) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-
     let body = JSON.stringify(cartItem);
-
     const res = await axios.post(
       'http://localhost:5000/api/stripe/create-checkout-session',
       body,
       config
     );
+
     await dispatch({
       type: PAY_START,
       payload: res.data.sessionId,
@@ -228,14 +224,11 @@ export const payItems = (cartItem) => async (dispatch) => {
 
     await dispatch(checkoutStripe(stripe, res.data.sessionId));
   } catch (err) {
-    const errors = err;
-
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    if (err) {
+      dispatch(setAlert(err.msg, 'danger'));
     }
     dispatch({
       type: PAY_FAIL,
-      payload: errors,
     });
   }
 };

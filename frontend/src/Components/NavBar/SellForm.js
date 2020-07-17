@@ -19,9 +19,9 @@ class SellForm extends Component {
       category: 'male',
       image: [],
       tempImage: [],
+      outofstock: {}, //put the out of stock items in comma
       sizeTable: [
         {
-          index: Math.random(),
           size: '',
           chest: '',
           bl: '',
@@ -37,34 +37,28 @@ class SellForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let config = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-
     let data = new FormData();
+
+    //inserting size datas
+    this.state.sizeTable.map((sizeOne, idx) => {
+      data.append(`size${idx + 1}`, sizeOne.size);
+      data.append(`size${idx + 1}chest`, sizeOne.chest);
+      data.append(`size${idx + 1}bl`, sizeOne.bl);
+      data.append(`size${idx + 1}waist`, sizeOne.waist);
+      data.append(`size${idx + 1}hip`, sizeOne.hip);
+      data.append(`size${idx + 1}tl`, sizeOne.tl);
+      data.append(`size${idx + 1}bust`, sizeOne.bust);
+      data.append(`size${idx + 1}sl`, sizeOne.sl);
+    });
+
     data.append('title', this.state.title);
     data.append('category', this.state.category);
     data.append('brand', this.state.brand);
     data.append('price', this.state.price);
-    data.append('displayImage', this.state.image[0]);
-    data.append('itemImages', this.state.image);
-    data.append('size', this.state.sizeTable); //we put in the whole table?
-
+    //data.append('displayImage', this.state.image[0]);
+    data.append('itemImages', this.state.image); //problem here
+    console.log(...data);
     this.props.postItems(data);
-    // console.log(data.get('brand'));
-
-    // axios
-    //   .post(`http://localhost:5000/api/users/seller/item`, data, config)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     alert('Sell data sent');
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //     alert('Sell data fail');
-    //   });
   };
 
   handleChange = (e) => {
@@ -101,11 +95,11 @@ class SellForm extends Component {
   };
 
   handleChangeTable = (e) => {
-    console.log('here');
-    console.log(e);
     let sizeTable = [...this.state.sizeTable];
     sizeTable[e.target.dataset.id][e.target.name] = e.target.value;
-    console.log(this.state.sizeTable);
+    // this.setState((prevState) => ({
+    //   sizeFinal: { ...prevState.setFinal, [e.target.id]: e.target.value },
+    // }));
   };
 
   removeRow = (row) => {
@@ -119,7 +113,6 @@ class SellForm extends Component {
       sizeTable: [
         ...prevState.sizeTable,
         {
-          index: Math.random(),
           size: '',
           chest: '',
           bl: '',
@@ -207,8 +200,8 @@ class SellForm extends Component {
                 id='category'
                 defaultValue={this.state.gender}
                 onChange={this.handleChange}>
-                <option value='male'>Male</option>
-                <option value='female'>Female</option>
+                <option value='men'>Men</option>
+                <option value='women'>Women</option>
                 <option value='others'>Others</option>
               </select>
               <div
@@ -258,7 +251,7 @@ class SellForm extends Component {
               }
               id='price'
               type='number'
-              placeholder='in kg'
+              placeholder='$45.7'
               onChange={this.handleChange}
             />
           </div>
@@ -313,126 +306,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { postItems })(SellForm);
-
-/*
- 	
-
- 	import axios from 'axios';
- 	import { NotificationContainer, NotificationManager } from 'react-notifications';
- 	className Form extends React.Component {
- 	state = {
- 	sizeTable: [{ index: Math.random(), projectName: "", task: "", taskNotes: "", taskStatus: "" }],
- 	date: "",
- 	description: "",
- 	}
- 	 
- 	handleChange = (e) => {
- 	if (["projectName", "task", "taskNotes", "taskStatus"].includes(e.target.name)) {
- 	let sizeTable = [...this.state.sizeTable]
- 	sizeTable[e.target.dataset.id][e.target.name] = e.target.value;
- 	} else {
- 	this.setState({ [e.target.name]: e.target.value })
- 	}
- 	}
- 	addNewRow = (e) => {
- 	this.setState((prevState) => ({
- 	sizeTable: [...prevState.sizeTable, { index: Math.random(), projectName: "", task: "", taskNotes: "", taskStatus: "" }],
- 	}));
- 	}
- 	 
- 	deteteRow = (index) => {
- 	this.setState({
- 	sizeTable: this.state.sizeTable.filter((s, sindex) => index !== sindex),
- 	});
- 	// const sizeTable1 = [...this.state.sizeTable];
- 	// sizeTable1.splice(index, 1);
- 	// this.setState({ sizeTable: sizeTable1 });
- 	}
- 	handleSubmit = (e) => {
- 	e.preventDefault();
- 	if(this.state.date==='' || this.state.description==='')
- 	{
- 	NotificationManager.warning("Please Fill up Required Field . Please check Task and Date Field");
- 	return false;
- 	}
- 	for(var i=0;i<this.state.sizeTable.length;i++)
- 	{
- 	if(this.state.sizeTable[i].projectName==='' || this.state.sizeTable[i].task==='')
- 	{
- 	NotificationManager.warning("Please Fill up Required Field.Please Check Project name And Task Field");
- 	return false;
- 	}
- 	}
- 	let data = { formData: this.state, userData: localStorage.getItem('user') }
- 	axios.defaults.headers.common["Authorization"] = localStorage.getItem('token');
- 	axios.post("http://localhost:9000/api/task", data).then(res => {
- 	if(res.data.success) NotificationManager.success(res.data.msg);
- 	}).catch(error => {
- 	if(error.response.status && error.response.status===400)
- 	NotificationManager.error("Bad Request");
- 	else NotificationManager.error("Something Went Wrong");
- 	this.setState({ errors: error })
- 	});
- 	}
- 	clickOnDelete(record) {
- 	this.setState({
- 	sizeTable: this.state.sizeTable.filter(r => r !== record)
- 	});
- 	}
- 	render() {
- 	let { sizeTable } = this.state//let { notes, date, description, sizeTable } = this.state
- 	return (
- 	<div classNameName="content">
- 	<NotificationContainer/>
- 	<form onSubmit={this.handleSubmit} onChange={this.handleChange} >
- 	<div classNameName="row" style={{ marginTop: 20 }}>
- 	<div classNameName="col-sm-1"></div>
- 	<div classNameName="col-sm-10">
- 	<div classNameName="card">
- 	<div classNameName="card-header text-center">Add Your Daily Task</div>
- 	<div classNameName="card-body">
- 	<div classNameName="row">
- 	<div classNameName="col-sm-4">
- 	<div classNameName="form-group ">
- 	<label classNameName="required">Date</label>
- 	<input type="date" name="date" id="date" classNameName="form-control" placeholder="Enter Date" />
- 	</div>
- 	</div>
- 	<div classNameName="col-sm-4">
- 	<div classNameName="form-group ">
- 	<label classNameName="required">Description</label>
- 	<textarea name="description" id="description" classNameName="form-control"></textarea>
- 	</div>
- 	</div>
- 	</div>
- 	<table classNameName="table">
- 	<thead>
- 	<tr>
- 	<th classNameName="required" >Project Name</th>
- 	<th classNameName="required" >Task</th>
- 	<th>Notes</th>
- 	<th>Status</th>
- 	</tr>
- 	</thead>
- 	<tbody>
- 	<sizeTable add={this.addNewRow} delete={this.clickOnDelete.bind(this)} sizeTable={sizeTable} />
- 	</tbody>
- 	<tfoot>
- 	<tr><td colSpan="4">
- 	<button onClick={this.addNewRow} type="button" classNameName="btn btn-primary text-center"><i classNameName="fa fa-plus-circle" aria-hidden="true"></i></button>
- 	</td></tr>
- 	</tfoot>
- 	</table>
- 	</div>
- 	<div classNameName="card-footer text-center"> <button type="submit" classNameName="btn btn-primary text-center">Submit</button></div>
- 	</div>
- 	</div>
- 	<div classNameName="col-sm-1"></div>
- 	</div>
- 	</form>
- 	</div>
- 	)
- 	}
- 	}
-   export default Form
-   */

@@ -2,14 +2,14 @@ import React from 'react';
 
 const TableRow = (props) => {
   return props.sizeData.map((val, idx) => {
-    let size = `size-${idx}`,
-      chest = `chest-${idx}`,
-      bl = `bl-${idx}`,
-      waist = `waist-${idx}`,
-      hip = `hip-${idx}`,
-      tl = `tl-${idx}`,
-      bust = `bust-${idx}`,
-      sl = `sl-${idx}`;
+    let size = `size${idx}`,
+      chest = `size${idx}chest`,
+      bl = `size${idx}bl`,
+      waist = `size${idx}waist`,
+      hip = `size${idx}hip`,
+      tl = `size${idx}tl`,
+      bust = `size${idx}bust`,
+      sl = `size${idx}sl`;
     return (
       <tr key={val.index}>
         <td className={'border px-4 py-2'}>

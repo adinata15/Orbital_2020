@@ -22,9 +22,9 @@ class ListingBook extends Component {
       <div>
         <h1 className={'py-2 px-5 text-4xl'}>My Listings</h1>
         <div class='flex flex-wrap justify-center mb-3 border-solid border-2 rounded'>
-          {listings.map((listing) => {
-            <ListingItem listing={listing.item} />;
-          })}
+          {listings.map((listing) => (
+            <ListingItem key={listing._id} itemId={listing.item} />
+          ))}
         </div>
 
         <div className={'flex justify-end'}>

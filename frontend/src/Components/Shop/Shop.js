@@ -11,8 +11,6 @@ import Card from './Card.js';
 class ShopMenu extends React.Component {
   constructor(props) {
     super(props);
-  }
-  componentWillMount() {
     this.props.getItems(this.props.menuChosen);
   }
 

@@ -11,7 +11,6 @@ class Card extends React.Component {
       open: false,
       size: '',
     };
-    // this.handleClickOpen
   }
 
   handleClickOpen = () => {
@@ -23,12 +22,6 @@ class Card extends React.Component {
   handleClose = () => {
     this.setState({
       open: false,
-    });
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      size: e.target.value.toUpperCase(),
     });
   };
 
@@ -51,11 +44,7 @@ class Card extends React.Component {
           fullWidth={true}
           maxWidth={'md'}
           scroll={'body'}>
-          <ClothesDetail
-            item={this.props.item}
-            onClose={this.handleClose}
-            // addWishlist={this.props.addWishlist}
-          />
+          <ClothesDetail item={this.props.item} onClose={this.handleClose} />
         </Dialog>
 
         <div className={'p-2'}>

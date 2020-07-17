@@ -13,7 +13,6 @@ class CartForm extends React.Component {
 
   payItems = (e) => {
     e.preventDefault();
-    let self = this;
 
     let cartItems = {
       items: this.props.itemCart,

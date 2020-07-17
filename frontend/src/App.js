@@ -8,6 +8,10 @@ import './App.css';
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loadUser } from './actions/loginActions';
+
 import NavBar from './Components/NavBar/NavBar';
 import SellForm from './Components/NavBar/SellForm';
 import Shop from './Components/Shop/Shop';
@@ -15,6 +19,7 @@ import Checkout from './Components/Checkout';
 import EditProfileSeller from './Components/Profile/EditProfileSeller';
 import EditProfileBuyer from './Components/Profile/EditProfileBuyer';
 import ListingBook from './Components/Profile/ListingBook';
+import OrdersBook from './Components/Profile/OrdersBook';
 import AddressBook from './Components/Profile/AddressBook';
 import FooterBar from './Components/FooterBar';
 import Home from './Components/Home.js';
@@ -26,6 +31,12 @@ import SignupForm from './Components/SignIn/SignupForm.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    if (this.props.token && !this.props.isAuthenticated) {
+      this.props.loadUser();
+    }
   }
 
   render() {
@@ -49,14 +60,8 @@ class App extends React.Component {
           <PrivateRoute path='/address' component={AddressBook} />
           <PrivateRoute path='/sell' component={SellForm} />
           <PrivateRoute path='/store' component={ListingBook} />
-
-          {/* <PrivateRoute
-            
-            component={withProps(Checkout, {
-              ...this.state,
-            })}
-            path='/checkout/success'
-          /> */}
+          <PrivateRoute path='/order' component={OrdersBook} />
+          <Route path='/checkout/success' component={Checkout} />
         </Switch>
         <FooterBar />
       </div>
@@ -64,7 +69,18 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(App);
+App.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  token: PropTypes.string,
+  loadUser: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  token: state.auth.token,
+});
+
+export default withRouter(connect(mapStateToProps, { loadUser })(App));
 /* Components
 -------------------------------
 

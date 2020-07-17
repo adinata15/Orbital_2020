@@ -15,6 +15,10 @@ import {
   SET_SHIPPING_ADDRESS,
   EDIT_LISTING,
   DELETE_LISTING,
+  GET_ORDER,
+  GET_ORDER_FAIL,
+  LOADING,
+  CHECKOUT_SUCCESS,
 } from './types';
 
 //Edit profile
@@ -195,20 +199,43 @@ export const getAddress = () => async (dispatch) => {
   }
 };
 
-//Get individual listing
-export const getListingData = (item_id) => async (dispatch) => {
+//Creat checkout order
+export const getCheckout = (order) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/items/${item_id}`);
+    let orderData = JSON.stringify(order);
+
+    const res = await axios.post(
+      'http://localhost:5000/api/items/create-order',
+      orderData
+    );
 
     dispatch({
-      type: GET_LISTING_DATA,
+      type: CHECKOUT_SUCCESS,
       payload: res.data,
     });
-
-    dispatch(setAlert('Item editted', 'success'));
   } catch (err) {
     dispatch({
       type: EDIT_PROFILE_FAIL,
+      payload: err,
+    });
+  }
+};
+
+//Get all user address
+export const getOrder = (accounttype) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/api/users/${accounttype}/orders`
+    );
+    dispatch({ type: LOADING });
+
+    dispatch({
+      type: GET_ORDER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ORDER_FAIL,
       payload: err,
     });
   }

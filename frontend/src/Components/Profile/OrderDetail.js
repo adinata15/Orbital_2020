@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { editListing, deleteListing } from '../../actions/profileActions';
 // import { setAlert } from '../../actions/alertActions';
 
-class ListingDetail extends React.Component {
+class OrderDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -187,9 +187,9 @@ class ListingDetail extends React.Component {
   }
 }
 
-ListingDetail.propTypes = {
+OrderDetail.propTypes = {
   editListing: PropTypes.func,
   deleteListing: PropTypes.func,
 };
 
-export default connect(null, { editListing, deleteListing })(ListingDetail);
+export default connect(null, { editListing, deleteListing })(OrderDetail);

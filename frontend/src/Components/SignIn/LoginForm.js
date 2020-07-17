@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import SignUpLink from './SignUpLink';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -154,7 +153,12 @@ class LoginForm extends React.Component {
           </DialogActions>
           <p class='text-xs italic'>
             Do not have an account?
-            <SignUpLink handleClose={this.props.handleClose} />
+            <Link
+              class='underline text-green-600 mx-1 cursor-pointer'
+              to='/signup'
+              onClick={this.props.handleClose}>
+              Sign Up
+            </Link>
           </p>
         </form>
       </Fragment>

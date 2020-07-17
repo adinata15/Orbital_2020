@@ -18,6 +18,10 @@ export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const ACCOUNT_DELETED = 'ACCOUNT_DELETED';
+export const GET_ORDER = 'GET_ORDER';
+export const GET_ORDER_FAIL = 'GET_ORDER_FAIL';
+export const LOADING = 'LOADING';
+
 //buyer
 export const GET_ADDRESS = 'GET_ADDRESS';
 export const DELETE_ADDRESS = 'DELETE_ADDRESS';
@@ -34,6 +38,7 @@ export const EDIT_LISTING = 'EDIT_LISTING';
 export const DELETE_LISTING = 'DELETE_LISTING';
 export const EDIT_PROFILE_PIC = 'EDIT_PROFILE_PIC';
 export const GET_LISTING_DATA = 'GET_LISTING_DATA';
+export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 
 //SHOP LIST
 export const MENU = 'MENU';

@@ -20,18 +20,24 @@ import {
   POST_ITEM,
   EDIT_LISTING,
   DELETE_LISTING,
+  GET_ORDER,
+  GET_ORDER_FAIL,
+  LOADING,
+  CHECKOUT_SUCCESS,
 } from '../actions/types';
 
 const initialState = {
+  isLoading: true,
   token: localStorage.getItem('token'),
   isAuthenticated: null,
-  loading: true,
   user: {
     listings: [],
     billingaddress: {},
     shippingaddress: {},
     addresses: [], // if it's an array,
+    orders: [],
   },
+  orderCurr: {},
   addresses: [],
 };
 
@@ -44,6 +50,7 @@ export default function (state = initialState, action) {
     case POST_ITEM:
       return {
         ...state,
+        isLoading: false,
         user: {
           ...state.user,
           listings: payload,
@@ -55,6 +62,8 @@ export default function (state = initialState, action) {
     case SET_BILLING_ADDRESS:
       return {
         ...state,
+        isLoading: false,
+
         user: {
           ...state.user,
           billingaddress: payload,
@@ -65,17 +74,20 @@ export default function (state = initialState, action) {
     case SET_SHIPPING_ADDRESS:
       return {
         ...state,
+        isLoading: false,
+
         user: {
           ...state.user,
           shippingaddress: payload,
         },
       };
-
     case EDIT_ADDRESS:
     case SET_ADDRESS:
     case DELETE_ADDRESS:
       return {
         ...state,
+        isLoading: false,
+
         user: {
           ...state.user,
           addresses: payload,
@@ -85,19 +97,29 @@ export default function (state = initialState, action) {
     case EDIT_PROFILE_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         user: payload,
       };
 
     case GET_ADDRESS:
       return {
         ...state,
+        isLoading: false,
+
         addresses: payload,
+      };
+    case CHECKOUT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        orderCurr: payload,
       };
     case USER_LOADED:
       return {
         ...state,
+        isLoading: false,
+
         isAuthenticated: true,
-        loading: false,
         user: payload,
       };
     case REGISTER_SUCCESS:
@@ -107,7 +129,7 @@ export default function (state = initialState, action) {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false,
+        isLoading: false,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
@@ -119,7 +141,22 @@ export default function (state = initialState, action) {
         ...state,
         token: null,
         isAuthenticated: false,
-        loading: false,
+        isLoading: false,
+      };
+
+    case GET_ORDER:
+      return {
+        ...state,
+        isLoading: false,
+        user: {
+          ...state.user,
+          orders: payload,
+        },
+      };
+    case LOADING:
+      return {
+        ...state,
+        isLoading: true,
       };
     default:
       return state;
