@@ -6,6 +6,10 @@ const BuyerOrderSchema = new mongoose.Schema({
     ref: 'buyer',
   },
   shippingaddress: {
+    addressid: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'address',
+    },
     firstname: {
       type: String,
       required: true,
@@ -32,6 +36,10 @@ const BuyerOrderSchema = new mongoose.Schema({
     },
   },
   billingaddress: {
+    addressid: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'address',
+    },
     firstname: {
       type: String,
       required: true,

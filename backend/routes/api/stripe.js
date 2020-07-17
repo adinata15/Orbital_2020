@@ -107,6 +107,8 @@ router.post('/create-checkout-session', auth, async (req, res) => {
     for (var i = 0; i < uniqueSellersArray[0].length; i++) {
       metadata[uniqueSellersArray[0][i]] = uniqueSellersArray[1][i];
     }
+    // For creating order
+    metadata['buyerId'] = req.user.id;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -127,44 +129,8 @@ router.post('/create-checkout-session', auth, async (req, res) => {
   }
 });
 
-// router.get('/checkout/success', auth, async (req, res) => {
-//   const { session_id } = req.query;
-
-//   try {
-//     const session = await stripe.checkout.sessions.retrieve(session_id);
-//     const paymentIntent = await stripe.paymentIntents.retrieve(
-//       session.payment_intent
-//     );
-//     console.log(paymentIntent);
-//     console.log(paymentIntent.charges.data);
-//     const transfer_group = paymentIntent.transfer_group;
-//     const sellerInfo = paymentIntent.metadata;
-//     const promisesArray = [];
-
-//     for (const seller in sellerInfo) {
-//       const amount = parseInt(sellerInfo[seller] * 0.966 - 50);
-//       promisesArray.push(
-//         stripe.transfers.create({
-//           amount: amount,
-//           currency: 'SGD',
-//           source_transaction: paymentIntent.id,
-//           destination: seller,
-//           transfer_group,
-//         })
-//       );
-//     }
-
-//     const transfers = await Promise.all(promisesArray);
-
-//     res.json(transfers);
-//   } catch (err) {
-//     console.log(err.message);
-//     res.status(500).send('Server error');
-//   }
-// });
-
 // @route POST api/stripe/webhook
-// @desc Make transfers to sellers upon buyer's successful payment (This endpoint will run automatically once buyer completes payment, dont need to do anything on front end)
+// @desc Make transfers to sellers upon buyer's successful payment, create buyer order and seller orders (This endpoint will run automatically once buyer completes payment, dont need to do anything on front end)
 // @access Private
 router.post(
   '/webhook',
@@ -198,18 +164,114 @@ router.post(
         const promisesArray = [];
 
         for (const seller in sellerInfo) {
-          const amount = parseInt(sellerInfo[seller] * 0.966 - 50);
-          promisesArray.push(
-            stripe.transfers.create({
-              amount: amount,
-              currency: 'SGD',
-              source_transaction: chargeId,
-              destination: seller,
-              transfer_group,
-            })
-          );
+          if (seller === 'buyerId') {
+            const buyer = await Buyer.findOne({ _id: sellerInfo[seller] });
+            const billingaddress = buyer.billingaddress.address;
+            const shippingaddress = buyer.shippingaddress.address;
+            const items = buyer.cart;
+
+            try {
+              let total = 0;
+              const itemsArray = [];
+              const itemPromisesArray = [];
+
+              items.forEach(item => {
+                itemsArray.push({
+                  item: item.item,
+                  brand: item.brand,
+                  title: item.title,
+                  size: item.size,
+                  image: item.image,
+                  price: item.price,
+                  quantity: item.quantity,
+                });
+                total += item.price * item.quantity;
+                itemPromisesArray.push(Item.findOne({ _id: item.item }));
+              });
+
+              const orderFields = {};
+              orderFields.shippingaddress = shippingaddress;
+              orderFields.billingaddress = billingaddress;
+              orderFields.items = itemsArray;
+              orderFields.total = total;
+              orderFields.buyer = buyer._id;
+
+              const buyerOrder = new BuyerOrder(orderFields);
+              await buyerOrder.save();
+              buyer.orders.push({ order: buyerOrder });
+              buyer.cart = [];
+              await buyer.save();
+
+              const sellerItemsArray = await Promise.all(itemPromisesArray);
+              const sellerPromisesArray = [];
+
+              sellerItemsArray.forEach(item =>
+                sellerPromisesArray.push(Seller.findOne({ _id: item.seller }))
+              );
+              let sellersArray = await Promise.all(sellerPromisesArray);
+              sellersArray = sellersArray.map(seller => seller._id.toString());
+              const uniqueSellersArray = [[], []];
+
+              for (var i = 0; i < sellersArray.length; i++) {
+                const sellerIndex = uniqueSellersArray[0].indexOf(
+                  sellersArray[i]
+                );
+                if (sellerIndex < 0) {
+                  uniqueSellersArray[0].push(sellersArray[i]);
+                  uniqueSellersArray[1].push([itemsArray[i]]);
+                } else {
+                  uniqueSellersArray[1][sellerIndex].push(itemsArray[i]);
+                }
+              }
+
+              for (var i = 0; i < uniqueSellersArray[0].length; i++) {
+                const seller = await Seller.findOne({
+                  _id: uniqueSellersArray[0][i],
+                });
+                let sellerTotal = 0;
+                const indivSellerItemsArray = [];
+
+                uniqueSellersArray[1][i].forEach(item => {
+                  indivSellerItemsArray.push({
+                    item: item.item,
+                    brand: item.brand,
+                    title: item.title,
+                    size: item.size,
+                    image: item.image,
+                    price: item.price,
+                    quantity: item.quantity,
+                  });
+                  sellerTotal += item.price * item.quantity;
+                });
+
+                const sellerOrder = new SellerOrder({
+                  seller: seller._id,
+                  buyer: buyer._id,
+                  items: indivSellerItemsArray,
+                  total: sellerTotal,
+                });
+
+                await sellerOrder.save();
+                seller.orders.push({ order: sellerOrder });
+                await seller.save();
+              }
+            } catch (err) {
+              console.log(err.message);
+              res.status(500).send('Server error');
+            }
+          } else {
+            const amount = parseInt(sellerInfo[seller] * 0.966 - 50);
+            promisesArray.push(
+              stripe.transfers.create({
+                amount: amount,
+                currency: 'SGD',
+                source_transaction: chargeId,
+                destination: seller,
+                transfer_group,
+              })
+            );
+          }
         }
-        console.log(localStorage.token);
 
         await Promise.all(promisesArray);
       }

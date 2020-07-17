@@ -20,7 +20,7 @@ import {
 } from './types';
 
 //Get shop items
-export const getItems = (category) => async (dispatch) => {
+export const getItems = category => async dispatch => {
   try {
     const res = await axios.get(
       `http://localhost:5000/api/items/category/${category}`
@@ -38,7 +38,7 @@ export const getItems = (category) => async (dispatch) => {
 };
 
 //Get liked items
-export const getLikedItems = () => async (dispatch) => {
+export const getLikedItems = () => async dispatch => {
   try {
     const res = await axios.get(
       `http://localhost:5000/api/users/buyer/wishlist`
@@ -56,7 +56,7 @@ export const getLikedItems = () => async (dispatch) => {
 };
 
 //Get cart items
-export const getcartItems = () => async (dispatch) => {
+export const getcartItems = () => async dispatch => {
   try {
     const res = await axios.get(`http://localhost:5000/api/users/buyer/cart`);
     dispatch({
@@ -72,7 +72,7 @@ export const getcartItems = () => async (dispatch) => {
 };
 
 //Like item
-export const likeItem = (data, itemId) => async (dispatch) => {
+export const likeItem = (data, itemId) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export const likeItem = (data, itemId) => async (dispatch) => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: LIKE_FAIL,
@@ -104,7 +104,7 @@ export const likeItem = (data, itemId) => async (dispatch) => {
 };
 
 //Unlike item
-export const unlikeItem = (item, size) => async (dispatch) => {
+export const unlikeItem = (item, size) => async dispatch => {
   try {
     const res = await axios.put(
       `http://localhost:5000/api/items/unlike/${item}/${size}`
@@ -117,7 +117,7 @@ export const unlikeItem = (item, size) => async (dispatch) => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: LIKE_FAIL,
@@ -126,7 +126,7 @@ export const unlikeItem = (item, size) => async (dispatch) => {
 };
 
 //Like -> cart item
-export const like2cart = (item, size) => async (dispatch) => {
+export const like2cart = (item, size) => async dispatch => {
   try {
     const res = await axios.put(
       `http://localhost:5000/api/items/wishlist/cart/${item}/${size}`
@@ -141,7 +141,7 @@ export const like2cart = (item, size) => async (dispatch) => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: LIKE_FAIL,
@@ -150,7 +150,7 @@ export const like2cart = (item, size) => async (dispatch) => {
 };
 
 //Cart item
-export const cartItem = (data, itemId) => async (dispatch) => {
+export const cartItem = (data, itemId) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ export const cartItem = (data, itemId) => async (dispatch) => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: CART_FAIL,
@@ -182,7 +182,7 @@ export const cartItem = (data, itemId) => async (dispatch) => {
 };
 
 //Uncart item
-export const uncartItem = (item, size) => async (dispatch) => {
+export const uncartItem = (item, size) => async dispatch => {
   try {
     const res = await axios.put(
       `http://localhost:5000/api/items/uncart/${item}/${size}`
@@ -201,7 +201,7 @@ export const uncartItem = (item, size) => async (dispatch) => {
 };
 
 //Pay cart item
-export const payItems = (cartItem) => async (dispatch) => {
+export const payItems = cartItem => async dispatch => {
   let stripe = store.getState().shop.stripe;
 
   try {
@@ -217,10 +217,14 @@ export const payItems = (cartItem) => async (dispatch) => {
       config
     );
 
+    console.log('CHECKOUT CREATED');
+
     await dispatch({
       type: PAY_START,
       payload: res.data.sessionId,
     });
+
+    console.log(res.data.sessionId);
 
     await dispatch(checkoutStripe(stripe, res.data.sessionId));
   } catch (err) {
@@ -234,7 +238,7 @@ export const payItems = (cartItem) => async (dispatch) => {
 };
 
 //Checkout to Stripe
-export const checkoutStripe = (stripe, sessionId) => async (dispatch) => {
+export const checkoutStripe = (stripe, sessionId) => async dispatch => {
   try {
     const res = await stripe.redirectToCheckout({
       sessionId: sessionId,
@@ -247,7 +251,7 @@ export const checkoutStripe = (stripe, sessionId) => async (dispatch) => {
     const errors = err;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: PAY_FAIL,
@@ -257,7 +261,7 @@ export const checkoutStripe = (stripe, sessionId) => async (dispatch) => {
 };
 
 //Post items
-export const postItems = (itemData) => async (dispatch) => {
+export const postItems = itemData => async dispatch => {
   try {
     const config = {
       headers: {

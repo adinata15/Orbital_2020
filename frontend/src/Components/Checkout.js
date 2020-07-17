@@ -15,7 +15,7 @@ class Checkout extends React.Component {
       cart: this.props.user.cart,
     };
 
-    this.props.getCheckout(order);
+    // this.props.getCheckout(order);
   }
   render() {
     return <p>Checkout success</p>;
@@ -26,7 +26,7 @@ Checkout.propTypes = {
   getCheckout: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   orderCurr: state.auth.orderCurr,
   user: state.auth.user,
 });
