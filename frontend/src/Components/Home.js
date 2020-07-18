@@ -14,33 +14,31 @@ class Home extends React.Component {
   }
   render() {
     return (
-      <div class=' bg-gray-200'>
-        <div class=' text-gray-700 text-center bg-gray-400 m-2'>
-          <Link
+      <div class='flex flex-col sm:flex-row text-gray-700 text-center bg-gray-400 m-2'>
+        <Link
+          onClick={(e) => this.props.menuSelect(e.target.name)}
+          name='men'
+          to='/shop'>
+          <img
             onClick={(e) => this.props.menuSelect(e.target.name)}
             name='men'
-            to='/shop'>
-            <img
-              onClick={(e) => this.props.menuSelect(e.target.name)}
-              name='men'
-              class='object-cover'
-              src={Men}
-            />
-          </Link>
-        </div>
-        <div class=' text-gray-700 text-center bg-gray-400 m-2'>
-          <Link
+            className={'hover:opacity-75 object-cover'}
+            src={Men}
+          />
+        </Link>
+        {/* </div>
+        <div class=' text-gray-700 text-center bg-gray-400 m-2'> */}
+        <Link
+          onClick={(e) => this.props.menuSelect(e.target.name)}
+          name='women'
+          to='/shop'>
+          <img
             onClick={(e) => this.props.menuSelect(e.target.name)}
-            name='women'
-            to='/shop'>
-            <img
-              onClick={(e) => this.props.menuSelect(e.target.name)}
-              name='men'
-              class='object-cover'
-              src={Women}
-            />
-          </Link>
-        </div>
+            name='men'
+            className={'hover:opacity-75 object-cover'}
+            src={Women}
+          />
+        </Link>
       </div>
     );
   }
