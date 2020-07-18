@@ -26,9 +26,9 @@ export const loadUser = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    });
+    dispatch({ type: AUTH_ERROR });
+    dispatch({ type: CLEAR_PROFILE });
+    window.location.assign('/');
   }
 };
 

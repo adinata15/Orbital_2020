@@ -131,8 +131,8 @@ export default function (state = initialState, action) {
         isAuthenticated: true,
         isLoading: false,
       };
-    case REGISTER_FAIL:
     case AUTH_ERROR:
+    case REGISTER_FAIL:
     case LOGIN_FAIL:
     case LOGOUT:
     case ACCOUNT_DELETED:

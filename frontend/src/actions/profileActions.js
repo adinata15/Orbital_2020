@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alertActions';
+
 import {
   EDIT_PROFILE_SUCCESS,
   EDIT_PROFILE_FAIL,
@@ -18,7 +19,6 @@ import {
   GET_ORDER,
   GET_ORDER_FAIL,
   LOADING,
-  CHECKOUT_SUCCESS,
 } from './types';
 
 //Edit profile
