@@ -115,6 +115,14 @@ const ItemSchema = new mongoose.Schema({
       },
     },
   ],
+  sizechartunit: {
+    type: String,
+    required: true,
+  },
+  sizechartmeatype: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = Item = new mongoose.model('item', ItemSchema);

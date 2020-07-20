@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const path = require('path');
+const spawn = require('child_process').spawn;
 
 const Item = require('../../model/Item');
 
@@ -391,7 +393,7 @@ router.put('/wishlist/cart/:item_id/:size', auth, async (req, res) => {
 // @access Public
 router.get('/category/:category', async (req, res) => {
   try {
-    const category = req.params.category.split('-');
+    const category = req.params.category.toLowerCase().split('-');
     const items = await Item.find({
       category: { $all: category },
     });
@@ -404,5 +406,171 @@ router.get('/category/:category', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+// @route GET api/items/size-assistant/:item_id
+// @desc Get size recommendation for items on Best Fit
+// @access Public
+router.get(
+  '/size-assistant/:item_id',
+  [
+    check('weight', 'Weight is required').exists({ checkFalsy: true }),
+    check('height', 'Height is required').exists({ checkFalsy: true }),
+    check('gender', 'Gender is required').not().isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { height, weight, gender } = req.body;
+
+    try {
+      const item = await Item.findOne({ _id: req.params.item_id });
+      if (!item) {
+        return res.status(400).json({ msg: 'Item not found' });
+      }
+
+      const sizes = item.sizes;
+      const unit = item.sizechartunit;
+      const meatype = item.sizechartmeatype;
+      const category = item.category;
+
+      if (unit === 'in') {
+        for (var i = 0; i < sizes.length; i++) {
+          if (
+            category.includes('tshirt') ||
+            category.includes('shirt') ||
+            category.includes('dress')
+          ) {
+            sizes[i].chest.from = sizes[i].chest.from * 2.54;
+            sizes[i].chest.to = sizes[i].chest.to * 2.54;
+          } else {
+            sizes[i].waist.from = sizes[i].waist.from * 2.54;
+            sizes[i].waist.to = sizes[i].waist.to * 2.54;
+          }
+        }
+      }
+
+      if (meatype === 'garment') {
+        switch (true) {
+          case category.includes('tshirt'):
+            for (var i = 0; i < sizes.length; i++) {
+              sizes[i].chest.from = sizes[i].chest.from * 2 - 4;
+              sizes[i].chest.to = sizes[i].chest.to * 2 - 4;
+            }
+            break;
+          case category.includes('shirt'):
+            for (var i = 0; i < sizes.length; i++) {
+              sizes[i].chest.from = sizes[i].chest.from * 2 - 10;
+              sizes[i].chest.to = sizes[i].chest.to * 2 - 10;
+            }
+            break;
+          case category.includes('dress'):
+            for (var i = 0; i < sizes.length; i++) {
+              sizes[i].chest.from = sizes[i].chest.from * 2 - 10;
+              sizes[i].chest.to = sizes[i].chest.to * 2 - 10;
+            }
+            break;
+        }
+      }
+
+      const pypath = path.join(
+        __dirname,
+        '../..',
+        'utils',
+        'size_assistant.py'
+      );
+      const params = [pypath];
+      params.push(height);
+      params.push(weight);
+      let chestWidth;
+      let waistCirc;
+      let recSize;
+
+      if (
+        category.includes('tshirt') ||
+        category.includes('shirt') ||
+        category.includes('dress')
+      ) {
+        params.push(0);
+
+        if (gender === 'M') {
+          params.push(1);
+        } else {
+          params.push(2);
+        }
+
+        const py = spawn('python', params);
+
+        py.stdout.on('data', data => {
+          let sizeFound = false;
+          let whichSize = 0;
+          chestWidth = parseFloat(data.toString().slice(1, 6));
+
+          while (!sizeFound) {
+            if (chestWidth < sizes[whichSize].chest.to) {
+              recSize = sizes[whichSize].size;
+              sizeFound = !sizeFound;
+            }
+          }
+        });
+
+        py.stdout.on('close', () => {
+          if (!chestWidth) {
+            return res.status(500).send('Server error');
+          }
+          console.log('Predicted chest width =', chestWidth);
+          recSize ? res.json({ recSize }) : res.json({ msg: 'Size not found' });
+        });
+
+        py.stderr.on('data', data => {
+          console.log(data.toString());
+        });
+      } else {
+        params.push(1);
+
+        if (gender === 'M') {
+          params.push(1);
+        } else {
+          params.push(2);
+        }
+
+        const py = spawn('python', params);
+
+        py.stdout.on('data', data => {
+          let sizeFound = false;
+          let whichSize = 0;
+          waistCirc = parseFloat(data.toString().slice(1, 6));
+
+          while (!sizeFound) {
+            if (waistCirc < sizes[whichSize].waist.to) {
+              recSize = sizes[whichSize].size;
+              sizeFound = !sizeFound;
+            }
+          }
+        });
+
+        py.stdout.on('close', () => {
+          if (!waistCirc) {
+            return res.status(500).send('Server error');
+          }
+          console.log('Predicted waist circumference =', waistCirc);
+          recSize ? res.json({ recSize }) : res.json({ msg: 'Size not found' });
+        });
+
+        py.stderr.on('data', data => {
+          console.log(data.toString());
+        });
+      }
+    } catch (err) {
+      console.log(err.message);
+      if (err.kind == 'ObjectId') {
+        return res.status(400).json({ msg: 'Item not found' });
+      }
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 module.exports = router;
