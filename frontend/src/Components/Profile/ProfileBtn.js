@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
@@ -7,8 +7,7 @@ import { logout } from '../../actions/loginActions';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Image from '../../images/plus.jpg';
-import ArrowPointer from '../../images/arrow.png';
+import Image from '../../images/plus.svg';
 
 function ProfileBtn(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,24 +47,9 @@ function ProfileBtn(props) {
   };
 
   return (
-    <div>
+    <Fragment>
       <img
-        className={'focus:rotate-180 h-8 w-8 my-3 ml-3 float-right'}
-        style={{ background: 'transparent' }}
-        onClick={handleClick}
-        src={ArrowPointer}
-        hidden={!props.isAuthenticated}
-      />
-      {/* <svg width='400' height='180'>
-        <i
-          className={
-            'fas fa-angle-down text-white focus:rotate-180 h-8 w-8 my-3 ml-3 float-right'
-          }
-        />
-      </svg> */}
-
-      <img
-        className={'h-8 w-8 my-3 ml-3 float-right'}
+        className={'h-8 w-8 my-3 mr-3 float-right'}
         onClick={handleClick}
         src={Image}
         hidden={!props.isAuthenticated}
@@ -96,7 +80,7 @@ function ProfileBtn(props) {
           Logout
         </MenuItem>
       </Menu>
-    </div>
+    </Fragment>
   );
 }
 

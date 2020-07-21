@@ -16,6 +16,8 @@ import {
   PAY_SUCCEED,
   PAY_FAIL,
   GET_LISTING_DATA,
+  CART_INCREASE_ONE,
+  CART_DECREASE_ONE,
 } from '../actions/types';
 
 const initialState = {
@@ -48,6 +50,8 @@ const shop = (state = initialState, action) => {
     case GET_CART_ITEMS:
     case CART_ITEM:
     case UNCART_ITEM:
+    case CART_INCREASE_ONE:
+    case CART_DECREASE_ONE:
       return {
         ...state,
         itemCart: action.payload,
@@ -67,10 +71,8 @@ const shop = (state = initialState, action) => {
     case LIKE_CART:
       return {
         ...state,
-        // itemLiked: state.shop.itemLiked.filter(
-        //   (item) => item.item !== action.item
-        // ),
-        itemCart: action.payload,
+        itemLiked: action.payload.wishlist,
+        itemCart: action.payload.cart,
       };
     default:
       return state;

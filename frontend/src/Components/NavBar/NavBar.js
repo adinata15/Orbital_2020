@@ -1,6 +1,6 @@
 // use Link instead of a+href to prevent website from reloading
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
@@ -90,8 +90,7 @@ class NavBar extends React.Component {
         {this.sellItems()}
         {/* everything down should be restricted to private */}
 
-        <SigninBtn className='float-right' />
-
+        <SigninBtn />
         <ProfileBtn />
         <CartBtn />
         <WishlistBtn />

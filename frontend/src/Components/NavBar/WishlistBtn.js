@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import WishlistForm from './WishlistForm.js';
-import Image from '../../images/heart.jpg';
+import Image from '../../images/heart.svg';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

@@ -151,6 +151,7 @@ export const updateBillingAddress = (address_id) => async (dispatch) => {
     });
 
     dispatch(getAddress());
+    dispatch(setAlert('Billing address updated', 'success'));
   } catch (err) {
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -172,6 +173,7 @@ export const updateShippingAddress = (address_id) => async (dispatch) => {
     });
 
     dispatch(getAddress());
+    dispatch(setAlert('Shipping address updated', 'success'));
   } catch (err) {
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -198,28 +200,6 @@ export const getAddress = () => async (dispatch) => {
     });
   }
 };
-
-// //Creat checkout order
-// export const getCheckout = (order) => async (dispatch) => {
-//   try {
-//     let orderData = JSON.stringify(order);
-
-//     const res = await axios.post(
-//       'http://localhost:5000/api/items/create-order',
-//       orderData
-//     );
-
-//     dispatch({
-//       type: CHECKOUT_SUCCESS,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: EDIT_PROFILE_FAIL,
-//       payload: err,
-//     });
-//   }
-// };
 
 //Get all user address
 export const getOrder = (accounttype) => async (dispatch) => {

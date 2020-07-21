@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import Alert from '../Alert.js';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -45,6 +45,7 @@ class ClothesDetail extends React.Component {
         className={
           'font-sans antialiased text-gray-900 leading-normal tracking-wider'
         }>
+        <Alert />
         <div
           className={
             'max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0'

@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from 'axios';
+
 import Cart from '../../images/cart.png';
-import Heart from '../../images/heart.png';
+import Heart from '../../images/broken-heart.svg';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -20,11 +20,11 @@ class WishlistItem extends React.Component {
         }>
         <div
           className={
-            'max-w-md flex items-center h-auto flex-wrap mx-auto shadow-md lg:my-3'
+            'max-w-md flex items-center h-auto flex-wrap mx-auto shadow-md my-3'
           }>
           <div
             className={
-              'w-3/5 rounded-lg lg:rounded-l-sm lg:rounded-r-none mx-3 lg:mx-0'
+              'w-3/5 rounded-lg rounded-l-sm rounded-r-none mx-3 mx-0'
             }>
             <p
               className={
@@ -35,17 +35,11 @@ class WishlistItem extends React.Component {
             <h1 className={'text-xl pl-4 font-bold pt-15 lg:pt-0 '}>
               {this.props.item.title}
             </h1>
-            <div className={'ml-3 mx-auto pb-3 lg:mx-0 w-3/5 '}>
-              <p
-                className={
-                  'pt-4 pl-4 text-base items-center justify-center lg:justify-start'
-                }>
-                ${this.props.item.price}
+            <div>
+              <p className={'pt-1 pl-4 text-base justify-start'}>
+                Price/item: $${this.props.item.price}
               </p>
-              <p
-                className={
-                  'pt-4 pl-4 text-base items-center justify-center lg:justify-start'
-                }>
+              <p className={'pt-1 pl-4 text-base justify-start'}>
                 Size: {this.props.item.size}
               </p>
               <div className='flex'>

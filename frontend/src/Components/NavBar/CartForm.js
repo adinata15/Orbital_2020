@@ -1,5 +1,6 @@
 import React from 'react';
-import Image from '../../images/green.jpg';
+
+import Alert from '../Alert.js';
 import CartItem from './CartItem.js';
 
 import PropTypes from 'prop-types';
@@ -37,6 +38,7 @@ class CartForm extends React.Component {
   render() {
     return (
       <div>
+        <Alert />
         <h1 className={'py-3 px-12 text-center text-3xl mb-3'}>Cart items</h1>
         {this.cartItems()}
         <div className='pt-3 px-12'>
@@ -53,7 +55,7 @@ class CartForm extends React.Component {
             className={
               'bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
             }>
-            Continue shopping
+            Back to shop
           </button>
         </div>
       </div>

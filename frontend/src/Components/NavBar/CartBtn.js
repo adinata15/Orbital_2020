@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import Image from '../../images/cart.png';
 import CartForm from './CartForm';
@@ -27,9 +27,9 @@ class CartBtn extends Component {
   };
   render() {
     return (
-      <span>
+      <Fragment>
         <img
-          className={'h-8 w-8 my-3 float-right'}
+          className={'h-8 w-8 my-3 mx-3 float-right'}
           onClick={this.handleClickOpen}
           style={{ transform: 'scaleX(-1)' }}
           src={Image}
@@ -44,7 +44,7 @@ class CartBtn extends Component {
           scroll={'body'}>
           <CartForm handleClose={this.handleClose} />
         </Dialog>
-      </span>
+      </Fragment>
     );
   }
 }

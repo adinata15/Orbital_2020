@@ -68,7 +68,7 @@ router.put(
 
       //Same item already present in buyer's cart
       let alrPresent = false;
-      buyer.cart.forEach(item => {
+      buyer.cart.forEach((item) => {
         if (
           item.item.toString() === newItem._id.toString() &&
           item.size === size
@@ -154,7 +154,7 @@ router.put('/cart/plus/:item_id/:size', auth, async (req, res) => {
 
     if (
       buyer.cart.filter(
-        item =>
+        (item) =>
           item.item.toString() === req.params.item_id &&
           item.size === req.params.size
       ).length === 0
@@ -162,7 +162,7 @@ router.put('/cart/plus/:item_id/:size', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Item not found' });
     }
 
-    buyer.cart.forEach(item => {
+    buyer.cart.forEach((item) => {
       if (
         item.item.toString() === req.params.item_id &&
         item.size === req.params.size
@@ -197,7 +197,7 @@ router.put('/cart/minus/:item_id/:size', auth, async (req, res) => {
 
     if (
       buyer.cart.filter(
-        item =>
+        (item) =>
           item.item.toString() === req.params.item_id &&
           item.size === req.params.size
       ).length === 0
@@ -205,7 +205,7 @@ router.put('/cart/minus/:item_id/:size', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Item not found' });
     }
 
-    buyer.cart.forEach(item => {
+    buyer.cart.forEach((item) => {
       if (
         (item.item.toString() === req.params.item_id) &
         (item.size === req.params.size)
@@ -215,7 +215,7 @@ router.put('/cart/minus/:item_id/:size', auth, async (req, res) => {
         //Remove item if quantity is zero
         if (item.quantity === 0) {
           const removeIndex = buyer.cart
-            .map(item => [item.item.toString(), item.size])
+            .map((item) => [item.item.toString(), item.size])
             .indexOf([req.params.item_id, req.params.size]);
 
           buyer.cart.splice(removeIndex, 1);
@@ -267,7 +267,7 @@ router.put(
       //If the item is already present in buyer's wishlist
       if (
         buyer.wishlist.filter(
-          item =>
+          (item) =>
             item.item.toString() === req.params.item_id && item.size === size
         ).length > 0
       ) {
@@ -277,7 +277,7 @@ router.put(
       //If the item is already present in buyer's wishlist
       if (
         buyer.cart.filter(
-          item =>
+          (item) =>
             item.item.toString() === req.params.item_id && item.size === size
         ).length > 0
       ) {
@@ -377,7 +377,7 @@ router.put('/wishlist/cart/:item_id/:size', auth, async (req, res) => {
     await buyer.save();
 
     itemFound
-      ? res.json(buyer.cart)
+      ? res.json(buyer)
       : res.status(404).json({ msg: 'Item not found' });
   } catch (err) {
     console.log(err.message);
@@ -503,7 +503,7 @@ router.get(
 
         const py = spawn('python', params);
 
-        py.stdout.on('data', data => {
+        py.stdout.on('data', (data) => {
           let sizeFound = false;
           let whichSize = 0;
           chestWidth = parseFloat(data.toString().slice(1, 6));
@@ -524,7 +524,7 @@ router.get(
           recSize ? res.json({ recSize }) : res.json({ msg: 'Size not found' });
         });
 
-        py.stderr.on('data', data => {
+        py.stderr.on('data', (data) => {
           console.log(data.toString());
         });
       } else {
@@ -538,7 +538,7 @@ router.get(
 
         const py = spawn('python', params);
 
-        py.stdout.on('data', data => {
+        py.stdout.on('data', (data) => {
           let sizeFound = false;
           let whichSize = 0;
           waistCirc = parseFloat(data.toString().slice(1, 6));
@@ -559,7 +559,7 @@ router.get(
           recSize ? res.json({ recSize }) : res.json({ msg: 'Size not found' });
         });
 
-        py.stderr.on('data', data => {
+        py.stderr.on('data', (data) => {
           console.log(data.toString());
         });
       }

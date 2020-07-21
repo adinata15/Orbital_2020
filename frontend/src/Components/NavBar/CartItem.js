@@ -1,15 +1,33 @@
 import React from 'react';
-import axios from 'axios';
-import Cart from '../../images/cart.png';
+import Minus from '../../images/minus.svg';
+import Add from '../../images/add.svg';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { uncartItem } from '../../actions/shopActions';
+import {
+  uncartItem,
+  cartIncreaseOne,
+  cartDecreaseOne,
+} from '../../actions/shopActions';
 
 class CartItem extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showInfo: false,
+    };
   }
+  handleClose = () => {
+    this.setState({
+      anchorEl: null,
+    });
+  };
+
+  handleClick = (e) => {
+    this.setState({
+      anchorEl: e.currentTarget,
+    });
+  };
 
   render() {
     return (
@@ -19,60 +37,74 @@ class CartItem extends React.Component {
         }>
         <div
           className={
-            'max-w-md flex items-center h-auto flex-wrap mx-auto shadow-md lg:my-3'
+            'max-w-md flex items-center h-auto flex-wrap mx-auto shadow-md my-3'
           }>
           <div
             className={
-              'w-3/5 rounded-lg lg:rounded-l-sm lg:rounded-r-none mx-3 lg:mx-0'
+              'w-3/5 rounded-lg rounded-l-sm rounded-r-none mx-3 mx-0'
             }>
             <p
               className={
-                'pt-4 pl-4 text-base opacity-50 font-bold items-center lg:justify-start'
+                'pt-4 pl-4 text-base opacity-50 font-bold items-center justify-start'
               }>
               {this.props.item.brand}
             </p>
-            <h1 className={'text-xl pl-4 font-bold pt-15 lg:pt-0 '}>
+            <h1 className={'text-xl pl-4 font-bold pt-0 '}>
               {this.props.item.title}
             </h1>
-            <div className={'ml-3 mx-auto pb-3 lg:mx-0 w-3/5 '}>
-              <p
-                className={
-                  'pt-4 pl-4 text-base items-center justify-center lg:justify-start'
-                }>
-                ${this.props.item.price}
+            <div>
+              <p className={'pt-1 pl-4 text-base justify-start'}>
+                Price/item: ${this.props.item.price}
               </p>
-              <p
-                className={
-                  'pt-4 pl-4 text-base items-center justify-center lg:justify-start'
-                }>
+              <p className={'pt-1 pl-4 text-base justify-start'}>
                 Size: {this.props.item.size}
               </p>
               <p
                 className={
-                  'pt-4 pl-4 text-base items-center justify-center lg:justify-start'
+                  'flex flex-row items-center pt-1 pl-4 text-base justify-start'
                 }>
-                Quantity: {this.props.item.quantity}
+                Quantity:
+                <img
+                  onClick={() => {
+                    this.props.cartDecreaseOne(
+                      this.props.item.item,
+                      this.props.item.size
+                    );
+                  }}
+                  className={'mx-2 w-4 h-4'}
+                  src={Minus}
+                />
+                {this.props.item.quantity}
+                <img
+                  onClick={() => {
+                    this.props.cartIncreaseOne(
+                      this.props.item.item,
+                      this.props.item.size
+                    );
+                  }}
+                  className={'mx-2 w-4 h-4'}
+                  src={Add}
+                />
               </p>
             </div>
-            <img
-              name='cart'
-              className={'h-8 w-8 ml-3 my-3 right-0 bottom-0'}
+
+            <button
               onClick={() => {
                 this.props.uncartItem(
                   this.props.item.item,
                   this.props.item.size
                 );
               }}
-              style={{ transform: 'scaleX(-1)' }}
-              src={Cart}
-            />
+              className={
+                'border-1 bg-red-600 mx-2 my-2 hover:bg-red-900 text-white font-bold py-2 px-8 rounded'
+              }>
+              Remove item
+            </button>
           </div>
-          <div className={'lg:w-32 lg:h-32 float-right'}>
+          <div className={'w-32 h-32 float-right'}>
             <img
               src={this.props.item.image}
-              className={
-                'rounded-none w-32 object-cover h-32 lg:rounded-lg shadow-2xl lg:block'
-              }
+              className={' w-32 object-cover h-32 rounded-lg shadow-2xl block'}
             />
           </div>
         </div>
@@ -83,6 +115,10 @@ class CartItem extends React.Component {
 
 CartItem.propTypes = {
   uncartItem: PropTypes.func,
+  cartIncreaseOne: PropTypes.func,
+  cartDecreaseOne: PropTypes.func,
 };
 
-export default connect(null, { uncartItem })(CartItem);
+export default connect(null, { uncartItem, cartIncreaseOne, cartDecreaseOne })(
+  CartItem
+);

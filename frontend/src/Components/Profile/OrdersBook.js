@@ -1,8 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import OrderDetail from './OrderDetail';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -22,18 +19,6 @@ class OrdersBook extends Component {
     this.props.getOrder(this.props.accounttype);
   }
 
-  handleOpen = (e) => {
-    this.setState({
-      [e.target.id]: true,
-    });
-  };
-
-  handleClose = () => {
-    this.setState({
-      open: false,
-    });
-  };
-
   render() {
     if (!this.props.orders)
       return (
@@ -45,56 +30,74 @@ class OrdersBook extends Component {
       return (
         <Fragment>
           <h1 className={'py-2 px-5 text-4xl'}>My Orders</h1>
-          <table id='tableaddresses' className={'p-3 mx-5 table-fixed'}>
+          <table id='tableaddresses' className={'p-3 mx-5 w-full table-auto'}>
             <thead>
               <tr className='bg-gray-300 border-0 border-b-3'>
-                <th className={'w-1/2 px-2 py-2'}>Items</th>
+                <th className={'px-2 py-2'}>Order ID</th>
+                <th className={'w-40 px-2 py-2'}>Items</th>
+                <th className={'px-2 py-2'}>Title</th>
+                <th className={'px-2 py-2'}>Brand</th>
                 <th className={'px-2 py-2'}>Size</th>
                 <th className={'px-2 py-2'}>Quantity</th>
                 <th className={'px-2 py-2'}>Total</th>
-                <th className={'px-2 py-2 '}></th>
               </tr>
             </thead>
             <tbody>
               {this.props.orders.map((order) => (
                 <Fragment>
+                  <div>Order date: {order.date.split('T')[0]}</div>
                   {order.items.map((item) => (
                     <tr className={'bg-gray-400 border-0 pt-3'}>
-                      <td className={'flex justify-center px-4 py-2'}>
+                      <td
+                        className={
+                          'px-4 py-2 border-r-2 border-b-2 text-center'
+                        }>
+                        #{item.item}
+                      </td>
+                      <td
+                        className={
+                          'flex justify-center px-4 py-2 border-r-2 border-b-2'
+                        }>
                         <img
-                          className={'w-1/3 h-1/3 object-cover'}
+                          className={'w-32 h-32 object-cover'}
                           src={item.image}
                           alt={item.item}
                         />
                       </td>
-                      <td className={'px-4 py-2'}>{item.size}</td>
-                      <td className={'px-4 py-2'}>{item.quantity}</td>
-                      <td className={'px-4 py-2'}>
+
+                      <td
+                        className={
+                          'px-4 py-2 border-r-2 border-b-2 text-center'
+                        }>
+                        {item.title}
+                      </td>
+                      <td
+                        className={
+                          'px-4 py-2 border-r-2 border-b-2 text-center'
+                        }>
+                        {item.brand}
+                      </td>
+                      <td
+                        className={
+                          'px-4 py-2 border-r-2 border-b-2 text-center'
+                        }>
+                        {item.size}
+                      </td>
+                      <td
+                        className={
+                          'px-4 py-2 border-r-2 border-b-2 text-center'
+                        }>
+                        {item.quantity}
+                      </td>
+                      <td
+                        className={
+                          'px-4 py-2 border-r-2 border-b-2 text-center'
+                        }>
                         ${item.quantity * item.price}
                       </td>
-                      <td className={' px-4 py-2'}>
-                        <button
-                          type='button'
-                          name={item.item}
-                          onClick={this.handleOpen}>
-                          Manage
-                        </button>
-                      </td>
-
-                      <Dialog
-                        open={this.state.open}
-                        onClose={this.handleClose}
-                        fullWidth={true}
-                        maxWidth={'sm'}
-                        scroll={'body'}>
-                        <OrderDetail
-                          item={item}
-                          handleClose={this.handleClose}
-                        />
-                      </Dialog>
                     </tr>
                   ))}
-                  <div className={'p-10'}></div>
+                  <div className={'p-5'} />
                 </Fragment>
               ))}
             </tbody>
@@ -110,13 +113,11 @@ OrdersBook.propTypes = {
   loadUser: PropTypes.func,
   accounttype: PropTypes.string.isRequired,
   orders: PropTypes.array,
-  isLoading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   accounttype: state.auth.user.accounttype,
   orders: state.auth.orders,
-  isLoading: state.auth.isLoading,
 });
 
 export default connect(mapStateToProps, {

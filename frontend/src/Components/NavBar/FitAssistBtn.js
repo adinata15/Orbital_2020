@@ -1,7 +1,7 @@
 //not done: make multiple in one row, image not distorted
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
-// import Button from "@material-ui/core/Button";
+
 import FitAssistCard from './FitAssistCard';
 
 class Card extends React.Component {

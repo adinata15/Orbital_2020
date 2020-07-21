@@ -1,5 +1,6 @@
 import React from 'react';
 import WishlistItem from './WishlistItem.js';
+import Alert from '../Alert.js';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,9 +9,6 @@ import { getLikedItems } from '../../actions/shopActions';
 class WishlistForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      wishlist: [],
-    };
   }
 
   componentWillMount() {
@@ -32,6 +30,7 @@ class WishlistForm extends React.Component {
   render() {
     return (
       <div>
+        <Alert />
         <h1 className={'py-3 px-12 text-center text-3xl mb-3'}>Liked items</h1>
         {this.wishlistItems()}
         <div className={'py-3 px-12'}>

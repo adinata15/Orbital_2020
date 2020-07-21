@@ -27,7 +27,6 @@ class ListingDetail extends React.Component {
   };
 
   render() {
-    console.log(this.props.itemInfo);
     return (
       <div
         className={

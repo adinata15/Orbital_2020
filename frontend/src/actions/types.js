@@ -42,6 +42,7 @@ export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 
 //SHOP LIST
 export const MENU = 'MENU';
+export const GET_SIZE = 'GET_SIZE';
 export const GET_ITEMS = 'GET_ITEMS';
 export const GET_LIKED_ITEMS = 'GET_LIKED_ITEMS';
 export const GET_CART_ITEMS = 'GET_CART_ITEMS';
@@ -53,6 +54,8 @@ export const UNLIKE_ITEM = 'UNLIKE_ITEM';
 export const LIKE_FAIL = 'LIKE_FAIL';
 export const CART_ITEM = 'CART_ITEM';
 export const UNCART_ITEM = 'UNCART_ITEM';
+export const CART_INCREASE_ONE = 'CART_INCREASE_ONE';
+export const CART_DECREASE_ONE = 'CART_DECREASE_ONE';
 export const CART_FAIL = 'CART_FAIL';
 export const PAY_START = 'PAY_START';
 export const PAY_SUCCEED = 'PAY_SUCCEED';

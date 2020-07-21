@@ -3,7 +3,7 @@
 //error code 500 for postItems
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import Image from '../../images/plus.jpg';
+import Image from '../../images/plus.svg';
 import TableRow from './TableRow';
 
 import PropTypes from 'prop-types';
@@ -74,9 +74,6 @@ class SellForm extends Component {
     } catch (err) {
       console.log(err);
     }
-
-    // //Redirect to my listing page
-    // window.history.pushState(null, null, '/');
   };
 
   handleChange = (e) => {
@@ -101,21 +98,20 @@ class SellForm extends Component {
     if (tempImage[0]) {
       return tempImage.map((item, index) =>
         index === 0 ? (
-          <div>
+          <div
+            className={'flex flex-col border-dotted border-green-800 border-2'}>
             <img
               key={index}
-              className={
-                'rounded-full h-64 w-64 my-3 border-green-800 shadow-xl object-cover'
-              }
+              className={'h-32 w-32 my-3 object-cover'}
               src={item}
               alt='image not displayed'
             />
-            Display image
+            <p className={'text-center'}>Display image</p>
           </div>
         ) : (
           <img
             key={index}
-            className={'rounded-full h-64 w-64 my-3 object-cover'}
+            className={' h-32 w-32 my-3 object-cover'}
             src={item}
             alt='image not displayed'
           />
@@ -165,32 +161,37 @@ class SellForm extends Component {
           action='/'
           onSubmit={this.handleSubmit}
           className={'w-9/12 max-w-lg mx-auto my-6'}>
-          <div className={'flex w-full px-3'}>
-            <img
-              className={'rounded-full h-64 w-64 my-3 object-cover'}
-              onClick={() => this.fileInput.click()}
-              src={Image}
-            />
-            {this.imageItems()}
-          </div>
-          <div className={'w-full px-3 self-center'}>
+          <div className={'w-full'}>
             <label
-              className={'block  mx-5 text-gray-700 text-m mb-2'}
-              for='email'>
-              Show us your smile :D
-            </label>
-            <button
-              type='button'
               className={
-                'bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
-              }
-              onClick={() => this.fileInput.click()}>
-              Choose file
-            </button>
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }>
+              Listing picture
+            </label>
+            <div className={'flex flex-col rounded border-2 border-dashed'}>
+              <img
+                className={
+                  'self-center rounded-full h-16 w-16 my-3 object-cover'
+                }
+                onClick={() => this.fileInput.click()}
+                src={Image}
+              />
+              <p
+                className={
+                  'text-center block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }>
+                Click here to add item picture
+              </p>
+            </div>
+            <div className={'flex flex-row border-2 rounded border-dashed'}>
+              {this.imageItems()}
+            </div>
           </div>
+
           <input
             type='file'
             name='image'
+            accept='image/*'
             style={{ display: 'none' }}
             onChange={this.handleImage}
             // to link to the button
@@ -335,3 +336,16 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { postItems })(SellForm);
+
+{
+  /* <div className={'w-full self-center'}>
+            <button
+              type='button'
+              className={
+                'bg-gray-800 my-2 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
+              }
+              onClick={() => this.fileInput.click()}>
+              Choose file
+            </button>
+          </div> */
+}

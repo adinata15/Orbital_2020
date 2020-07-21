@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Dialog from '@material-ui/core/Dialog';
+import Image from '../../images/logistics.svg';
 
 import EditAddress from './EditAddress';
 import AddAddress from './AddAddress';
@@ -48,18 +49,16 @@ class AddressBook extends Component {
   render() {
     let addresses = this.props.addresses;
     return (
-      <div>
+      <div className={'flex flex-col flex-no-wrap'}>
         <h1 className={'py-2 px-5 text-4xl'}>My Address</h1>
-        <table id='tableaddresses' className={'p-3 mx-5 table-fixed'}>
+        <table id='tableaddresses' className={'p-3 mx-5 w-11/12 table-auto'}>
           <thead>
-            <tr className='bg-gray-300 border-0 border-b-3'>
-              <th className={'px-2 py-2'}>Name</th>
-              <th className={'px-2 py-2'}>Address</th>
-              <th className={'px-2 py-2'}>Postcode</th>
-              <th className={'px-2 py-2'}>Phone</th>
-              <th className={'px-2 py-2'}>Status</th>
-              <th className={'px-2 py-2'}></th>
-              <th className={'px-2 py-2'}></th>
+            <tr className={'bg-gray-300 border-0 border-b-3'}>
+              <th className={'text-left px-4 py-2'}>Name</th>
+              <th className={'text-left px-4 py-2'}>Address</th>
+              <th className={'text-left px-4 py-2'}>Postcode</th>
+              <th className={'text-left px-4 py-2'}>Phone</th>
+              <th className={'text-left px-4 py-2'}>Status</th>
               <th className={'px-2 py-2'}></th>
               <th className={'px-2 py-2'}></th>
             </tr>
@@ -70,48 +69,31 @@ class AddressBook extends Component {
                 <td className={' px-4 py-2'}>
                   {address.firstname} {address.lastname}
                 </td>
-                <td className={' px-4 py-2'}>{address.address}</td>
-                <td className={' px-4 py-2'}>{address.postcode}</td>
-                <td className={' px-4 py-2'}>{address.telephone}</td>
-                <td className={' px-4 py-2'}>
-                  <label hidden={!address.shippingaddress}>
+                <td className={'px-4 py-2'}>{address.address}</td>
+                <td className={'px-4 py-2'}>{address.postcode}</td>
+                <td className={'px-4 py-2'}>{address.telephone}</td>
+                <td className={'px-4 py-2'}>
+                  <p hidden={!address.shippingaddress}>
                     Default shipping address
-                  </label>
-                  <label hidden={!address.billingaddress}>
+                  </p>
+                  <p hidden={!address.billingaddress}>
                     Default billing address
-                  </label>
+                  </p>
                 </td>
                 <td className={' px-4 py-2'}>
                   <button
                     type='button'
                     name={address._id}
+                    className={'text-blue-700 hover:underline'}
                     onClick={this.handleOpen}>
                     Edit
                   </button>
                 </td>
+
                 <td className={' px-4 py-2'}>
                   <button
                     type='button'
-                    name={address._id}
-                    onClick={() => {
-                      this.props.updateBillingAddress(address._id);
-                    }}>
-                    Set as billing address
-                  </button>
-                </td>
-                <td className={' px-4 py-2'}>
-                  <button
-                    type='button'
-                    name={address._id}
-                    onClick={() => {
-                      this.props.updateShippingAddress(address._id);
-                    }}>
-                    Set as shipping address
-                  </button>
-                </td>
-                <td className={' px-4 py-2'}>
-                  <button
-                    type='button'
+                    className={'text-blue-700 hover:underline'}
                     name={address._id}
                     onClick={() => {
                       this.props.deleteAddress(address._id);
@@ -123,7 +105,7 @@ class AddressBook extends Component {
                   open={address._id === this.state.editId}
                   onClose={this.handleClose}
                   fullWidth={true}
-                  maxWidth={'md'}
+                  maxWidth={'sm'}
                   scroll={'body'}>
                   <EditAddress
                     address={address}
@@ -132,25 +114,33 @@ class AddressBook extends Component {
                 </Dialog>
               </tr>
             ))}
+            <tr className={''}>
+              <td className={'px-2 py-2'}></td>
+              <td className={'px-2 py-2'}></td>
+              <td className={'px-2 py-2'}></td>
+              <td className={'px-2 py-2'}></td>
+              <td className={'px-2 py-2'}></td>
+              <td className={'px-2 py-2'}></td>
+              <td className={'flex justify-end py-2'}>
+                <button
+                  type='button'
+                  name='openAdd'
+                  onClick={this.handleOpen}
+                  className={
+                    'bg-gray-800 w-auto my-2 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
+                  }>
+                  Add new address
+                </button>
+              </td>
+            </tr>
           </tbody>
-          <div className={'flex justify-end'}>
-            <button
-              type='button'
-              name='openAdd'
-              onClick={this.handleOpen}
-              className={
-                'bg-gray-800 w-auto my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
-              }>
-              Add new address
-            </button>
-          </div>
         </table>
 
         <Dialog
           open={this.state.openAdd}
           onClose={this.handleClose}
           fullWidth={true}
-          maxWidth={'md'}
+          maxWidth={'sm'}
           scroll={'body'}>
           <AddAddress handleClose={this.handleClose} />
         </Dialog>
