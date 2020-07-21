@@ -4,32 +4,68 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editListing, deleteListing } from '../../actions/profileActions';
-// import { setAlert } from '../../actions/alertActions';
 
 class OrderDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...this.props.itemInfo,
+      ...this.props.item,
     };
   }
 
-  editItem = () => {
-    let data = { ...this.state };
-    this.props.editListing(data, this.props.itemInfo._id);
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
   render() {
-    console.log(this.props.itemInfo);
     return (
       <div
+        className={
+          'flex flex-col items-center max-w-sm rounded overflow-hidden shadow-lg'
+        }>
+        <img
+          className={'w-1/2 h-1/2'}
+          src={this.props.item.image}
+          alt='Sunset in the mountains'
+        />
+        <div className={'px-6 py-4'}>
+          <div className={'font-bold text-xl mb-2'}>The Coldest Sunset</div>
+          <p className={'text-gray-700 text-base'}>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Voluptatibus quia, nulla! Maiores et perferendis eaque,
+            exercitationem praesentium nihil.
+          </p>
+        </div>
+        <div className={'px-6 py-4'}>
+          <span
+            className={
+              'inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'
+            }>
+            #photography
+          </span>
+          <span
+            className={
+              'inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'
+            }>
+            #travel
+          </span>
+          <span
+            className={
+              'inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700'
+            }>
+            #winter
+          </span>
+        </div>
+      </div>
+    );
+  }
+}
+
+// OrderDetail.propTypes = {
+//   editListing: PropTypes.func,
+//   deleteListing: PropTypes.func,
+// };
+
+// export default connect(null, { editListing, deleteListing })(OrderDetail);
+export default OrderDetail;
+{
+  /* <div
         className={
           'font-sans antialiased text-gray-900 leading-normal tracking-wider'
         }>
@@ -42,154 +78,36 @@ class OrderDetail extends React.Component {
               'w-full lg:w-4/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0'
             }>
             <div className={'p-4 md:p-12 text-center lg:text-left'}>
-              <div
-                className={
-                  'block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center'
-                }>
-                <img
-                  className={'block h-full w-full lg:hidden rounded-lg'}
-                  name='itemImages'
-                  src={this.props.itemInfo.images[0]}
-                />
-              </div>
-
               <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
-                <label
-                  className={
-                    'block uppercase tracking-wide text-black text-xs font-bold mb-2'
-                  }
-                  for='quantity'>
-                  Title
-                </label>
-                <input
-                  name='title'
-                  className={
-                    'appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  }
-                  id='title'
-                  type='text'
-                  value={this.props.itemInfo.title}
-                  onChange={this.handleChange}
-                />
-              </div>
-
-              <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
-                <label
-                  className={
-                    'block uppercase tracking-wide text-black text-xs font-bold mb-2'
-                  }
-                  for='quantity'>
-                  Price
-                </label>
-                <input
-                  name='price'
-                  className={
-                    'appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  }
-                  id='title'
-                  type='number'
-                  value={this.props.itemInfo.price}
-                  onChange={this.handleChange}
-                />
-              </div>
-
-              <div className={'flex flex-wrap -mx-3 '}>
-                <div className={'w-full  md:w-1/2 px-3 md:mb-0'}>
-                  <label
-                    className={
-                      'block uppercase tracking-wide text-black text-xs font-bold mb-2'
-                    }
-                    for='size'>
-                    Category
-                  </label>
-                  <div>
-                    <select
-                      value={this.props.itemInfo.category}
-                      className={
-                        'block appearance-none w-full bg-gray-200 border border-gray-200 text-black py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                      }
-                      id='size'
-                      onChange={this.handleChange}>
-                      <option value='man'>Man</option>
-                      <option value='woman'>Woman</option>
-                      <option value='others'>Others</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
-                <label
-                  className={
-                    'block uppercase tracking-wide text-black text-xs font-bold mb-2'
-                  }
-                  for='quantity'>
-                  Brand
-                </label>
-                <input
-                  name='brand'
-                  className={
-                    'appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  }
-                  id='quantity'
-                  type='text'
-                  value={this.props.itemInfo.brand}
-                  onChange={this.handleChange}
-                />
-              </div>
-            </div>
-
-            {/* <p
+                Title: {this.props.item.title}
+                Price: {this.props.item.price}
+                Category: {this.props.item.category}
+                Brand: {this.props.item.brand}
+                 <p
                 name='sizes'
                 className={
                   'pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start'
                 }>
                 Available sizes
-              </p> */}
-
-            <div className={'flex pt-8 pb-8'}>
-              <button
-                onClick={this.editItem}
-                className={
-                  'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
-                }>
-                Save edit
-              </button>
-              <button
-                onClick={() =>
-                  this.props.deleteListing(this.props.itemInfo._id)
-                }
-                className={
-                  'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
-                }>
-                Delete listing
-              </button>
-              <button
-                onClick={this.props.onClose}
-                className={
-                  'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
-                }>
-                Back
-              </button>
+              </p> 
+                <button
+                  onClick={this.props.onClose}
+                  className={
+                    'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
+                  }>
+                  Back
+                </button>
+              </div>
             </div>
-            <p className={'text-sm text-red-600'}>{this.state.alert}</p>
+            <div className={'lg:w-1/5 lg:h-auto inset-y-0 right-0'}>
+              <img
+                src={this.props.item.image}
+                className={
+                  'rounded-none w-auto h-auto lg:rounded-lg shadow-2xl hidden lg:block'
+                }
+              />
+            </div>
           </div>
         </div>
-        <div className={'lg:w-1/5 lg:h-auto inset-y-0 right-0'}>
-          <img
-            src={this.props.itemInfo.images[0]}
-            className={
-              'rounded-none w-auto h-auto lg:rounded-lg shadow-2xl hidden lg:block'
-            }
-          />
-        </div>
-      </div>
-    );
-  }
+      </div> */
 }
-
-OrderDetail.propTypes = {
-  editListing: PropTypes.func,
-  deleteListing: PropTypes.func,
-};
-
-export default connect(null, { editListing, deleteListing })(OrderDetail);

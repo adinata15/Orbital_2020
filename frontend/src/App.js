@@ -61,7 +61,7 @@ class App extends React.Component {
           <PrivateRoute path='/sell' component={SellForm} />
           <PrivateRoute path='/store' component={ListingBook} />
           <PrivateRoute path='/order' component={OrdersBook} />
-          <Route path='/checkout/success' component={Checkout} />
+          <Route path='/checkout/success' component={OrdersBook} />
         </Switch>
         <FooterBar />
       </div>

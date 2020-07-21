@@ -37,7 +37,7 @@ const initialState = {
     addresses: [], // if it's an array,
     orders: [],
   },
-  orderCurr: {},
+  order: [],
   addresses: [],
 };
 
@@ -148,10 +148,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        user: {
-          ...state.user,
-          orders: payload,
-        },
+        orders: payload,
       };
     case LOADING:
       return {
