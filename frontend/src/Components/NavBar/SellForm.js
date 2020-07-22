@@ -99,10 +99,12 @@ class SellForm extends Component {
       return tempImage.map((item, index) =>
         index === 0 ? (
           <div
-            className={'flex flex-col border-dotted border-green-800 border-2'}>
+            className={
+              'flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
+            }>
             <img
               key={index}
-              className={'h-32 w-32 my-3 object-cover'}
+              className={'h-32 w-32 mx-1 my-3 object-cover'}
               src={item}
               alt='image not displayed'
             />
@@ -111,14 +113,18 @@ class SellForm extends Component {
         ) : (
           <img
             key={index}
-            className={' h-32 w-32 my-3 object-cover'}
+            className={'mx-1 h-32 w-32 my-3 object-cover'}
             src={item}
             alt='image not displayed'
           />
         )
       );
     } else {
-      return <p className={'text-3xl px-8 font-bold my-3'}>No image chosen</p>;
+      return (
+        <p className={'text-3xl text-center w-full px-8 font-bold my-3'}>
+          No image chosen
+        </p>
+      );
     }
   };
 
@@ -183,7 +189,10 @@ class SellForm extends Component {
                 Click here to add item picture
               </p>
             </div>
-            <div className={'flex flex-row border-2 rounded border-dashed'}>
+            <div
+              className={
+                'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
+              }>
               {this.imageItems()}
             </div>
           </div>
@@ -197,8 +206,8 @@ class SellForm extends Component {
             // to link to the button
             ref={(fileInput) => (this.fileInput = fileInput)}
           />
-          <div className={'flex flex-wrap -mx-3 mb-6'}>
-            <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
+          <div className={'flex flex-wrap -mx-3'}>
+            <div className={'w-full px-3 my-3 '}>
               <label
                 className={
                   'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
@@ -225,29 +234,11 @@ class SellForm extends Component {
                 for='grid-gender'>
                 Category
               </label>
-              <div className='relative'>
-                <select
-                  className={
-                    'block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  }
-                  id='category'
-                  defaultValue={this.state.gender}
-                  onChange={this.handleChange}>
-                  <option value='men'>Men</option>
-                  <option value='women'>Women</option>
-                  <option value='others'>Others</option>
-                </select>
-                <div
-                  className={
-                    'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'
-                  }>
-                  <svg
-                    className={'fill-current h-4 w-4'}
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'>
-                    <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                  </svg>
-                </div>
+              <div
+                className={
+                  'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
+                }>
+                {this.imageItems()}
               </div>
             </div>
             <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
@@ -348,4 +339,30 @@ export default connect(mapStateToProps, { postItems })(SellForm);
               Choose file
             </button>
           </div> */
+}
+{
+  /* <div className='relative'>
+                <select
+                  className={
+                    'block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                  }
+                  id='category'
+                  defaultValue={this.state.gender}
+                  onChange={this.handleChange}>
+                  <option value='men'>Men</option>
+                  <option value='women'>Women</option>
+                  <option value='others'>Others</option>
+                </select>
+                <div
+                  className={
+                    'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'
+                  }>
+                  <svg
+                    className={'fill-current h-4 w-4'}
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 20 20'>
+                    <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                  </svg>
+                </div>
+              </div> */
 }
