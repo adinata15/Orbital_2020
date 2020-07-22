@@ -13,6 +13,7 @@ class ListingDetail extends React.Component {
     this.state = {
       ...this.props.itemInfo,
     };
+    console.log(this.props.itemInfo);
   }
 
   editItem = () => {
@@ -40,19 +41,8 @@ class ListingDetail extends React.Component {
             className={
               'w-full lg:w-4/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0'
             }>
-            <div className={'p-4 md:p-12 text-center lg:text-left'}>
-              <div
-                className={
-                  'block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center'
-                }>
-                <img
-                  className={'block h-full w-full lg:hidden rounded-lg'}
-                  name='itemImages'
-                  src={this.props.itemInfo.images[0]}
-                />
-              </div>
-
-              <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
+            <div className={'p-4 text-center '}>
+              <div className={'w-full px-3 mb-6'}>
                 <label
                   className={
                     'block uppercase tracking-wide text-black text-xs font-bold mb-2'
@@ -72,7 +62,7 @@ class ListingDetail extends React.Component {
                 />
               </div>
 
-              <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
+              <div className={'w-1/2 px-3 mb-6 '}>
                 <label
                   className={
                     'block uppercase tracking-wide text-black text-xs font-bold mb-2'
@@ -91,32 +81,7 @@ class ListingDetail extends React.Component {
                   onChange={this.handleChange}
                 />
               </div>
-
-              <div className={'flex flex-wrap -mx-3 '}>
-                <div className={'w-full  md:w-1/2 px-3 md:mb-0'}>
-                  <label
-                    className={
-                      'block uppercase tracking-wide text-black text-xs font-bold mb-2'
-                    }
-                    for='size'>
-                    Category
-                  </label>
-                  <div>
-                    <select
-                      value={this.props.itemInfo.category}
-                      className={
-                        'block appearance-none w-full bg-gray-200 border border-gray-200 text-black py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                      }
-                      id='size'
-                      onChange={this.handleChange}>
-                      <option value='man'>Man</option>
-                      <option value='woman'>Woman</option>
-                      <option value='others'>Others</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
+              <div className={'w-1/2 px-3 mb-6 '}>
                 <label
                   className={
                     'block uppercase tracking-wide text-black text-xs font-bold mb-2'
@@ -134,6 +99,31 @@ class ListingDetail extends React.Component {
                   value={this.props.itemInfo.brand}
                   onChange={this.handleChange}
                 />
+              </div>
+            </div>
+
+            <div className={'flex flex-wrap -mx-3 '}>
+              <div className={'w-full  md:w-1/2 px-3 md:mb-0'}>
+                <label
+                  className={
+                    'block uppercase tracking-wide text-black text-xs font-bold mb-2'
+                  }
+                  for='size'>
+                  Category
+                </label>
+                <div>
+                  <select
+                    value={this.props.itemInfo.category}
+                    className={
+                      'block appearance-none w-full bg-gray-200 border border-gray-200 text-black py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    }
+                    id='size'
+                    onChange={this.handleChange}>
+                    <option value='man'>Man</option>
+                    <option value='woman'>Woman</option>
+                    <option value='others'>Others</option>
+                  </select>
+                </div>
               </div>
             </div>
 

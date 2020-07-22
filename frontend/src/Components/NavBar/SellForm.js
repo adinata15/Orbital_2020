@@ -1,10 +1,11 @@
-//handleChangeTable(others havent try) not working
 //picture upload with 2 to 3 rows of size error->itemImageA&this.state.image becomes undefined/not loaded
+//size table only delete last row-> use index to determine
 //error code 500 for postItems
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Image from '../../images/plus.svg';
-import TableRow from './TableRow';
+import CloseImg from '../../images/close.svg';
+// import TableRow from './TableRow';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -18,12 +19,22 @@ class SellForm extends Component {
       price: '',
       title: '',
       brand: '',
-      category: 'male',
+      categoryLeft: [
+        'men',
+        'women',
+        'shirt',
+        'skirt',
+        'pants',
+        'shorts',
+        'dress',
+      ],
+      categoryUsed: [],
       image: [],
       tempImage: [],
       outofstock: {}, //put the out of stock items in comma
       sizeTable: [
         {
+          index: Math.random(),
           size: '',
           chest: '',
           bl: '',
@@ -44,6 +55,10 @@ class SellForm extends Component {
       data.append('itemImages', image); //problem here
     });
 
+    this.state.categoryUsed.forEach((cat) => {
+      data.append('category', cat);
+    });
+
     //inserting size datas
     this.state.sizeTable.forEach((sizeOne, idx) => {
       data.append(`size${idx + 1}`, sizeOne.size);
@@ -57,7 +72,6 @@ class SellForm extends Component {
     });
 
     data.append('title', this.state.title);
-    data.append('category', this.state.category);
     data.append('brand', this.state.brand);
     data.append('price', this.state.price);
     data.append('displayImage', displayImage);
@@ -106,7 +120,7 @@ class SellForm extends Component {
               key={index}
               className={'h-32 w-32 mx-1 my-3 object-cover'}
               src={item}
-              alt='image not displayed'
+              alt={'item picture'}
             />
             <p className={'text-center'}>Display image</p>
           </div>
@@ -115,7 +129,7 @@ class SellForm extends Component {
             key={index}
             className={'mx-1 h-32 w-32 my-3 object-cover'}
             src={item}
-            alt='image not displayed'
+            alt='item picture'
           />
         )
       );
@@ -127,6 +141,22 @@ class SellForm extends Component {
       );
     }
   };
+  addCategory = (e) => {
+    this.setState({
+      categoryUsed: [...this.state.categoryUsed, e.currentTarget.value],
+      categoryLeft: this.state.categoryLeft.filter(
+        (cat) => cat !== e.currentTarget.value
+      ),
+    });
+  };
+
+  removeCategory = (e) =>
+    this.setState({
+      categoryLeft: [...this.state.categoryLeft, e.currentTarget.value],
+      categoryUsed: this.state.categoryUsed.filter(
+        (cat) => cat !== e.currentTarget.value
+      ),
+    });
 
   handleChangeTable = (e) => {
     let sizeTable = [...this.state.sizeTable];
@@ -140,10 +170,12 @@ class SellForm extends Component {
   };
 
   addRow = () => {
+    if (this.state.sizeTable.length === 8) return;
     this.setState((prevState) => ({
       sizeTable: [
         ...prevState.sizeTable,
         {
+          index: Math.random(),
           size: '',
           chest: '',
           bl: '',
@@ -161,79 +193,36 @@ class SellForm extends Component {
     if (this.state.isSubmitted) {
       return <Redirect to='/store' />;
     } else {
-      let { sizeTable } = this.state;
+      let { categoryUsed, categoryLeft } = this.state;
+      console.log(this.state.categoryLeft);
       return (
         <form
           action='/'
           onSubmit={this.handleSubmit}
-          className={'w-9/12 max-w-lg mx-auto my-6'}>
-          <div className={'w-full'}>
-            <label
-              className={
-                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-              }>
-              Listing picture
-            </label>
-            <div className={'flex flex-col rounded border-2 border-dashed'}>
-              <img
+          className={'flex flex-row w-full mx-auto my-6 relative'}>
+          <div className={'w-1/2 pl-3'}>
+            <div className={'w-full'}>
+              <label
                 className={
-                  'self-center rounded-full h-16 w-16 my-3 object-cover'
-                }
-                onClick={() => this.fileInput.click()}
-                src={Image}
-              />
-              <p
-                className={
-                  'text-center block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                 }>
-                Click here to add item picture
-              </p>
-            </div>
-            <div
-              className={
-                'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
-              }>
-              {this.imageItems()}
-            </div>
-          </div>
-
-          <input
-            type='file'
-            name='image'
-            accept='image/*'
-            style={{ display: 'none' }}
-            onChange={this.handleImage}
-            // to link to the button
-            ref={(fileInput) => (this.fileInput = fileInput)}
-          />
-          <div className={'flex flex-wrap -mx-3'}>
-            <div className={'w-full px-3 my-3 '}>
-              <label
-                className={
-                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                }
-                for='grid-user-id'>
-                Title
+                Listing picture
               </label>
-              <input
-                name='title'
-                className={
-                  'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
-                }
-                id='title'
-                type='text'
-                placeholder='Nike DryFit Pro'
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className={'w-full px-3'}>
-              <label
-                className={
-                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                }
-                for='grid-gender'>
-                Category
-              </label>
+              <div className={'flex flex-col rounded border-2 border-dashed'}>
+                <img
+                  className={
+                    'self-center rounded-full h-16 w-16 my-3 object-cover'
+                  }
+                  onClick={() => this.fileInput.click()}
+                  src={Image}
+                />
+                <p
+                  className={
+                    'text-center block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                  }>
+                  Click here to add item picture
+                </p>
+              </div>
               <div
                 className={
                   'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
@@ -241,74 +230,288 @@ class SellForm extends Component {
                 {this.imageItems()}
               </div>
             </div>
-            <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
-              <label
-                className={
-                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                }
-                for='grid-user-id'>
-                Brand
-              </label>
-              <input
-                name='brand'
-                className={' required'}
-                id='brand'
-                type='text'
-                placeholder='Jane'
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className={'w-full md:w-1/2 px-3 mb-6 md:mb-0'}>
-              <label
-                className={
-                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                }
-                for='grid-weight'>
-                Price
-              </label>
-              <input
-                name='price'
-                className={' required focus:border-gray-500'}
-                id='price'
-                type='number'
-                placeholder='$45.7'
-                onChange={this.handleChange}
-              />
-            </div>
 
-            <div>
-              <table id='tableSizeTable' className='table-fixed'>
-                <thead>
-                  <tr className='bg-gray-500'>
-                    <th className={'px-2 py-2'}>Size</th>
-                    <th className={'px-2 py-2'}>Chest</th>
-                    <th className={'px-2 py-2'}>Bl</th>
-                    <th className={'px-2 py-2'}>Waist</th>
-                    <th className={'px-2 py-2'}>Sl</th>
-                    <th className={'px-2 py-2'}>Hip</th>
-                    <th className={'px-2 py-2'}>Tl</th>
-                    <th className={'px-2 py-2'}>Bust</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <TableRow
-                    handleChange={this.handleChangeTable.bind(this)}
-                    add={this.addRow}
-                    delete={this.removeRow.bind(this)}
-                    sizeData={sizeTable}
+            <input
+              type='file'
+              name='image'
+              accept='image/*'
+              hidden
+              onChange={this.handleImage}
+              // to link to the button
+              ref={(fileInput) => (this.fileInput = fileInput)}
+            />
+            <div className={'flex flex-wrap -mx-3'}>
+              <div className={'w-full px-3 my-3 '}>
+                <label
+                  className={
+                    'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                  }
+                  for='grid-user-id'>
+                  Title
+                </label>
+                <input
+                  name='title'
+                  className={
+                    'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
+                  }
+                  id='title'
+                  type='text'
+                  placeholder='Nike DryFit Pro'
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className={'w-full px-3 my-3'}>
+                <label
+                  className={
+                    'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                  }
+                  for='grid-gender'>
+                  Category
+                </label>
+                <div
+                  className={
+                    'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
+                  }>
+                  {categoryUsed[0] ? (
+                    categoryUsed.map((category) => (
+                      <button
+                        onClick={this.removeCategory}
+                        type='button'
+                        value={category}
+                        name={category}
+                        className={
+                          'flex bg-teal-600 my-2 mx-1 w-auto h-auto hover:bg-teal-400 text-white font-bold px-1 rounded'
+                        }>
+                        <div className={'self-center'} value={category}>
+                          {category}
+                        </div>
+                        <img
+                          className={'float-right ml-1 self-center w-5 h-5'}
+                          value={category}
+                          src={CloseImg}
+                        />
+                      </button>
+                    ))
+                  ) : (
+                    <p
+                      className={
+                        'text-3xl text-center w-full px-8 font-bold my-3'
+                      }>
+                      No catergory picked
+                    </p>
+                  )}
+                </div>
+                <div
+                  className={
+                    'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
+                  }>
+                  {categoryLeft[0] ? (
+                    categoryLeft.map((category) => (
+                      <button
+                        onClick={this.addCategory}
+                        type='button'
+                        value={category}
+                        name={category}
+                        className={
+                          'flex bg-teal-600 my-2 mx-1 w-auto h-auto hover:bg-teal-400 text-white font-bold px-1 rounded'
+                        }>
+                        <div className={'self-center'} value={category}>
+                          {category}
+                        </div>
+                      </button>
+                    ))
+                  ) : (
+                    <p
+                      className={
+                        'text-3xl text-center w-full px-8 font-bold my-3'
+                      }>
+                      All catergory picked
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className={'flex w-full my-3'}>
+                <div className={'w-1/2 px-3 mb-6'}>
+                  <label
+                    className={
+                      'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    }
+                    for='grid-user-id'>
+                    Brand
+                  </label>
+                  <input
+                    name='brand'
+                    className={
+                      'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
+                    }
+                    id='brand'
+                    type='text'
+                    placeholder='Jane'
+                    onChange={this.handleChange}
                   />
-                </tbody>
-              </table>
+                </div>
+                <div className={'w-1/2 px-3 mb-6'}>
+                  <label
+                    className={
+                      'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    }
+                    for='grid-weight'>
+                    Price
+                  </label>
+                  <input
+                    name='price'
+                    className={
+                      'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
+                    }
+                    id='price'
+                    type='number'
+                    placeholder='$45.7'
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
             </div>
-
-            <button
-              type='submit'
-              className={
-                'bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
-              }>
-              Submit file
-            </button>
           </div>
+          <div className={'w-1/2'}>
+            <label
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mx-3'
+              }>
+              Size tabel
+            </label>
+            <table id='tableSizeTable' className='table-fixed mx-3'>
+              <thead>
+                <tr className='bg-gray-500'>
+                  <th className={'px-2 py-2'}>Size</th>
+                  <th className={'px-2 py-2'}>Chest</th>
+                  <th className={'px-2 py-2'}>Body length</th>
+                  <th className={'px-2 py-2'}>Waist</th>
+                  <th className={'px-2 py-2'}>Shoulder length</th>
+                  <th className={'px-2 py-2'}>Hip</th>
+                  <th className={'px-2 py-2'}>Top length</th>
+                  <th className={'px-2 py-2'}>Bust</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.sizeTable.map((val, idx) => {
+                  let size = `size${idx}`,
+                    chest = `size${idx}chest`,
+                    bl = `size${idx}bl`,
+                    waist = `size${idx}waist`,
+                    hip = `size${idx}hip`,
+                    tl = `size${idx}tl`,
+                    bust = `size${idx}bust`,
+                    sl = `size${idx}sl`;
+                  return (
+                    <tr key={val.index}>
+                      <td className={'border px-4 py-2'}>
+                        <input
+                          className='w-full'
+                          type='text'
+                          name='size'
+                          data-id={idx}
+                          id={size}
+                          onChange={(e) => this.handleChange(e)}
+                        />
+                      </td>
+                      <td className={'border px-4 py-2'}>
+                        <input
+                          className='w-full'
+                          type='number'
+                          name='chest'
+                          id={chest}
+                          data-id={idx}
+                          onChange={(e) => this.handleChange(e)}
+                        />
+                      </td>
+                      <td className={'border px-4 py-2'}>
+                        <input
+                          className='w-full'
+                          type='number'
+                          name='bl'
+                          id={bl}
+                          data-id={idx}
+                          onChange={(e) => this.handleChange(e)}
+                        />
+                      </td>
+                      <td className={'border px-4 py-2'}>
+                        <input
+                          className='w-full'
+                          type='number'
+                          name='waist'
+                          id={waist}
+                          data-id={idx}
+                          onChange={(e) => this.handleChange(e)}
+                        />
+                      </td>
+                      <td className={'border px-4 py-2'}>
+                        <input
+                          className='w-full'
+                          type='number'
+                          name='hip'
+                          id={hip}
+                          data-id={idx}
+                          onChange={(e) => this.handleChange(e)}
+                        />
+                      </td>
+                      <td className={'border px-4 py-2'}>
+                        <input
+                          className='w-full'
+                          type='number'
+                          name='tl'
+                          id={tl}
+                          data-id={idx}
+                          onChange={(e) => this.handleChange(e)}
+                        />
+                      </td>
+                      <td className={'border px-4 py-2'}>
+                        <input
+                          className='w-full'
+                          type='number'
+                          name='bust'
+                          id={bust}
+                          data-id={idx}
+                          onChange={(e) => this.handleChange(e)}
+                        />
+                      </td>
+                      <td className={'border px-4 py-2'}>
+                        <input
+                          className='w-full'
+                          type='number'
+                          name='sl'
+                          id={sl}
+                          data-id={idx}
+                          onChange={(e) => this.handleChange(e)}
+                        />
+                      </td>
+                      <td className={'border-l py-2 px-1'}>
+                        {idx === 0 ? (
+                          <button type='button' onClick={() => this.addRow()}>
+                            Add
+                            <i aria-hidden='true'></i>
+                          </button>
+                        ) : (
+                          <button
+                            type='button'
+                            onClick={() => this.removeRow(val)}>
+                            Delete
+                            <i aria-hidden='true'></i>
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <button
+            type='submit'
+            className={
+              'absolute bottom-0 right-0 bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
+            }>
+            Submit file
+          </button>
         </form>
       );
     }
@@ -339,8 +542,6 @@ export default connect(mapStateToProps, { postItems })(SellForm);
               Choose file
             </button>
           </div> */
-}
-{
   /* <div className='relative'>
                 <select
                   className={
@@ -365,4 +566,42 @@ export default connect(mapStateToProps, { postItems })(SellForm);
                   </svg>
                 </div>
               </div> */
+  /* <label for='category-men'>
+                  <input
+                    type='checkbox'
+                    onChange={() => console.log('change')}
+                    onClick={() => console.log('click')}
+                    ref={(checked) => (this.checked = !this.checked)}
+                    value='men'
+                    id='category-men'
+                    hidden
+                  /> */
+  /* 
+<button
+  type='button'
+  value='men'
+  name='men'
+  onClick={this.addCategory}
+  className={
+    'bg-teal-600 my-2 mx-5 w-auto h-auto hover:bg-teal-400 text-white font-bold px-4 rounded-full'
+  }>
+  men
+</button>
+
+<button
+  type='button'
+  value='women'
+  name='women'
+  onClick={this.handleCategory}
+  className={
+    'bg-teal-600 my-2 mx-5 w-auto h-auto hover:bg-teal-400 text-white font-bold px-4 rounded-full'
+  }>
+  women
+</button> */
+  /* <TableRow
+                  handleChange={this.handleChangeTable.bind(this)}
+                  add={this.addRow}
+                  delete={this.removeRow.bind(this)}
+                  sizeData={sizeTable}
+                /> */
 }

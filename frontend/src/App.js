@@ -14,8 +14,9 @@ import { loadUser } from './actions/loginActions';
 
 import NavBar from './Components/NavBar/NavBar';
 import SellForm from './Components/NavBar/SellForm';
+import FitAssistCard from './Components/NavBar/FitAssistCard';
 import Shop from './Components/Shop/Shop';
-import Checkout from './Components/Checkout';
+// import Checkout from './Components/Checkout';
 import EditProfileSeller from './Components/Profile/EditProfileSeller';
 import EditProfileBuyer from './Components/Profile/EditProfileBuyer';
 import ListingBook from './Components/Profile/ListingBook';
@@ -48,7 +49,7 @@ class App extends React.Component {
           <Route path='/signup' component={SignupForm} />
           <Route path='/' exact component={Home} />
           <Route exact path='/shop' component={Shop} />
-
+          <Route exact path='/fit-assist' component={FitAssistCard} />
           <PrivateRoute
             path='/edit/profile/seller'
             component={EditProfileSeller}

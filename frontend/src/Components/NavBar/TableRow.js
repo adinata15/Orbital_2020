@@ -1,5 +1,8 @@
 import React from 'react';
 
+import Add from '../../images/add.svg';
+import Minus from '../../images/minus.svg';
+
 const TableRow = (props) => {
   return props.sizeData.map((val, idx) => {
     let size = `size${idx}`,
@@ -92,14 +95,14 @@ const TableRow = (props) => {
             onChange={(e) => props.handleChange(e)}
           />
         </td>
-        <td className={'border px-4 py-2'}>
+        <td className={'border-l py-2 px-1'}>
           {idx === 0 ? (
-            <button onClick={() => props.add()} type='button'>
+            <button type='button' onClick={() => props.add()} type='button'>
               Add
               <i aria-hidden='true'></i>
             </button>
           ) : (
-            <button onClick={() => props.delete(val)}>
+            <button type='button' onClick={() => props.delete(val)}>
               Delete
               <i aria-hidden='true'></i>
             </button>

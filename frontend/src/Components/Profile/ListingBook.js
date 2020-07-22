@@ -21,7 +21,7 @@ class ListingBook extends Component {
     return (
       <div>
         <h1 className={'py-2 px-5 text-4xl'}>My Listings</h1>
-        <div class='flex flex-wrap justify-center mb-3 border-solid border-2 rounded'>
+        <div class='flex flex-wrap justify-center mb-3 border-solid border-t-2 rounded'>
           {listings.map((listing) => (
             <ListingItem key={listing._id} itemId={listing.item} />
           ))}
@@ -31,7 +31,7 @@ class ListingBook extends Component {
           <Link
             to='/sell'
             className={
-              'bg-gray-800 w-auto my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
+              'bg-gray-800 w-auto my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 py-1 rounded'
             }>
             Add new listing
           </Link>

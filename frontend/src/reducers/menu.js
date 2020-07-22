@@ -1,7 +1,12 @@
-import { MENU } from '../actions/types';
+import {
+  MENU,
+  GET_SIZE_RECOMMENDATION,
+  FAIL_SIZE_RECOMMENDATION,
+} from '../actions/types';
 
 const initialState = {
-  menuChosen: 'men-shirt',
+  menuChosen: 'men',
+  sizeRecommedation: '...',
 };
 
 const menu = (state = initialState, action) => {
@@ -10,6 +15,12 @@ const menu = (state = initialState, action) => {
       return {
         ...state,
         menuChosen: action.payload,
+      };
+    case GET_SIZE_RECOMMENDATION:
+    case FAIL_SIZE_RECOMMENDATION:
+      return {
+        ...state,
+        sizeRecommedation: action.payload,
       };
     default:
       return state;

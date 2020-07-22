@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { menuSelect } from '../../actions/menuSelect';
 
 import SigninBtn from '../SignIn/SigninBtn.js';
-import FitAssistBtn from './FitAssistBtn';
 import CartBtn from './CartBtn';
 import WishlistBtn from './WishlistBtn';
 import ProfileBtn from '../Profile/ProfileBtn.js';
@@ -84,7 +83,7 @@ class NavBar extends React.Component {
         </div>
 
         <div className='subnav'>
-          <FitAssistBtn />
+          <Link to='/fit-assist'>Fit Assistant</Link>
         </div>
 
         {this.sellItems()}
