@@ -85,9 +85,9 @@ function ProfileBtn(props) {
 }
 
 ProfileBtn.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool,
   logout: PropTypes.func.isRequired,
-  accounttype: PropTypes.string.isRequired,
+  accounttype: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({

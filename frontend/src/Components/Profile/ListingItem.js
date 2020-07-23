@@ -1,12 +1,14 @@
 //why setstate for listingItem not working?
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import ListingDetail from './ListingDetail';
+import { withProps } from '../../utils/setAuthToken';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -57,44 +59,37 @@ class ListingItem extends Component {
       );
     } else {
       return (
-        <div
-          className={
-            'w-56 bg-white justify-center border rounded-lg overflow-hidden mt-2 ml-2'
-          }>
-          <img
-            onClick={this.handleOpen}
-            className={'h-48 w-full justify-center'}
-            src={this.state.listingInfo.images[0]}
-            alt='nothing to be shown'
-          />
-          <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby='form-dialog-title'
-            fullWidth={true}
-            maxWidth={'md'}
-            scroll={'body'}>
-            <ListingDetail
-              itemInfo={this.state.listingInfo}
-              onClose={this.handleClose}
+        <Link
+          to={{
+            pathname: '/edit-listing',
+            listingInfo: this.state.listingInfo,
+          }}>
+          <div
+            className={
+              'w-56 bg-white justify-center border rounded-lg overflow-hidden mt-2 ml-2'
+            }>
+            <img
+              className={'block h-48 w-full justify-center'}
+              src={this.state.listingInfo.images[0]}
+              alt='nothing to be shown'
             />
-          </Dialog>
-
-          <div className={'p-2'}>
-            <div className={'flex items-baseline'}>
-              <div
-                className={
-                  'text-gray-600 text-xs uppercase font-semibold tracking-wide'
-                }>
-                {this.state.listingInfo.brand}
+            <div className={'p-2'}>
+              <div className={'flex items-baseline'}>
+                <div
+                  className={
+                    'text-gray-600 text-xs uppercase font-semibold tracking-wide'
+                  }>
+                  {this.state.listingInfo.brand}
+                </div>
               </div>
+              <h4
+                className={'mt-1 font-semibold text-lg leading-tight truncate'}>
+                {this.state.listingInfo.title}
+              </h4>
+              <div>${this.state.listingInfo.price}</div>
             </div>
-            <h4 className={'mt-1 font-semibold text-lg leading-tight truncate'}>
-              {this.state.listingInfo.title}
-            </h4>
-            <div>${this.state.listingInfo.price}</div>
           </div>
-        </div>
+        </Link>
       );
     }
   }
@@ -109,3 +104,18 @@ export default connect(null, {
   deleteListing,
   setAlert,
 })(ListingItem);
+
+{
+  /* <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby='form-dialog-title'
+            fullWidth={true}
+            maxWidth={'md'}
+            scroll={'body'}>
+            <ListingDetail
+              itemInfo={this.state.listingInfo}
+              onClose={this.handleClose}
+            />
+          </Dialog> */
+}

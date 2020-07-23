@@ -14,7 +14,10 @@ class Home extends React.Component {
   }
   render() {
     return (
-      <div class='flex flex-col sm:flex-row text-gray-700 text-center bg-gray-400 m-2'>
+      <div
+        className={
+          'flex flex-col sm:flex-row text-gray-700 text-center bg-gray-400 m-2'
+        }>
         <Link
           onClick={(e) => this.props.menuSelect(e.target.name)}
           name='men'

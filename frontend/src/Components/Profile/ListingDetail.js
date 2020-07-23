@@ -11,14 +11,14 @@ class ListingDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...this.props.itemInfo,
+      ...this.props.location.listingInfo,
     };
-    console.log(this.props.itemInfo);
+    console.log(this.props.location);
   }
 
   editItem = () => {
     let data = { ...this.state };
-    this.props.editListing(data, this.props.itemInfo._id);
+    this.props.editListing(data, this.state._id);
   };
 
   handleChange = (e) => {
@@ -57,7 +57,7 @@ class ListingDetail extends React.Component {
                   }
                   id='title'
                   type='text'
-                  value={this.props.itemInfo.title}
+                  value={this.state.title}
                   onChange={this.handleChange}
                 />
               </div>
@@ -77,7 +77,7 @@ class ListingDetail extends React.Component {
                   }
                   id='title'
                   type='number'
-                  value={this.props.itemInfo.price}
+                  value={this.state.price}
                   onChange={this.handleChange}
                 />
               </div>
@@ -96,7 +96,7 @@ class ListingDetail extends React.Component {
                   }
                   id='quantity'
                   type='text'
-                  value={this.props.itemInfo.brand}
+                  value={this.state.brand}
                   onChange={this.handleChange}
                 />
               </div>
@@ -113,7 +113,7 @@ class ListingDetail extends React.Component {
                 </label>
                 <div>
                   <select
-                    value={this.props.itemInfo.category}
+                    value={this.state.category}
                     className={
                       'block appearance-none w-full bg-gray-200 border border-gray-200 text-black py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     }
@@ -144,9 +144,7 @@ class ListingDetail extends React.Component {
                 Save edit
               </button>
               <button
-                onClick={() =>
-                  this.props.deleteListing(this.props.itemInfo._id)
-                }
+                onClick={() => this.props.deleteListing(this.state._id)}
                 className={
                   'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
                 }>
@@ -165,7 +163,7 @@ class ListingDetail extends React.Component {
         </div>
         <div className={'lg:w-1/5 lg:h-auto inset-y-0 right-0'}>
           <img
-            src={this.props.itemInfo.images[0]}
+            src={this.state.images[0]}
             className={
               'rounded-none w-auto h-auto lg:rounded-lg shadow-2xl hidden lg:block'
             }

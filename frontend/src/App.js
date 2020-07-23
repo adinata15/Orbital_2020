@@ -20,6 +20,7 @@ import Shop from './Components/Shop/Shop';
 import EditProfileSeller from './Components/Profile/EditProfileSeller';
 import EditProfileBuyer from './Components/Profile/EditProfileBuyer';
 import ListingBook from './Components/Profile/ListingBook';
+import ListingDetail from './Components/Profile/ListingDetail';
 import OrdersBook from './Components/Profile/OrdersBook';
 import AddressBook from './Components/Profile/AddressBook';
 import FooterBar from './Components/FooterBar';
@@ -47,7 +48,7 @@ class App extends React.Component {
         <Alert />
         <Switch>
           <Route path='/signup' component={SignupForm} />
-          <Route path='/' exact component={Home} />
+          <Route exact path='/' component={Home} />
           <Route exact path='/shop' component={Shop} />
           <Route exact path='/fit-assist' component={FitAssistCard} />
           <PrivateRoute
@@ -62,6 +63,7 @@ class App extends React.Component {
           <PrivateRoute path='/sell' component={SellForm} />
           <PrivateRoute path='/store' component={ListingBook} />
           <PrivateRoute path='/order' component={OrdersBook} />
+          <PrivateRoute path='/edit-listing' component={ListingDetail} />
           <Route path='/checkout/success' component={OrdersBook} />
         </Switch>
         <FooterBar />
@@ -71,7 +73,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool,
   token: PropTypes.string,
   loadUser: PropTypes.func,
 };

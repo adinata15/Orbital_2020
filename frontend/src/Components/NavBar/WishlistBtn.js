@@ -51,7 +51,7 @@ class WishlistBtn extends Component {
 }
 
 WishlistBtn.propTypes = {
-  accounttype: PropTypes.string.isRequired,
+  accounttype: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({

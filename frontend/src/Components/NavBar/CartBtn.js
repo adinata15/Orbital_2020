@@ -50,7 +50,7 @@ class CartBtn extends Component {
 }
 
 CartBtn.propTypes = {
-  accounttype: PropTypes.string.isRequired,
+  accounttype: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({

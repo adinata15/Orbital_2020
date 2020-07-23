@@ -14,6 +14,19 @@ class FitAssistCard extends React.Component {
       unit: 'cm',
       meatype: 'garmen',
       category: 'shirt',
+      sizeTable: [
+        {
+          index: Math.random(),
+          size: '',
+          chest: '',
+          bl: '',
+          waist: '',
+          hip: '',
+          tl: '',
+          bust: '',
+          sl: '',
+        },
+      ],
     };
   }
 
@@ -26,6 +39,37 @@ class FitAssistCard extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  };
+
+  handleChangeTable = (e) => {
+    let sizeTable = [...this.state.sizeTable];
+    sizeTable[e.target.dataset.id][e.target.name] = e.target.value;
+  };
+
+  removeRow = (row) => {
+    this.setState({
+      sizeTable: this.state.sizeTable.filter((r) => r !== row),
+    });
+  };
+
+  addRow = () => {
+    if (this.state.sizeTable.length === 8) return;
+    this.setState((prevState) => ({
+      sizeTable: [
+        ...prevState.sizeTable,
+        {
+          index: Math.random(),
+          size: '',
+          chest: '',
+          bl: '',
+          waist: '',
+          hip: '',
+          tl: '',
+          bust: '',
+          sl: '',
+        },
+      ],
+    }));
   };
 
   render() {
@@ -219,6 +263,141 @@ class FitAssistCard extends React.Component {
                       </svg>
                     </div>
                   </div>
+                </div>
+                <div className={'w-full'}>
+                  <label
+                    className={
+                      'block uppercase tracking-wide text-gray-700 text-xs font-bold my-2 mx-3'
+                    }>
+                    Size tabel
+                  </label>
+                  <table id='tableSizeTable' className='table-fixed mx-3'>
+                    <thead>
+                      <tr className='bg-gray-500'>
+                        <th className={'px-2 py-2'}>Size</th>
+                        <th className={'px-2 py-2'}>Chest</th>
+                        <th className={'px-2 py-2'}>Body length</th>
+                        <th className={'px-2 py-2'}>Waist</th>
+                        <th className={'px-2 py-2'}>Shoulder length</th>
+                        <th className={'px-2 py-2'}>Hip</th>
+                        <th className={'px-2 py-2'}>Top length</th>
+                        <th className={'px-2 py-2'}>Bust</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.sizeTable.map((val, idx) => {
+                        let size = `size${idx}`,
+                          chest = `size${idx}chest`,
+                          bl = `size${idx}bl`,
+                          waist = `size${idx}waist`,
+                          hip = `size${idx}hip`,
+                          tl = `size${idx}tl`,
+                          bust = `size${idx}bust`,
+                          sl = `size${idx}sl`;
+                        return (
+                          <tr key={val.index}>
+                            <td className={'border px-4 py-2'}>
+                              <input
+                                className='w-full'
+                                type='text'
+                                name='size'
+                                data-id={idx}
+                                id={size}
+                                onChange={(e) => this.handleChange(e)}
+                              />
+                            </td>
+                            <td className={'border px-4 py-2'}>
+                              <input
+                                className='w-full'
+                                type='number'
+                                name='chest'
+                                id={chest}
+                                data-id={idx}
+                                onChange={(e) => this.handleChange(e)}
+                              />
+                            </td>
+                            <td className={'border px-4 py-2'}>
+                              <input
+                                className='w-full'
+                                type='number'
+                                name='bl'
+                                id={bl}
+                                data-id={idx}
+                                onChange={(e) => this.handleChange(e)}
+                              />
+                            </td>
+                            <td className={'border px-4 py-2'}>
+                              <input
+                                className='w-full'
+                                type='number'
+                                name='waist'
+                                id={waist}
+                                data-id={idx}
+                                onChange={(e) => this.handleChange(e)}
+                              />
+                            </td>
+                            <td className={'border px-4 py-2'}>
+                              <input
+                                className='w-full'
+                                type='number'
+                                name='hip'
+                                id={hip}
+                                data-id={idx}
+                                onChange={(e) => this.handleChange(e)}
+                              />
+                            </td>
+                            <td className={'border px-4 py-2'}>
+                              <input
+                                className='w-full'
+                                type='number'
+                                name='tl'
+                                id={tl}
+                                data-id={idx}
+                                onChange={(e) => this.handleChange(e)}
+                              />
+                            </td>
+                            <td className={'border px-4 py-2'}>
+                              <input
+                                className='w-full'
+                                type='number'
+                                name='bust'
+                                id={bust}
+                                data-id={idx}
+                                onChange={(e) => this.handleChange(e)}
+                              />
+                            </td>
+                            <td className={'border px-4 py-2'}>
+                              <input
+                                className='w-full'
+                                type='number'
+                                name='sl'
+                                id={sl}
+                                data-id={idx}
+                                onChange={(e) => this.handleChange(e)}
+                              />
+                            </td>
+                            <td className={'border-l py-2 px-1'}>
+                              {idx === 0 ? (
+                                <button
+                                  type='button'
+                                  onClick={() => this.addRow()}>
+                                  Add
+                                  <i aria-hidden='true'></i>
+                                </button>
+                              ) : (
+                                <button
+                                  type='button'
+                                  onClick={() => this.removeRow(val)}>
+                                  Delete
+                                  <i aria-hidden='true'></i>
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
                 <div className={'py-5'}>
                   <button

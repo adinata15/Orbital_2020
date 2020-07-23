@@ -99,7 +99,7 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool,
   menuSelect: PropTypes.func,
   user: PropTypes.object,
 };
