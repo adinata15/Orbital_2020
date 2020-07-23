@@ -10,7 +10,7 @@ import {
   FAIL_SIZE_RECOMMENDATION,
 } from './types';
 
-export const menuSelect = (category) => (dispatch) => {
+export const menuSelect = category => dispatch => {
   dispatch({
     type: MENU,
     payload: category,
@@ -18,7 +18,7 @@ export const menuSelect = (category) => (dispatch) => {
 };
 
 //Get size recommendation
-export const getSizeRecommendation = (bodyData) => async (dispatch) => {
+export const getSizeRecommendation = bodyData => async dispatch => {
   try {
     const config = {
       headers: {
@@ -26,6 +26,7 @@ export const getSizeRecommendation = (bodyData) => async (dispatch) => {
       },
     };
     // bodyData = JSON.stringify(bodyData);
+    console.log(bodyData);
     const res = await axios.get(
       `http://localhost:5000/api/size-assistant`,
       bodyData,
@@ -39,9 +40,10 @@ export const getSizeRecommendation = (bodyData) => async (dispatch) => {
 
     dispatch(setAlert('Obtained size recommendation', 'success'));
   } catch (err) {
-    dispatch({
-      type: FAIL_SIZE_RECOMMENDATION,
-      payload: err,
-    });
+    console.log(err);
+    // dispatch({
+    //   type: FAIL_SIZE_RECOMMENDATION,
+    //   payload: err,
+    // });
   }
 };

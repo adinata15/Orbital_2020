@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   menuChosen: 'men',
-  sizeRecommedation: '...',
+  sizeRecommendation: '...',
 };
 
 const menu = (state = initialState, action) => {
@@ -20,7 +20,7 @@ const menu = (state = initialState, action) => {
     case FAIL_SIZE_RECOMMENDATION:
       return {
         ...state,
-        sizeRecommedation: action.payload,
+        sizeRecommendation: action.payload,
       };
     default:
       return state;

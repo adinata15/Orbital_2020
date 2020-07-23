@@ -1663,31 +1663,51 @@ router.post(
         );
       }
 
-      req.files.itemImages.forEach(image => {
-        if (image.key.slice(-4) === 'jpeg') {
-          promiseArray.push(
-            s3
-              .getObject({
-                Bucket: config.get('s3bucket'),
-                Key: image.key,
-              })
-              .promise()
-              .then(data =>
-                sharp(data.Body)
-                  .rotate()
-                  .resize(1080, 1080, {
-                    fit: 'cover',
-                  })
-                  .toFormat('jpeg', { quality: 90 })
-                  .toBuffer()
-              )
-              .then(buffer =>
-                s3
-                  .putObject({
-                    Body: buffer,
-                    Bucket: config.get('s3bucket'),
-                    ContentType: 'image/jpeg',
-                    Key: `${sellerId}/${itemId}/${
+      if (req.files.itemImages) {
+        req.files.itemImages.forEach(image => {
+          if (image.key.slice(-4) === 'jpeg') {
+            promiseArray.push(
+              s3
+                .getObject({
+                  Bucket: config.get('s3bucket'),
+                  Key: image.key,
+                })
+                .promise()
+                .then(data =>
+                  sharp(data.Body)
+                    .rotate()
+                    .resize(1080, 1080, {
+                      fit: 'cover',
+                    })
+                    .toFormat('jpeg', { quality: 90 })
+                    .toBuffer()
+                )
+                .then(buffer =>
+                  s3
+                    .putObject({
+                      Body: buffer,
+                      Bucket: config.get('s3bucket'),
+                      ContentType: 'image/jpeg',
+                      Key: `${sellerId}/${itemId}/${
+                        image.key.slice(-4) === 'jpeg'
+                          ? image.key.slice(
+                              sellerId.length + 15,
+                              image.key.length - 5
+                            ) + 'Updated.jpeg'
+                          : image.key.slice(
+                              sellerId.length + 15,
+                              image.key.length - 4
+                            ) + 'Updated.jpeg'
+                      }`,
+                      ACL: 'public-read',
+                    })
+                    .promise()
+                )
+                .then(() => {
+                  images.push(
+                    `https://${config.get(
+                      's3bucket'
+                    )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
                       image.key.slice(-4) === 'jpeg'
                         ? image.key.slice(
                             sellerId.length + 15,
@@ -1697,59 +1717,59 @@ router.post(
                             sellerId.length + 15,
                             image.key.length - 4
                           ) + 'Updated.jpeg'
-                    }`,
-                    ACL: 'public-read',
-                  })
-                  .promise()
-              )
-              .then(() => {
-                images.push(
-                  `https://${config.get(
-                    's3bucket'
-                  )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
-                    image.key.slice(-4) === 'jpeg'
-                      ? image.key.slice(
-                          sellerId.length + 15,
-                          image.key.length - 5
-                        ) + 'Updated.jpeg'
-                      : image.key.slice(
-                          sellerId.length + 15,
-                          image.key.length - 4
-                        ) + 'Updated.jpeg'
-                  }`
-                );
-              })
-              .catch(err => {
-                if (err.code === 'NoSuchKey') err.message = 'Image not found';
-                console.log(err.message);
-                console.log('i am here 4');
-                return res.status(500).send('Server error');
-              })
-          );
-        } else {
-          promiseArray.push(
-            s3
-              .getObject({
-                Bucket: config.get('s3bucket'),
-                Key: image.key,
-              })
-              .promise()
-              .then(data =>
-                sharp(data.Body)
-                  .resize(1080, 1080, {
-                    fit: 'cover',
-                  })
-                  .withMetadata()
-                  .toFormat('jpeg', { quality: 90 })
-                  .toBuffer()
-              )
-              .then(buffer =>
-                s3
-                  .putObject({
-                    Body: buffer,
-                    Bucket: config.get('s3bucket'),
-                    ContentType: 'image/jpeg',
-                    Key: `${sellerId}/${itemId}/${
+                    }`
+                  );
+                })
+                .catch(err => {
+                  if (err.code === 'NoSuchKey') err.message = 'Image not found';
+                  console.log(err.message);
+                  console.log('i am here 4');
+                  return res.status(500).send('Server error');
+                })
+            );
+          } else {
+            promiseArray.push(
+              s3
+                .getObject({
+                  Bucket: config.get('s3bucket'),
+                  Key: image.key,
+                })
+                .promise()
+                .then(data =>
+                  sharp(data.Body)
+                    .resize(1080, 1080, {
+                      fit: 'cover',
+                    })
+                    .withMetadata()
+                    .toFormat('jpeg', { quality: 90 })
+                    .toBuffer()
+                )
+                .then(buffer =>
+                  s3
+                    .putObject({
+                      Body: buffer,
+                      Bucket: config.get('s3bucket'),
+                      ContentType: 'image/jpeg',
+                      Key: `${sellerId}/${itemId}/${
+                        image.key.slice(-4) === 'jpeg'
+                          ? image.key.slice(
+                              sellerId.length + 15,
+                              image.key.length - 5
+                            ) + 'Updated.jpeg'
+                          : image.key.slice(
+                              sellerId.length + 15,
+                              image.key.length - 4
+                            ) + 'Updated.jpeg'
+                      }`,
+                      ACL: 'public-read',
+                    })
+                    .promise()
+                )
+                .then(() => {
+                  images.push(
+                    `https://${config.get(
+                      's3bucket'
+                    )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
                       image.key.slice(-4) === 'jpeg'
                         ? image.key.slice(
                             sellerId.length + 15,
@@ -1759,37 +1779,19 @@ router.post(
                             sellerId.length + 15,
                             image.key.length - 4
                           ) + 'Updated.jpeg'
-                    }`,
-                    ACL: 'public-read',
-                  })
-                  .promise()
-              )
-              .then(() => {
-                images.push(
-                  `https://${config.get(
-                    's3bucket'
-                  )}.s3-ap-southeast-1.amazonaws.com/${sellerId}/${itemId}/${
-                    image.key.slice(-4) === 'jpeg'
-                      ? image.key.slice(
-                          sellerId.length + 15,
-                          image.key.length - 5
-                        ) + 'Updated.jpeg'
-                      : image.key.slice(
-                          sellerId.length + 15,
-                          image.key.length - 4
-                        ) + 'Updated.jpeg'
-                  }`
-                );
-              })
-              .catch(err => {
-                if (err.code === 'NoSuchKey') err.message = 'Image not found';
-                console.log(err.message);
-                console.log('i am here 5');
-                return res.status(500).send('Server error');
-              })
-          );
-        }
-      });
+                    }`
+                  );
+                })
+                .catch(err => {
+                  if (err.code === 'NoSuchKey') err.message = 'Image not found';
+                  console.log(err.message);
+                  console.log('i am here 5');
+                  return res.status(500).send('Server error');
+                })
+            );
+          }
+        });
+      }
 
       await Promise.all(promiseArray);
 

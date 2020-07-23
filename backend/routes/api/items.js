@@ -68,7 +68,7 @@ router.put(
 
       //Same item already present in buyer's cart
       let alrPresent = false;
-      buyer.cart.forEach((item) => {
+      buyer.cart.forEach(item => {
         if (
           item.item.toString() === newItem._id.toString() &&
           item.size === size
@@ -154,7 +154,7 @@ router.put('/cart/plus/:item_id/:size', auth, async (req, res) => {
 
     if (
       buyer.cart.filter(
-        (item) =>
+        item =>
           item.item.toString() === req.params.item_id &&
           item.size === req.params.size
       ).length === 0
@@ -162,7 +162,7 @@ router.put('/cart/plus/:item_id/:size', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Item not found' });
     }
 
-    buyer.cart.forEach((item) => {
+    buyer.cart.forEach(item => {
       if (
         item.item.toString() === req.params.item_id &&
         item.size === req.params.size
@@ -197,7 +197,7 @@ router.put('/cart/minus/:item_id/:size', auth, async (req, res) => {
 
     if (
       buyer.cart.filter(
-        (item) =>
+        item =>
           item.item.toString() === req.params.item_id &&
           item.size === req.params.size
       ).length === 0
@@ -205,7 +205,7 @@ router.put('/cart/minus/:item_id/:size', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Item not found' });
     }
 
-    buyer.cart.forEach((item) => {
+    buyer.cart.forEach(item => {
       if (
         (item.item.toString() === req.params.item_id) &
         (item.size === req.params.size)
@@ -215,7 +215,7 @@ router.put('/cart/minus/:item_id/:size', auth, async (req, res) => {
         //Remove item if quantity is zero
         if (item.quantity === 0) {
           const removeIndex = buyer.cart
-            .map((item) => [item.item.toString(), item.size])
+            .map(item => [item.item.toString(), item.size])
             .indexOf([req.params.item_id, req.params.size]);
 
           buyer.cart.splice(removeIndex, 1);
@@ -267,7 +267,7 @@ router.put(
       //If the item is already present in buyer's wishlist
       if (
         buyer.wishlist.filter(
-          (item) =>
+          item =>
             item.item.toString() === req.params.item_id && item.size === size
         ).length > 0
       ) {
@@ -277,7 +277,7 @@ router.put(
       //If the item is already present in buyer's wishlist
       if (
         buyer.cart.filter(
-          (item) =>
+          item =>
             item.item.toString() === req.params.item_id && item.size === size
         ).length > 0
       ) {
@@ -503,15 +503,20 @@ router.get(
 
         const py = spawn('python', params);
 
-        py.stdout.on('data', (data) => {
+        py.stdout.on('data', data => {
           let sizeFound = false;
           let whichSize = 0;
           chestWidth = parseFloat(data.toString().slice(1, 6));
 
           while (!sizeFound) {
-            if (chestWidth < sizes[whichSize].chest.to) {
-              recSize = sizes[whichSize].size;
+            if (whichSize === newSizesArray.length) {
+              break;
+            }
+            if (chestWidth < newSizesArray[whichSize].chest.to) {
+              recSize = newSizesArray[whichSize].size;
               sizeFound = !sizeFound;
+            } else {
+              whichSize += 1;
             }
           }
         });
@@ -524,7 +529,7 @@ router.get(
           recSize ? res.json({ recSize }) : res.json({ msg: 'Size not found' });
         });
 
-        py.stderr.on('data', (data) => {
+        py.stderr.on('data', data => {
           console.log(data.toString());
         });
       } else {
@@ -538,15 +543,20 @@ router.get(
 
         const py = spawn('python', params);
 
-        py.stdout.on('data', (data) => {
+        py.stdout.on('data', data => {
           let sizeFound = false;
           let whichSize = 0;
           waistCirc = parseFloat(data.toString().slice(1, 6));
 
           while (!sizeFound) {
-            if (waistCirc < sizes[whichSize].waist.to) {
-              recSize = sizes[whichSize].size;
+            if (whichSize === newSizesArray.length) {
+              break;
+            }
+            if (waistCirc < newSizesArray[whichSize].waist.to) {
+              recSize = newSizesArray[whichSize].size;
               sizeFound = !sizeFound;
+            } else {
+              whichSize += 1;
             }
           }
         });
@@ -559,7 +569,7 @@ router.get(
           recSize ? res.json({ recSize }) : res.json({ msg: 'Size not found' });
         });
 
-        py.stderr.on('data', (data) => {
+        py.stderr.on('data', data => {
           console.log(data.toString());
         });
       }
