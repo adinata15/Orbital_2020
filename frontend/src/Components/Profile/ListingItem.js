@@ -4,11 +4,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import ListingDetail from './ListingDetail';
-import { withProps } from '../../utils/setAuthToken';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -104,18 +100,3 @@ export default connect(null, {
   deleteListing,
   setAlert,
 })(ListingItem);
-
-{
-  /* <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby='form-dialog-title'
-            fullWidth={true}
-            maxWidth={'md'}
-            scroll={'body'}>
-            <ListingDetail
-              itemInfo={this.state.listingInfo}
-              onClose={this.handleClose}
-            />
-          </Dialog> */
-}

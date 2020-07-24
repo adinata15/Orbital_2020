@@ -31,10 +31,6 @@ import PrivateRoute from './utils/PrivateRoute.js';
 import SignupForm from './Components/SignIn/SignupForm.js';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     if (this.props.token && !this.props.isAuthenticated) {
       this.props.loadUser();

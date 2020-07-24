@@ -19,9 +19,12 @@ class ShopMenu extends React.Component {
     return (
       <div>
         <Carousel />
-        <div class='flex flex-wrap justify-center mb-3 border-solid border-2 rounded'>
+        <div
+          className={
+            'flex flex-wrap justify-center mb-3 border-solid border-2 rounded'
+          }>
           {item.map((item) => (
-            <Card key={item._id} item={item} class='flex-none' />
+            <Card key={item._id} item={item} className={'flex-none'} />
           ))}
         </div>
       </div>

@@ -182,7 +182,7 @@ class EditAddress extends React.Component {
               type='button'
               name={this.props.address._id}
               className={
-                'bg-red-800 hover:bg-red-600 text-white font-bold py-2 px-2 rounded'
+                'bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-2 rounded'
               }
               onClick={() => {
                 this.props.updateBillingAddress(this.props.address._id);
@@ -194,7 +194,7 @@ class EditAddress extends React.Component {
               type='button'
               name={this.props.address._id}
               className={
-                'bg-red-800 hover:bg-red-600 mx-3 mr-10 text-white font-bold py-2 px-2 rounded'
+                'bg-gray-800 hover:bg-gray-600 mx-3 mr-10 text-white font-bold py-2 px-2 rounded'
               }
               onClick={() => {
                 this.props.updateShippingAddress(this.props.address._id);

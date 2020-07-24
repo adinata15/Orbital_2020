@@ -33,6 +33,7 @@ class CartBtn extends Component {
           onClick={this.handleClickOpen}
           style={{ transform: 'scaleX(-1)' }}
           src={Image}
+          alt=''
           hidden={this.props.accounttype !== 'buyer'}
         />
 

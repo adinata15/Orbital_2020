@@ -13,8 +13,6 @@ import {
   CART_ITEM,
   UNCART_ITEM,
   PAY_START,
-  PAY_SUCCEED,
-  PAY_FAIL,
   GET_LISTING_DATA,
   CART_INCREASE_ONE,
   CART_DECREASE_ONE,
@@ -35,7 +33,6 @@ const initialState = {
 const shop = (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
-    case GET_LISTING_DATA:
       return {
         ...state,
         itemDisplayed: action.payload,

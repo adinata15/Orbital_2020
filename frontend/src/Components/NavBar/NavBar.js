@@ -21,7 +21,7 @@ class NavBar extends React.Component {
   }
 
   sellItems = () => {
-    if (this.props.accounttype == 'seller')
+    if (this.props.accounttype === 'seller')
       return <Link to='/sell'>Sell items</Link>;
   };
 

@@ -73,6 +73,7 @@ class CartItem extends React.Component {
                   }}
                   className={'mx-2 w-4 h-4'}
                   src={Minus}
+                  alt='minus'
                 />
                 {this.props.item.quantity}
                 <img
@@ -84,6 +85,7 @@ class CartItem extends React.Component {
                   }}
                   className={'mx-2 w-4 h-4'}
                   src={Add}
+                  alt='plus'
                 />
               </p>
             </div>
@@ -104,6 +106,7 @@ class CartItem extends React.Component {
           <div className={'w-32 h-32 float-right'}>
             <img
               src={this.props.item.image}
+              alt=''
               className={' w-32 object-cover h-32 rounded-lg shadow-2xl block'}
             />
           </div>

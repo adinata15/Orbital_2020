@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import Image from '../../images/logistics.svg';
 
 import EditAddress from './EditAddress';
 import AddAddress from './AddAddress';

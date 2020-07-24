@@ -1,4 +1,7 @@
 import React from 'react';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Carousel } from 'react-responsive-carousel';
+
 import Alert from '../Alert.js';
 
 import PropTypes from 'prop-types';
@@ -55,16 +58,6 @@ class ClothesDetail extends React.Component {
               'w-full lg:w-4/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0'
             }>
             <div className={'p-4 md:p-12 text-center lg:text-left'}>
-              <div
-                className={
-                  'block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center'
-                }>
-                <img
-                  className={'block h-full w-full lg:hidden rounded-lg'}
-                  src={this.props.item.images[0]}
-                />
-              </div>
-
               <h1 className={'text-3xl font-bold pt-24 lg:pt-0'}>
                 {this.props.item.title}
               </h1>
@@ -156,12 +149,21 @@ class ClothesDetail extends React.Component {
             </div>
           </div>
           <div className={'lg:w-1/5 lg:h-auto inset-y-0 right-0'}>
-            <img
-              src={this.props.item.images[0]}
-              className={
-                'rounded-none w-auto h-auto lg:rounded-lg shadow-2xl hidden lg:block'
-              }
-            />
+            <Carousel
+              axis='horizontal'
+              showThumbs={false}
+              showStatus={false}
+              autoPlay={true}
+              transitionTime={500}
+              swipeable={true}
+              infiniteLoop={true}
+              dynamicHeight={true}>
+              {this.props.item.images.map((image) => (
+                <div>
+                  <img className={'block h-full w-full'} src={image} alt='' />
+                </div>
+              ))}
+            </Carousel>
           </div>
         </div>
       </div>

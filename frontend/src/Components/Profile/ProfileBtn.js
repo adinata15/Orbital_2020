@@ -52,6 +52,7 @@ function ProfileBtn(props) {
         className={'h-8 w-8 my-3 mr-3 float-right'}
         onClick={handleClick}
         src={Image}
+        alt=''
         hidden={!props.isAuthenticated}
       />
 

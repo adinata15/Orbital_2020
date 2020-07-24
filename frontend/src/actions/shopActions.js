@@ -43,9 +43,11 @@ export const getSize = (data) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -61,9 +63,11 @@ export const getItems = (category) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -79,9 +83,11 @@ export const getLikedItems = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -95,9 +101,11 @@ export const getcartItems = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -293,19 +301,15 @@ export const payItems = (cartItem) => async (dispatch) => {
       config
     );
 
-    console.log('CHECKOUT CREATED');
-
     await dispatch({
       type: PAY_START,
       payload: res.data.sessionId,
     });
 
-    console.log(res.data.sessionId);
-
     await dispatch(checkoutStripe(stripe, res.data.sessionId));
   } catch (err) {
     if (err) {
-      dispatch(setAlert(err.msg, 'danger'));
+      dispatch(setAlert('Payment failed', 'danger'));
     }
     dispatch({
       type: PAY_FAIL,
@@ -327,11 +331,10 @@ export const checkoutStripe = (stripe, sessionId) => async (dispatch) => {
     const errors = err;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      dispatch(setAlert('Payment failed', 'danger'));
     }
     dispatch({
       type: PAY_FAIL,
-      payload: errors,
     });
   }
 };

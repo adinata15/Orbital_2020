@@ -34,6 +34,7 @@ class WishlistBtn extends Component {
           className={'h-8 w-8 my-3 float-right'}
           onClick={this.handleClickOpen}
           src={Image}
+          alt=''
           hidden={this.props.accounttype !== 'buyer'}
         />
 

@@ -8,7 +8,6 @@ import {
   EDIT_ADDRESS,
   SET_ADDRESS,
   GET_ADDRESS,
-  GET_LISTING_DATA,
   DELETE_ADDRESS,
   UPDATE_BILLING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
@@ -35,9 +34,11 @@ export const editProfile = (userData) => async (dispatch) => {
     });
     dispatch(setAlert('Profile editted', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -63,9 +64,11 @@ export const uploadProfilePic = (pictureData) => async (dispatch) => {
     });
     dispatch(setAlert('Profile picture uploaded', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -85,9 +88,11 @@ export const setAddress = (address) => async (dispatch) => {
     dispatch(getAddress());
     dispatch(setAlert('Address added', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -108,9 +113,11 @@ export const setBillingAddress = (address) => async (dispatch) => {
     });
     dispatch(getAddress());
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -131,9 +138,11 @@ export const setShippingAddress = (address) => async (dispatch) => {
     });
     dispatch(getAddress());
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -153,9 +162,11 @@ export const updateBillingAddress = (address_id) => async (dispatch) => {
     dispatch(getAddress());
     dispatch(setAlert('Billing address updated', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -175,9 +186,11 @@ export const updateShippingAddress = (address_id) => async (dispatch) => {
     dispatch(getAddress());
     dispatch(setAlert('Shipping address updated', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -194,9 +207,11 @@ export const getAddress = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -237,9 +252,11 @@ export const editAddress = (addressData, address_id) => async (dispatch) => {
     dispatch(getAddress());
     dispatch(setAlert('Address editted', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -259,9 +276,11 @@ export const editListing = (itemData, item_id) => async (dispatch) => {
 
     dispatch(setAlert('Item editted', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -281,9 +300,11 @@ export const deleteAddress = (address_id) => async (dispatch) => {
     dispatch(getAddress());
     dispatch(setAlert('Address deleted', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };
@@ -302,9 +323,11 @@ export const deleteListing = (item_id) => async (dispatch) => {
 
     dispatch(setAlert('Item deleted', 'success'));
   } catch (err) {
+    if (err) {
+      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: EDIT_PROFILE_FAIL,
-      payload: err,
     });
   }
 };

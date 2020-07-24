@@ -8,10 +8,6 @@ import { connect } from 'react-redux';
 import { unlikeItem, like2cart } from '../../actions/shopActions';
 
 class WishlistItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div
@@ -54,6 +50,7 @@ class WishlistItem extends React.Component {
                   }}
                   style={{ transform: 'scaleX(-1)' }}
                   src={Cart}
+                  alt=''
                 />
                 <img
                   name='heart'
@@ -65,6 +62,7 @@ class WishlistItem extends React.Component {
                     );
                   }}
                   src={Heart}
+                  alt=''
                 />
               </div>
             </div>
@@ -72,6 +70,7 @@ class WishlistItem extends React.Component {
           <div className={'lg:w-32 lg:h-32 float-right'}>
             <img
               src={this.props.item.image}
+              alt=''
               className={
                 'rounded-none w-32 object-cover h-32 lg:rounded-lg shadow-2xl lg:block'
               }

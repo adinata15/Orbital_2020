@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import Alert from '../Alert.js';
 import CartItem from './CartItem.js';
@@ -6,20 +7,25 @@ import CartItem from './CartItem.js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getcartItems, payItems } from '../../actions/shopActions';
+import { setAlert } from '../../actions/alertActions';
 
 class CartForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   payItems = (e) => {
     e.preventDefault();
+    if (
+      this.props.user.billingaddress.empty ||
+      this.props.user.shippingaddress.empty
+    ) {
+      this.props.handleClose();
+      this.props.setAlert('Please set up your address first', 'success');
+      return <Redirect to='/address' />;
+    } else {
+      let cartItems = {
+        items: this.props.itemCart,
+      };
 
-    let cartItems = {
-      items: this.props.itemCart,
-    };
-
-    this.props.payItems(cartItems);
+      this.props.payItems(cartItems);
+    }
   };
 
   componentWillMount() {
@@ -65,13 +71,18 @@ class CartForm extends React.Component {
 
 CartForm.propTypes = {
   getcartItems: PropTypes.func.isRequired,
+  setAlert: PropTypes.func,
   itemCart: PropTypes.array.isRequired,
   sessionId: PropTypes.string,
+  user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   itemCart: state.shop.itemCart,
   sessionId: state.shop.sessionId,
+  user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { getcartItems, payItems })(CartForm);
+export default connect(mapStateToProps, { getcartItems, payItems, setAlert })(
+  CartForm
+);

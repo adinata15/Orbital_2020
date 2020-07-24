@@ -7,10 +7,6 @@ import { connect } from 'react-redux';
 import { getLikedItems } from '../../actions/shopActions';
 
 class WishlistForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     this.props.getLikedItems();
   }

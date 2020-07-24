@@ -9,9 +9,6 @@ import Men from '../images/men.png';
 import Women from '../images/women.png';
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div
@@ -27,6 +24,7 @@ class Home extends React.Component {
             name='men'
             className={'hover:opacity-75 object-cover'}
             src={Men}
+            alt=''
           />
         </Link>
         {/* </div>
@@ -40,6 +38,7 @@ class Home extends React.Component {
             name='men'
             className={'hover:opacity-75 object-cover'}
             src={Women}
+            alt=''
           />
         </Link>
       </div>

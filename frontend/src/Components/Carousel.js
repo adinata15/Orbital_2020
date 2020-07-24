@@ -28,25 +28,28 @@ class DemoCarousel extends React.Component {
         dynamicHeight={true}>
         <div>
           <img
-            class='object-fill w-full'
+            className={'object-fill w-full'}
             style={{ height: '30em' }}
             src={Image}
+            alt=''
           />
           <p className='legend'>This is image 1</p>
         </div>
         <div>
           <img
-            class='object-fill w-full'
+            className={'object-fill w-full'}
             style={{ height: '30em' }}
             src={Image2}
+            alt=''
           />
           <p className='legend'>This is image 2</p>
         </div>
         <div>
           <img
-            class='object-fill w-full'
+            className={'object-fill w-full'}
             style={{ height: '30em' }}
             src={Image3}
+            alt=''
           />
           <p className='legend'>This is image 3</p>
         </div>
