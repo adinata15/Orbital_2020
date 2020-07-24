@@ -4,10 +4,10 @@ const { check, validationResult } = require('express-validator');
 const path = require('path');
 const spawn = require('child_process').spawn;
 
-// @route GET api/size-assistant
+// @route POST api/size-assistant
 // @desc Get size recommendation for items not from Best Fit
 // @access Public
-router.get(
+router.post(
   '/',
   [
     check('weight', 'Weight is required').exists({ checkFalsy: true }),
@@ -136,8 +136,6 @@ router.get(
       };
       newSizesArray.push(newSize);
     });
-
-    console.log(newSizesArray);
 
     if (unit === 'in') {
       for (var i = 0; i < newSizesArray.length; i++) {

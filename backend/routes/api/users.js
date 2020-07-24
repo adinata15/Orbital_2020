@@ -971,7 +971,6 @@ router.post('/seller/profile_pict', auth, async (req, res) => {
         if (!req.files.profileImage) {
           return res.status(400).json({ msg: 'No file selected!' });
         } else {
-          console.log(req.files.profileImage[0].key);
           const s3 = new aws.S3();
           s3.getObject({
             Bucket: config.get('s3bucket'),

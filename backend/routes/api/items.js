@@ -407,10 +407,10 @@ router.get('/category/:category', async (req, res) => {
   }
 });
 
-// @route GET api/items/size-assistant/:item_id
+// @route POST api/items/size-assistant/:item_id
 // @desc Get size recommendation for items on Best Fit
 // @access Public
-router.get(
+router.post(
   '/size-assistant/:item_id',
   [
     check('weight', 'Weight is required').exists({ checkFalsy: true }),

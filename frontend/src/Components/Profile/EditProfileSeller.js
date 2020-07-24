@@ -22,7 +22,7 @@ class EditProfile extends React.Component {
     };
   }
 
-  imageUpload = (e) => {
+  imageUpload = e => {
     e.preventDefault();
 
     let pictureData = new FormData();
@@ -30,7 +30,7 @@ class EditProfile extends React.Component {
     this.props.uploadProfilePic(pictureData);
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
 
     let userData = {
@@ -45,7 +45,7 @@ class EditProfile extends React.Component {
     this.props.editProfile(userData);
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     switch (e.target.name) {
       case 'image':
         this.props.setAlert('Loading...', 'success');
@@ -68,13 +68,15 @@ class EditProfile extends React.Component {
         console.log('Something is weird');
         break;
     }
+    console.log(this.state);
   };
 
   render() {
     return (
       <form
         onSubmit={this.handleSubmit}
-        className={'w-full max-w-lg mx-auto my-6'}>
+        className={'w-full max-w-lg mx-auto my-6'}
+      >
         <h1 className={'text-center text-3xl mb-3'}>My Profile</h1>
 
         <div className={'w-full content-center'}>
@@ -82,48 +84,52 @@ class EditProfile extends React.Component {
             <label
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-              }>
+              }
+            >
               Profile picture
             </label>
           </div>
           <div className={'flex w-full px-3'}>
-            {/* <CircularProgress className={'absolute'} /> */}
             <img
               className={'rounded-full h-64 w-64 my-3 object-cover'}
               onClick={() => this.fileInput.click()}
-              src={this.state.tempImg || this.state.image}
+              src={this.state.tempImg ? this.state.tempImg : this.state.image}
               alt={Image}
             />
             <div className={'w-full pl-3 self-center'}>
               <label
                 className={'block  mx-5 text-gray-700 text-m mb-2'}
-                for='email'>
+                for="email"
+              >
                 Show us your smile :D
               </label>
               <button
-                type='button'
+                type="button"
                 className={
                   'bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
                 }
-                onClick={() => this.fileInput.click()}>
+                onClick={() => this.fileInput.click()}
+              >
                 Choose file
               </button>
               <button
-                type='button'
+                type="button"
                 className={
                   'bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
                 }
-                onClick={this.imageUpload}>
+                onClick={this.imageUpload}
+              >
                 Upload
               </button>
             </div>
             <input
-              type='file'
-              name='image'
+              type="file"
+              name="image"
+              accept="image/*"
               style={{ display: 'none' }}
               onChange={this.handleChange}
               // to link to the button
-              ref={(fileInput) => (this.fileInput = fileInput)}
+              ref={fileInput => (this.fileInput = fileInput)}
             />
           </div>
         </div>
@@ -134,18 +140,19 @@ class EditProfile extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-user-id'>
+              for="grid-user-id"
+            >
               User ID
             </label>
             <input
-              name='name'
+              name="name"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
-              id='name'
+              id="name"
               value={this.state.name}
-              type='text'
-              placeholder='Jane'
+              type="text"
+              placeholder="Jane"
               onChange={this.handleChange}
             />
           </div>
@@ -155,18 +162,19 @@ class EditProfile extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-email'>
+              for="grid-email"
+            >
               Email
             </label>
             <input
-              name='email'
+              name="email"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
-              id='email'
-              type='email'
+              id="email"
+              type="email"
               value={this.state.email}
-              placeholder='jane@gmail.com'
+              placeholder="jane@gmail.com"
               onChange={this.handleChange}
             />
           </div>
@@ -177,18 +185,19 @@ class EditProfile extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-password'>
+              for="grid-password"
+            >
               Edit password
             </label>
             <input
-              name='oldPassword'
+              name="oldPassword"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
               }
-              id='oldPassword'
-              type='password'
-              placeholder='Leave blank if no edit required'
-              minlength='8'
+              id="oldPassword"
+              type="password"
+              placeholder="Leave blank if no edit required"
+              minlength="8"
               onChange={this.handleChange}
             />
           </div>
@@ -197,18 +206,19 @@ class EditProfile extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-password'>
+              for="grid-password"
+            >
               New password
             </label>
             <input
-              name='newPassword'
+              name="newPassword"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
               }
-              id='newPassword'
-              type='password'
-              placeholder='******************'
-              minlength='8'
+              id="newPassword"
+              type="password"
+              placeholder="******************"
+              minlength="8"
               onChange={this.handleChange}
             />
           </div>
@@ -217,18 +227,19 @@ class EditProfile extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-password'>
+              for="grid-password"
+            >
               Confirm new password
             </label>
             <input
-              name='newPassword2'
+              name="newPassword2"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
               }
-              id='newPassword2'
-              type='password'
-              placeholder='******************'
-              minlength='8'
+              id="newPassword2"
+              type="password"
+              placeholder="******************"
+              minlength="8"
               onChange={this.handleChange}
             />
           </div>
@@ -237,8 +248,9 @@ class EditProfile extends React.Component {
           className={
             'bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded'
           }
-          type='submit'
-          id='button'>
+          type="submit"
+          id="button"
+        >
           Save Changes
         </button>
       </form>
@@ -253,7 +265,7 @@ EditProfile.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.auth.user,
 });
 
