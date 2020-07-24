@@ -24,18 +24,18 @@ router.get(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // let { size1, size2, size3, size4, size5, size6, size7, size8 } = req.body;
+    let { size1, size2, size3, size4, size5, size6, size7, size8 } = req.body;
 
-    // const sizesArray = [size1, size2, size3, size4, size5, size6, size7, size8];
-    // const len = sizesArray.length;
+    const sizesArray = [size1, size2, size3, size4, size5, size6, size7, size8];
+    const len = sizesArray.length;
 
-    // if (!sizesArray[0]) {
-    //   return res.status(400).json({ msg: 'Please provide sizes' });
-    // }
+    if (!sizesArray[0]) {
+      return res.status(400).json({ msg: 'Please provide sizes' });
+    }
 
-    // for (var i = len; i >= 0; i--) {
-    //   if (!sizesArray[i]) sizesArray.splice(i, 1);
-    // }
+    for (var i = len; i >= 0; i--) {
+      if (!sizesArray[i]) sizesArray.splice(i, 1);
+    }
 
     const {
       height,
@@ -43,145 +43,101 @@ router.get(
       gender,
       meatype,
       unit,
-      sizetable,
       category,
-      //   size1chest,
-      //   size1waist,
-      //   size2chest,
-      //   size2waist,
-      //   size3chest,
-      //   size3waist,
-      //   size4chest,
-      //   size4waist,
-      //   size5chest,
-      //   size5waist,
-      //   size6chest,
-      //   size6waist,
-      //   size7chest,
-      //   size7waist,
-      //   size8chest,
-      //   size8waist,
+      size1chest,
+      size1waist,
+      size2chest,
+      size2waist,
+      size3chest,
+      size3waist,
+      size4chest,
+      size4waist,
+      size5chest,
+      size5waist,
+      size6chest,
+      size6waist,
+      size7chest,
+      size7waist,
+      size8chest,
+      size8waist,
     } = req.body;
 
-    // const size1Array = [size1chest, size1waist];
-    // const size2Array = [size2chest, size2waist];
-    // const size3Array = [size3chest, size3waist];
-    // const size4Array = [size4chest, size4waist];
-    // const size5Array = [size5chest, size5waist];
-    // const size6Array = [size6chest, size6waist];
-    // const size7Array = [size7chest, size7waist];
-    // const size8Array = [size8chest, size8waist];
+    const size1Array = [size1chest, size1waist];
+    const size2Array = [size2chest, size2waist];
+    const size3Array = [size3chest, size3waist];
+    const size4Array = [size4chest, size4waist];
+    const size5Array = [size5chest, size5waist];
+    const size6Array = [size6chest, size6waist];
+    const size7Array = [size7chest, size7waist];
+    const size8Array = [size8chest, size8waist];
 
-    // const sizeArraysArray = [
-    //   size1Array,
-    //   size2Array,
-    //   size3Array,
-    //   size4Array,
-    //   size5Array,
-    //   size6Array,
-    //   size7Array,
-    //   size8Array,
-    // ];
-
-    const sizesArray = sizetable;
-    if (!sizesArray[0]) {
-      return res.status(400).json({ msg: 'Please provide sizes' });
-    }
+    const sizeArraysArray = [
+      size1Array,
+      size2Array,
+      size3Array,
+      size4Array,
+      size5Array,
+      size6Array,
+      size7Array,
+      size8Array,
+    ];
 
     const newSizesArray = [];
     sizesArray.forEach(size => {
-      // let sizeIndex = sizesArray.indexOf(size);
-      if (size) {
-        let newSize = {
-          size: size.size,
-          chest: size.chest
-            ? size.chest.split('-').map(size => size.trim()).length > 1
-              ? {
-                  from: parseFloat(
-                    size.chest.split('-').map(size => size.trim())[0]
-                  ),
-                  to: parseFloat(
-                    size.chest.split('-').map(size => size.trim())[1]
-                  ),
-                }
-              : {
-                  from: parseFloat(size.chest.trim()),
-                  to: parseFloat(size.chest.trim()),
-                }
+      let sizeIndex = sizesArray.indexOf(size);
+      let newSize = {
+        size,
+        chest: sizeArraysArray[sizeIndex][0]
+          ? sizeArraysArray[sizeIndex][0].split('-').map(size => size.trim())
+              .length > 1
+            ? {
+                from: parseFloat(
+                  sizeArraysArray[sizeIndex][0]
+                    .split('-')
+                    .map(size => size.trim())[0]
+                ),
+                to: parseFloat(
+                  sizeArraysArray[sizeIndex][0]
+                    .split('-')
+                    .map(size => size.trim())[1]
+                ),
+              }
             : {
-                from: -1,
-                to: -1,
-              },
-
-          // }
-          // sizeArraysArray[sizeIndex][0]
-          //   ? sizeArraysArray[sizeIndex][0].split('-').map(size => size.trim())
-          //       .length > 1
-          //     ? {
-          //         from: parseFloat(
-          //           sizeArraysArray[sizeIndex][0]
-          //             .split('-')
-          //             .map(size => size.trim())[0]
-          //         ),
-          //         to: parseFloat(
-          //           sizeArraysArray[sizeIndex][0]
-          //             .split('-')
-          //             .map(size => size.trim())[1]
-          //         ),
-          //       }
-          //     : {
-          //         from: parseFloat(sizeArraysArray[sizeIndex][0].trim()),
-          //         to: parseFloat(sizeArraysArray[sizeIndex][0].trim()),
-          //       }
-          //   : {
-          //       from: -1,
-          //       to: -1,
-          //     },
-          waist: size.waist
-            ? size.waist.split('-').map(size => size.trim()).length > 1
-              ? {
-                  from: parseFloat(
-                    size.waist.split('-').map(size => size.trim())[0]
-                  ),
-                  to: parseFloat(
-                    size.waist.split('-').map(size => size.trim())[1]
-                  ),
-                }
-              : {
-                  from: parseFloat(size.waist.trim()),
-                  to: parseFloat(size.waist.trim()),
-                }
+                from: parseFloat(sizeArraysArray[sizeIndex][0].trim()),
+                to: parseFloat(sizeArraysArray[sizeIndex][0].trim()),
+              }
+          : {
+              from: -1,
+              to: -1,
+            },
+        waist: sizeArraysArray[sizeIndex][1]
+          ? sizeArraysArray[sizeIndex][1].split('-').map(size => size.trim())
+              .length > 1
+            ? {
+                from: parseFloat(
+                  sizeArraysArray[sizeIndex][1]
+                    .split('-')
+                    .map(size => size.trim())[0]
+                ),
+                to: parseFloat(
+                  sizeArraysArray[sizeIndex][1]
+                    .split('-')
+                    .map(size => size.trim())[1]
+                ),
+              }
             : {
-                from: -1,
-                to: -1,
-              },
-          // waist: sizeArraysArray[sizeIndex][2]
-          //   ? sizeArraysArray[sizeIndex][2].split('-').map(size => size.trim())
-          //       .length > 1
-          //     ? {
-          //         from: parseFloat(
-          //           sizeArraysArray[sizeIndex][2]
-          //             .split('-')
-          //             .map(size => size.trim())[0]
-          //         ),
-          //         to: parseFloat(
-          //           sizeArraysArray[sizeIndex][2]
-          //             .split('-')
-          //             .map(size => size.trim())[1]
-          //         ),
-          //       }
-          //     : {
-          //         from: parseFloat(sizeArraysArray[sizeIndex][2].trim()),
-          //         to: parseFloat(sizeArraysArray[sizeIndex][2].trim()),
-          //       }
-          //   : {
-          //       from: -1,
-          //       to: -1,
-          //     },
-        };
-        newSizesArray.push(newSize);
-      }
+                from: parseFloat(sizeArraysArray[sizeIndex][1].trim()),
+                to: parseFloat(sizeArraysArray[sizeIndex][1].trim()),
+              }
+          : {
+              from: -1,
+              to: -1,
+            },
+      };
+      newSizesArray.push(newSize);
     });
+
+    console.log(newSizesArray);
 
     if (unit === 'in') {
       for (var i = 0; i < newSizesArray.length; i++) {
