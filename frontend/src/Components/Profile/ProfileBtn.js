@@ -11,7 +11,7 @@ import Image from '../../images/plus.svg';
 
 function ProfileBtn(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -19,19 +19,15 @@ function ProfileBtn(props) {
     setAnchorEl(null);
   };
 
-  const handleWallet = () => {
-    return (window.location.href =
-      'https://connect.stripe.com/express/oauth/authorize?client_id=ca_HXZPcyjn3M0xNIlKrMFE79On9n9GQJ6t&state=9j5fjsSFCh7smqNCRpQMYSYZ&suggested_capabilities[]=transfers');
-  };
   const differentOptions = () => {
     if (props.accounttype === 'buyer') {
       return (
         <span>
           <MenuItem onClick={handleClose}>
-            <Link to="/address">My address</Link>
+            <Link to='/address'>My address</Link>
           </MenuItem>
           <MenuItem onClick={handleClose}>
-            <Link to="/order">My order</Link>
+            <Link to='/order'>My order</Link>
           </MenuItem>
         </span>
       );
@@ -39,9 +35,8 @@ function ProfileBtn(props) {
       return (
         <span>
           <MenuItem onClick={handleClose}>
-            <Link to="/store">My store</Link>
+            <Link to='/store'>My store</Link>
           </MenuItem>
-          <MenuItem onClick={handleWallet}>My wallet</MenuItem>
         </span>
       );
     }
@@ -53,23 +48,21 @@ function ProfileBtn(props) {
         className={'h-8 w-8 my-3 mr-3 float-right'}
         onClick={handleClick}
         src={Image}
-        alt=""
+        alt=''
         hidden={!props.isAuthenticated}
       />
 
       <Menu
-        id="simple-menu"
+        id='simple-menu'
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
+        onClose={handleClose}>
         <MenuItem onClick={handleClose}>
           <Link
             to={() => {
               return `/edit/profile/${props.accounttype}`;
-            }}
-          >
+            }}>
             My profile
           </Link>
         </MenuItem>
@@ -80,8 +73,7 @@ function ProfileBtn(props) {
           onClick={() => {
             props.logout();
             handleClose();
-          }}
-        >
+          }}>
           Logout
         </MenuItem>
       </Menu>
@@ -95,7 +87,7 @@ ProfileBtn.propTypes = {
   accounttype: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   accounttype: state.auth.user.accounttype,
 });

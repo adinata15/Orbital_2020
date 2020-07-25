@@ -13,6 +13,7 @@ import {
   SET_ADDRESS,
   SET_BILLING_ADDRESS,
   SET_SHIPPING_ADDRESS,
+  EDIT_PROFILE_PIC,
   EDIT_PROFILE_FAIL,
   DELETE_ADDRESS,
   UPDATE_BILLING_ADDRESS,
@@ -48,6 +49,7 @@ export default function (state = initialState, action) {
     case DELETE_LISTING:
     case EDIT_LISTING:
     case POST_ITEM:
+    case EDIT_PROFILE_PIC:
       return {
         ...state,
         isLoading: false,
