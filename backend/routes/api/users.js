@@ -960,7 +960,9 @@ router.delete('/buyer/address/:address_id', auth, async (req, res) => {
 // Remind sellers that pic is preferably <= 1080*1080
 router.post('/seller/profile_pict', auth, async (req, res) => {
   try {
-    const seller = await Seller.findOne({ _id: req.user.id });
+    const seller = await Seller.findOne({ _id: req.user.id }).select(
+      '-password'
+    );
     if (!seller) {
       return res.status(404).json({ msg: 'Account not found' });
     }

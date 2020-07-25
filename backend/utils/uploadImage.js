@@ -51,7 +51,8 @@ const uploadImage = multer({
         cb(
           null,
           req.user.id.toString() +
-            '/oriPP' +
+            '/oriPP/' +
+            Date.now().toString() +
             path.extname(file.originalname).toLowerCase()
         );
       }
