@@ -21,7 +21,7 @@ import {
 } from './types';
 
 //Edit profile
-export const editProfile = (userData) => async (dispatch) => {
+export const editProfile = userData => async dispatch => {
   try {
     const res = await axios.put(
       `http://localhost:5000/api/users/${userData.accounttype}`,
@@ -35,7 +35,7 @@ export const editProfile = (userData) => async (dispatch) => {
     dispatch(setAlert('Profile editted', 'success'));
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -44,7 +44,7 @@ export const editProfile = (userData) => async (dispatch) => {
 };
 
 //Upload profile picture
-export const uploadProfilePic = (pictureData) => async (dispatch) => {
+export const uploadProfilePic = pictureData => async dispatch => {
   try {
     const config = {
       headers: {
@@ -65,7 +65,7 @@ export const uploadProfilePic = (pictureData) => async (dispatch) => {
     dispatch(setAlert('Profile picture uploaded', 'success'));
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -74,7 +74,7 @@ export const uploadProfilePic = (pictureData) => async (dispatch) => {
 };
 
 //Set address
-export const setAddress = (address) => async (dispatch) => {
+export const setAddress = address => async dispatch => {
   try {
     const res = await axios.post(
       `http://localhost:5000/api/users/buyer/address`,
@@ -89,7 +89,7 @@ export const setAddress = (address) => async (dispatch) => {
     dispatch(setAlert('Address added', 'success'));
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -98,7 +98,7 @@ export const setAddress = (address) => async (dispatch) => {
 };
 
 //Set billing address
-export const setBillingAddress = (address) => async (dispatch) => {
+export const setBillingAddress = address => async dispatch => {
   try {
     let body = JSON.stringify(address);
 
@@ -114,7 +114,7 @@ export const setBillingAddress = (address) => async (dispatch) => {
     dispatch(getAddress());
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -123,7 +123,7 @@ export const setBillingAddress = (address) => async (dispatch) => {
 };
 
 //Set shipping address
-export const setShippingAddress = (address) => async (dispatch) => {
+export const setShippingAddress = address => async dispatch => {
   try {
     let body = JSON.stringify(address);
 
@@ -139,7 +139,7 @@ export const setShippingAddress = (address) => async (dispatch) => {
     dispatch(getAddress());
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -148,7 +148,7 @@ export const setShippingAddress = (address) => async (dispatch) => {
 };
 
 //Update billing address
-export const updateBillingAddress = (address_id) => async (dispatch) => {
+export const updateBillingAddress = address_id => async dispatch => {
   try {
     const res = await axios.put(
       `http://localhost:5000/api/users/buyer/billingaddress/${address_id}`
@@ -163,7 +163,7 @@ export const updateBillingAddress = (address_id) => async (dispatch) => {
     dispatch(setAlert('Billing address updated', 'success'));
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -172,7 +172,7 @@ export const updateBillingAddress = (address_id) => async (dispatch) => {
 };
 
 //Update shipping address
-export const updateShippingAddress = (address_id) => async (dispatch) => {
+export const updateShippingAddress = address_id => async dispatch => {
   try {
     const res = await axios.put(
       `http://localhost:5000/api/users/buyer/shippingaddress/${address_id}`
@@ -187,7 +187,7 @@ export const updateShippingAddress = (address_id) => async (dispatch) => {
     dispatch(setAlert('Shipping address updated', 'success'));
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -196,7 +196,7 @@ export const updateShippingAddress = (address_id) => async (dispatch) => {
 };
 
 //Get all user address
-export const getAddress = () => async (dispatch) => {
+export const getAddress = () => async dispatch => {
   try {
     const res = await axios.get(
       `http://localhost:5000/api/users/buyer/address`
@@ -208,7 +208,7 @@ export const getAddress = () => async (dispatch) => {
     });
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -217,7 +217,7 @@ export const getAddress = () => async (dispatch) => {
 };
 
 //Get all user address
-export const getOrder = (accounttype) => async (dispatch) => {
+export const getOrder = accounttype => async dispatch => {
   try {
     const res = await axios.get(
       `http://localhost:5000/api/users/${accounttype}/orders`
@@ -237,7 +237,7 @@ export const getOrder = (accounttype) => async (dispatch) => {
 };
 
 //Edit user address
-export const editAddress = (addressData, address_id) => async (dispatch) => {
+export const editAddress = (addressData, address_id) => async dispatch => {
   try {
     const res = await axios.put(
       `http://localhost:5000/api/users/buyer/address/${address_id}`,
@@ -253,7 +253,7 @@ export const editAddress = (addressData, address_id) => async (dispatch) => {
     dispatch(setAlert('Address editted', 'success'));
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -262,8 +262,10 @@ export const editAddress = (addressData, address_id) => async (dispatch) => {
 };
 
 //Edit user listing
-export const editListing = (itemData, item_id) => async (dispatch) => {
+export const editListing = (itemData, item_id) => async dispatch => {
   try {
+    console.log('EDIT LISTING');
+    console.log(itemData);
     const res = await axios.put(
       `http://localhost:5000/api/users/seller/item/${item_id}`,
       itemData
@@ -285,7 +287,7 @@ export const editListing = (itemData, item_id) => async (dispatch) => {
 };
 
 //Delete user address
-export const deleteAddress = (address_id) => async (dispatch) => {
+export const deleteAddress = address_id => async dispatch => {
   try {
     const res = await axios.delete(
       `http://localhost:5000/api/users/buyer/address/${address_id}`
@@ -300,7 +302,7 @@ export const deleteAddress = (address_id) => async (dispatch) => {
     dispatch(setAlert('Address deleted', 'success'));
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,
@@ -309,7 +311,7 @@ export const deleteAddress = (address_id) => async (dispatch) => {
 };
 
 //Delete user listing
-export const deleteListing = (item_id) => async (dispatch) => {
+export const deleteListing = item_id => async dispatch => {
   try {
     const res = await axios.delete(
       `http://localhost:5000/api/users/seller/item/${item_id}`
@@ -323,7 +325,7 @@ export const deleteListing = (item_id) => async (dispatch) => {
     dispatch(setAlert('Item deleted', 'success'));
   } catch (err) {
     if (err) {
-      err.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      err.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: EDIT_PROFILE_FAIL,

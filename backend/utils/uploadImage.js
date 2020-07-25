@@ -41,7 +41,9 @@ const uploadImage = multer({
       }
       if (
         file.fieldname === 'itemImages' ||
-        file.fieldname === 'displayImage'
+        file.fieldname === 'displayImage' ||
+        file.fieldname === 'newItemImages' ||
+        file.fieldname === 'newDisplayImage'
       ) {
         cb(null, { imageDesc: 'itemPic' });
       }
@@ -67,7 +69,9 @@ const uploadImage = multer({
       }
       if (
         file.fieldname === 'itemImages' ||
-        file.fieldname === 'displayImage'
+        file.fieldname === 'displayImage' ||
+        file.fieldname === 'newItemImages' ||
+        file.fieldname === 'newDisplayImage'
       ) {
         cb(
           null,
@@ -87,6 +91,8 @@ const uploadImage = multer({
   { name: 'sizeChart', maxCount: 3 },
   { name: 'displayImage', maxCount: 1 },
   { name: 'itemImages', maxCount: 7 },
+  { name: 'newDisplayImage', maxCount: 1 },
+  { name: 'newItemImages', maxCount: 7 },
 ]);
 
 /*const uploadItemPict = multer({
