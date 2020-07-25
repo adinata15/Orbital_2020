@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   menuChosen: 'men',
-  sizeRecommendation: '...',
+  sizeRecommendation: '',
 };
 
 const menu = (state = initialState, action) => {
