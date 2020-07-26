@@ -1,13 +1,17 @@
 //cannot upload profile pic (error 500)
 
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import Image from '../../images/plus.svg';
 import omit from 'lodash/omit';
+import queryString from 'query-string';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editProfile, uploadProfilePic } from '../../actions/profileActions';
+import {
+  editProfile,
+  uploadProfilePic,
+  getStripeSeller,
+} from '../../actions/profileActions';
 import { setAlert } from '../../actions/alertActions';
 
 class EditProfile extends React.Component {
@@ -15,13 +19,20 @@ class EditProfile extends React.Component {
     super(props);
     this.state = {
       ...this.props.user,
-      ...this.props.match.params,
       oldPassword: '',
       newPassword: '',
       newPassword2: '',
       tempImg: null,
       isLoading: false,
+      ...queryString.parse(this.props.location.search),
     };
+    console.log(this.state);
+  }
+
+  componentWillMount() {
+    if (this.props.token && !this.props.isAuthenticated) {
+      this.props.loadUser();
+    }
   }
 
   imageUpload = (e) => {
@@ -75,10 +86,12 @@ class EditProfile extends React.Component {
         console.log('Something is weird');
         break;
     }
-    console.log(this.state);
   };
 
   render() {
+    if (this.state.code) {
+      this.props.getStripeSeller(this.state.state, this.state.code);
+    }
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -270,6 +283,7 @@ EditProfile.propTypes = {
   setAlert: PropTypes.func,
   editProfile: PropTypes.func,
   uploadProfilePic: PropTypes.func,
+  getStripeSeller: PropTypes.func,
   user: PropTypes.object.isRequired,
 };
 
@@ -281,4 +295,5 @@ export default connect(mapStateToProps, {
   setAlert,
   editProfile,
   uploadProfilePic,
+  getStripeSeller,
 })(EditProfile);

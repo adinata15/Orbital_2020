@@ -14,6 +14,7 @@ import {
   SET_BILLING_ADDRESS,
   SET_SHIPPING_ADDRESS,
   EDIT_PROFILE_PIC,
+  GET_STRIPE_ACCOUNT,
   EDIT_PROFILE_FAIL,
   DELETE_ADDRESS,
   UPDATE_BILLING_ADDRESS,
@@ -37,6 +38,7 @@ const initialState = {
     shippingaddress: {},
     addresses: [], // if it's an array,
     orders: [],
+    stripeseller: '',
   },
   order: [],
   addresses: [],
@@ -46,10 +48,19 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     //For seller
+    case GET_STRIPE_ACCOUNT:
+      return {
+        ...state,
+        isLoading: false,
+        user: {
+          ...state.user,
+          stripeseller: payload,
+        },
+      };
+
     case DELETE_LISTING:
     case EDIT_LISTING:
     case POST_ITEM:
-    case EDIT_PROFILE_PIC:
       return {
         ...state,
         isLoading: false,
@@ -77,7 +88,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-
         user: {
           ...state.user,
           shippingaddress: payload,
@@ -89,13 +99,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-
         user: {
           ...state.user,
           addresses: payload,
         },
       };
-
+    case EDIT_PROFILE_PIC:
     case EDIT_PROFILE_SUCCESS:
       return {
         ...state,
@@ -107,7 +116,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-
         addresses: payload,
       };
     case CHECKOUT_SUCCESS:
@@ -120,7 +128,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-
         isAuthenticated: true,
         user: payload,
       };

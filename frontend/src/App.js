@@ -47,10 +47,7 @@ class App extends React.Component {
           <Route exact path='/' component={Home} />
           <Route exact path='/shop' component={Shop} />
           <Route exact path='/fit-assist' component={FitAssistCard} />
-          <Route
-            path='/connect/oauth/:state/:oauth'
-            component={EditProfileSeller}
-          />
+          <Route path='/connect/oauth' component={EditProfileSeller} />
           <PrivateRoute
             path='/edit/profile/seller'
             component={EditProfileSeller}

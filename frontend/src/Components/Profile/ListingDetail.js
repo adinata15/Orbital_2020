@@ -1,3 +1,6 @@
+//haven't done display image yet
+//add option to close(top right) and set as display image(bottom center) to each images
+//remove images and move displayImage around
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
@@ -19,8 +22,15 @@ class ListingDetail extends Component {
       newSizes: [],
       meatype: this.props.location.listingInfo.sizechartmeatype,
       unit: this.props.location.listingInfo.sizechartunit,
+      displayImage: null,
+      newDisplayImage: null,
+      newItemImages: [],
     };
-    console.log(this.props.location.listingInfo);
+    //setting up display image
+    this.setState({
+      displayImage: this.state.images.shift(),
+    });
+    this.state.tempImage.shift();
 
     //adjust category
     let catInt = ['men', 'women', 'shirt', 'skirt', 'pants', 'shorts', 'dress'];
@@ -120,10 +130,23 @@ class ListingDetail extends Component {
 
   appendData = (data) => {
     //insert image
-    let displayImage = this.state.images.shift();
-    this.state.images.forEach((image) => {
-      data.append('itemImages', image); //problem here
+    let displayImage = this.state.newDisplayImage
+      ? this.state.newDisplayImage
+      : this.state.displayImage;
+
+    //for old images in url form
+    let oldImageComb = '';
+    this.state.images.forEach((image, idx) => {
+      if (idx) oldImageComb = oldImageComb.concat(',', image);
+      else oldImageComb = oldImageComb.concat(image);
     });
+    data.append('itemImages', oldImageComb);
+
+    //for new file image
+    this.state.newItemImages.forEach((image) => {
+      data.append('newItemImages', image);
+    });
+
     let categoryStr = '';
     this.state.category.forEach((cat, idx) => {
       if (idx) categoryStr = categoryStr.concat(',', cat);
@@ -171,15 +194,17 @@ class ListingDetail extends Component {
     });
   };
 
-  handleImage = (e) => {
+  addImage = (e) => {
     this.setState({
       tempImage: [
         ...this.state.tempImage,
         URL.createObjectURL(e.target.files[0]),
       ],
-      image: [...this.state.images, e.target.files[0]],
+      newItemImages: [...this.state.newItemImages, e.target.files[0]],
     });
   };
+
+  removeImage = (e) => {};
 
   imageItems = () => {
     let tempImage = this.state.tempImage;
@@ -215,6 +240,62 @@ class ListingDetail extends Component {
       );
     }
   };
+
+  // imageItems = () => {
+  //   let tempImage = this.state.tempImage;
+  //   if(this.state.displayImage||this.state.newDisplayImage)
+  //   return(
+
+  //     <div
+  //           className={
+  //             'relative flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
+  //           }>
+  //           <img
+  //             key={index}
+  //             className={'h-32 w-32 mx-1 my-3 object-cover'}
+  //             src={item}
+  //             alt={'item picture'}
+  //           />
+  //           <img
+  //             key={index}
+  //             className={'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right'}
+  //             src={CloseImg}
+  //             onClick={this.removeImage}
+  //             alt={'item picture'}
+  //           />
+  //           <p className={'text-center'}>Display image</p>
+  //         </div>
+  //         {
+  //           tempImage.map((item, index) =>
+  //       (
+  //         <div
+  //           className={
+  //             'relative flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
+  //           }>
+  //           <img
+  //             key={index}
+  //             className={'mx-1 h-32 w-32 my-3 object-cover'}
+  //             src={item}
+  //             alt='item picture'
+  //           />
+  //           <img
+  //             key={index}
+  //             className={'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right'}
+  //             src={CloseImg}
+  //             onClick={this.removeImage}
+  //             alt={'item picture'}
+  //           /></div>
+
+  //        </div>
+  //     );
+  //    else {
+  //     return (
+  //       <p className={'text-3xl text-center w-full px-8 font-bold my-3'}>
+  //         No image chosen
+  //       </p>
+  //     );
+  //   }
+  // };
   addCategory = (e) => {
     this.setState({
       category: [...this.state.category, e.currentTarget.value],
@@ -313,7 +394,7 @@ class ListingDetail extends Component {
               accept='image/*'
               // value={this.state.images || this.state.tempImage}
               hidden
-              onChange={this.handleImage}
+              onChange={this.addImage}
               // to link to the button
               ref={(fileInput) => (this.fileInput = fileInput)}
             />
