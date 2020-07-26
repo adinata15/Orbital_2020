@@ -15,6 +15,7 @@ import {
   SET_SHIPPING_ADDRESS,
   EDIT_PROFILE_PIC,
   GET_STRIPE_ACCOUNT,
+  GET_LISTINGS,
   EDIT_PROFILE_FAIL,
   DELETE_ADDRESS,
   UPDATE_BILLING_ADDRESS,
@@ -24,6 +25,7 @@ import {
   DELETE_LISTING,
   GET_ORDER,
   GET_ORDER_FAIL,
+  CHOOSE_LISTING,
   LOADING,
   CHECKOUT_SUCCESS,
 } from '../actions/types';
@@ -34,6 +36,7 @@ const initialState = {
   isAuthenticated: null,
   user: {
     listings: [],
+    listing: {},
     billingaddress: {},
     shippingaddress: {},
     addresses: [], // if it's an array,
@@ -57,9 +60,19 @@ export default function (state = initialState, action) {
           stripeseller: payload,
         },
       };
+    case EDIT_LISTING:
+    case CHOOSE_LISTING:
+      return {
+        ...state,
+        isLoading: false,
+        user: {
+          ...state.user,
+          listing: payload,
+        },
+      };
 
     case DELETE_LISTING:
-    case EDIT_LISTING:
+    case GET_LISTINGS:
     case POST_ITEM:
       return {
         ...state,

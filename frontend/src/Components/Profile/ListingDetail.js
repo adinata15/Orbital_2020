@@ -15,22 +15,22 @@ class ListingDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...this.props.location.listingInfo,
-      isSubmitted: false,
+      ...this.props.listing,
       categoryLeft: [],
-      tempImage: this.props.location.listingInfo.images,
       newSizes: [],
-      meatype: this.props.location.listingInfo.sizechartmeatype,
-      unit: this.props.location.listingInfo.sizechartunit,
-      displayImage: null,
+      meatype: this.props.listing.sizechartmeatype,
+      unit: this.props.listing.sizechartunit,
+
+      displayImage: this.props.listing.images[0],
+      itemImages: this.props.listing.images.slice(
+        1,
+        this.props.listing.images.length
+      ),
       newDisplayImage: null,
+      newDisplayImageURL: null,
       newItemImages: [],
+      newItemImagesURL: [],
     };
-    //setting up display image
-    this.setState({
-      displayImage: this.state.images.shift(),
-    });
-    this.state.tempImage.shift();
 
     //adjust category
     let catInt = ['men', 'women', 'shirt', 'skirt', 'pants', 'shorts', 'dress'];
@@ -51,8 +51,8 @@ class ListingDetail extends Component {
 
   transformSizes = () => {
     //inserting size datas
-    this.state.sizes.forEach((val) => {
-      this.setState((prevState) => ({
+    this.state.sizes.forEach(val => {
+      this.setState(prevState => ({
         newSizes: [
           ...prevState.newSizes,
           {
@@ -128,7 +128,7 @@ class ListingDetail extends Component {
     });
   };
 
-  appendData = (data) => {
+  appendData = data => {
     //insert image
     let displayImage = this.state.newDisplayImage
       ? this.state.newDisplayImage
@@ -136,14 +136,14 @@ class ListingDetail extends Component {
 
     //for old images in url form
     let oldImageComb = '';
-    this.state.images.forEach((image, idx) => {
+    this.state.itemImages.forEach((image, idx) => {
       if (idx) oldImageComb = oldImageComb.concat(',', image);
       else oldImageComb = oldImageComb.concat(image);
     });
     data.append('itemImages', oldImageComb);
 
     //for new file image
-    this.state.newItemImages.forEach((image) => {
+    this.state.newItemImages.forEach(image => {
       data.append('newItemImages', image);
     });
 
@@ -173,7 +173,7 @@ class ListingDetail extends Component {
     data.append('sizechartunit', this.state.unit);
     data.append('sizechartmeatype', this.state.meatype);
   };
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     let data = new FormData();
     try {
@@ -187,50 +187,168 @@ class ListingDetail extends Component {
     }
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({
       ...this.state,
       [e.target.id]: e.target.value,
     });
   };
 
-  addImage = (e) => {
+  addImage = e => {
     this.setState({
-      tempImage: [
-        ...this.state.tempImage,
+      newItemImagesURL: [
+        ...this.state.newItemImagesURL,
         URL.createObjectURL(e.target.files[0]),
       ],
       newItemImages: [...this.state.newItemImages, e.target.files[0]],
     });
   };
 
-  removeImage = (e) => {};
+  setDisplay = e => {
+    let tempURL;
+    console.log(e.currentTarget.src);
+    let targetName = e.currentTarget.name;
+    typeof e.currentTarget.src
+      ? this.setState({
+          displayImage: e.currentTarget.src,
+          [e.currentTarget.name]: this.state[targetName].filter(
+            //here
+            cat => cat !== e.currentTarget.name
+          ),
+        })
+      : this.setState({
+          newDisplayImage: e.currentTarget.files[0],
+          displayImage: null,
+          newDisplayImageURL: URL.createObjectURL(e.target.files[0]),
+          [e.currentTarget.name]: this.state[targetName].filter(
+            //here
+            cat => cat !== e.currentTarget.name
+          ),
+        });
+  };
+
+  removeImage = e => {
+    {
+      this.setState({
+        categoryLeft: [...this.state.categoryLeft, e.currentTarget.value],
+        category: this.state.category.filter(
+          cat => cat !== e.currentTarget.value
+        ),
+      });
+    }
+  };
 
   imageItems = () => {
-    let tempImage = this.state.tempImage;
-    if (tempImage[0]) {
-      return tempImage.map((item, index) =>
-        index === 0 ? (
+    if (this.state.displayImage || this.state.newDisplayImageURL) {
+      return (
+        <div
+          className={
+            'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
+          }
+        >
           <div
             className={
-              'flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
-            }>
+              'relative flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
+            }
+          >
             <img
-              key={index}
+              key={-1}
+              name={
+                this.state.displayImage ? 'displayImage' : 'newDisplayImage'
+              }
               className={'h-32 w-32 mx-1 my-3 object-cover'}
-              src={item}
+              src={
+                this.state.displayImage
+                  ? this.state.displayImage
+                  : this.state.newDisplayImageURL
+              }
               alt={'item picture'}
             />
-            <p className={'text-center'}>Display image</p>
+            {/* <img
+              key={-1}
+              className={
+                'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right cursor-pointer'
+              }
+              name={
+                this.state.displayImage ? 'displayImage' : 'newDisplayImage'
+              }
+              src={CloseImg}
+              onClick={this.removeImage}
+              alt={'item picture'} 
+            />*/}
+            <p className={'text-sm text-center'}>Display image</p>
           </div>
-        ) : (
-          <img
-            key={index}
-            className={'mx-1 h-32 w-32 my-3 object-cover'}
-            src={item}
-            alt='item picture'
-          />
-        )
+          {this.state.newItemImagesURL.map((item, index) => (
+            <div
+              className={
+                'relative flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
+              }
+            >
+              <img
+                key={index}
+                name={`newItemImages${index}`}
+                className={'h-32 w-32 mx-1 my-3 object-cover'}
+                src={item}
+                alt={'item picture'}
+              />
+              {/* <img
+                key={index}
+                className={
+                  'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right cursor-pointer'
+                }
+                name={`newItemImages${index}`}
+                src={CloseImg}
+                onClick={this.removeImage}
+                alt={'item picture'}
+              />
+              <button
+                type="button"
+                name={`newItemImages${index}`}
+                className={
+                  'border bg-teal-600 hover:bg-teal-400 rounded text-white px-1 text-sm self-center mb-2'
+                }
+                onClick={this.setDisplay}
+              >
+                Set as display
+              </button> */}
+            </div>
+          ))}
+          {this.state.itemImages.map((item, index) => (
+            <div
+              className={
+                'relative flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
+              }
+            >
+              <img
+                key={index}
+                name={`itemImages${index}`}
+                className={'h-32 w-32 mx-1 my-3 object-cover'}
+                src={item}
+                alt={'item picture'}
+              />
+              {/* <img
+                key={index}
+                name={`itemImages${index}`}
+                className={
+                  'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right cursor-pointer'
+                }
+                src={CloseImg}
+                onClick={this.removeImage}
+                alt={'item picture'}
+              />
+              <button
+                type="button"
+                name={`itemImages${index}`}
+                className={
+                  'border bg-teal-600 hover:bg-teal-400 rounded text-white px-1 text-sm self-center mb-2'
+                }
+                onClick={this.setDisplay}
+              >
+                Set as display
+              </button> */}
+            </div>
+          ))}
+        </div>
       );
     } else {
       return (
@@ -241,79 +359,24 @@ class ListingDetail extends Component {
     }
   };
 
-  // imageItems = () => {
-  //   let tempImage = this.state.tempImage;
-  //   if(this.state.displayImage||this.state.newDisplayImage)
-  //   return(
-
-  //     <div
-  //           className={
-  //             'relative flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
-  //           }>
-  //           <img
-  //             key={index}
-  //             className={'h-32 w-32 mx-1 my-3 object-cover'}
-  //             src={item}
-  //             alt={'item picture'}
-  //           />
-  //           <img
-  //             key={index}
-  //             className={'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right'}
-  //             src={CloseImg}
-  //             onClick={this.removeImage}
-  //             alt={'item picture'}
-  //           />
-  //           <p className={'text-center'}>Display image</p>
-  //         </div>
-  //         {
-  //           tempImage.map((item, index) =>
-  //       (
-  //         <div
-  //           className={
-  //             'relative flex flex-col flex bg-gray-400 border-dotted border-green-800 border-2'
-  //           }>
-  //           <img
-  //             key={index}
-  //             className={'mx-1 h-32 w-32 my-3 object-cover'}
-  //             src={item}
-  //             alt='item picture'
-  //           />
-  //           <img
-  //             key={index}
-  //             className={'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right'}
-  //             src={CloseImg}
-  //             onClick={this.removeImage}
-  //             alt={'item picture'}
-  //           /></div>
-
-  //        </div>
-  //     );
-  //    else {
-  //     return (
-  //       <p className={'text-3xl text-center w-full px-8 font-bold my-3'}>
-  //         No image chosen
-  //       </p>
-  //     );
-  //   }
-  // };
-  addCategory = (e) => {
+  addCategory = e => {
     this.setState({
       category: [...this.state.category, e.currentTarget.value],
       categoryLeft: this.state.categoryLeft.filter(
-        (cat) => cat !== e.currentTarget.value
+        cat => cat !== e.currentTarget.value
       ),
     });
   };
 
-  removeCategory = (e) =>
+  removeCategory = e =>
     this.setState({
       categoryLeft: [...this.state.categoryLeft, e.currentTarget.value],
       category: this.state.category.filter(
-        (cat) => cat !== e.currentTarget.value
+        cat => cat !== e.currentTarget.value
       ),
     });
 
-  handleChangeTable = (e) => {
+  handleChangeTable = e => {
     let sizeChange = [...this.state.newSizes];
     sizeChange[e.target.dataset.id][e.target.name] = e.target.value;
     this.setState({
@@ -321,15 +384,15 @@ class ListingDetail extends Component {
     });
   };
 
-  removeRow = (row) => {
+  removeRow = row => {
     this.setState({
-      newSizes: this.state.newSizes.filter((r) => r !== row),
+      newSizes: this.state.newSizes.filter(r => r !== row),
     });
   };
 
   addRow = () => {
     if (this.state.newSizes.length === 8) return;
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       newSizes: [
         ...prevState.newSizes,
         {
@@ -348,457 +411,477 @@ class ListingDetail extends Component {
   };
 
   render() {
-    if (this.state.isSubmitted) {
-      return <Redirect to='/store' />;
-    } else {
-      this.transformSizes();
-      console.log(this.state);
-      return (
-        <form
-          onSubmit={this.handleSubmit}
-          className={'flex flex-row w-full mx-auto my-6 relative'}>
-          <div className={'w-1/2 pl-3'}>
-            <div className={'w-full'}>
+    this.transformSizes();
+    console.log(this.state);
+    return (
+      <form
+        onSubmit={this.handleSubmit}
+        className={'flex flex-row w-full mx-auto my-6 relative'}
+      >
+        <div className={'w-1/2 pl-3'}>
+          <div className={'w-full'}>
+            <label
+              className={
+                'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+              }
+            >
+              Listing picture
+            </label>
+            <div className={'flex flex-col rounded border-2 border-dashed'}>
+              <img
+                className={
+                  'self-center rounded-full h-16 w-16 my-3 object-cover'
+                }
+                onClick={() => this.fileInput.click()}
+                src={Image}
+              />
+              <p
+                className={
+                  'text-center block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }
+              >
+                Click here to add item picture
+              </p>
+            </div>
+
+            {this.imageItems()}
+          </div>
+
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            // value={this.state.images || this.state.tempImage}
+            hidden
+            onChange={this.addImage}
+            // to link to the button
+            ref={fileInput => (this.fileInput = fileInput)}
+          />
+          <div className={'flex flex-wrap -mx-3'}>
+            <div className={'w-full px-3 my-3 '}>
               <label
                 className={
                   'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                }>
-                Listing picture
+                }
+                for="grid-user-id"
+              >
+                Title
               </label>
-              <div className={'flex flex-col rounded border-2 border-dashed'}>
-                <img
-                  className={
-                    'self-center rounded-full h-16 w-16 my-3 object-cover'
-                  }
-                  onClick={() => this.fileInput.click()}
-                  src={Image}
-                />
-                <p
-                  className={
-                    'text-center block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                  }>
-                  Click here to add item picture
-                </p>
+              <input
+                name="title"
+                value={this.state.title}
+                className={
+                  'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
+                }
+                id="title"
+                type="text"
+                placeholder="Nike DryFit Pro"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className={'w-full px-3 my-3'}>
+              <label
+                className={
+                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }
+                for="grid-gender"
+              >
+                Category
+              </label>
+              <div
+                className={
+                  'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
+                }
+              >
+                {this.state.category[0] ? (
+                  this.state.category.map(category => {
+                    if (category) {
+                      return (
+                        <button
+                          onClick={this.removeCategory}
+                          type="button"
+                          value={category}
+                          name={category}
+                          className={
+                            'flex bg-teal-600 my-2 mx-1 w-auto h-auto hover:bg-teal-400 text-white font-bold px-1 rounded'
+                          }
+                        >
+                          <div className={'self-center'} value={category}>
+                            {category}
+                          </div>
+                          <img
+                            className={'float-right ml-1 self-center w-5 h-5'}
+                            value={category}
+                            src={CloseImg}
+                          />
+                        </button>
+                      );
+                    }
+                  })
+                ) : (
+                  <p
+                    className={
+                      'text-3xl text-center w-full px-8 font-bold my-3'
+                    }
+                  >
+                    No catergory picked
+                  </p>
+                )}
               </div>
               <div
                 className={
                   'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
-                }>
-                {this.imageItems()}
+                }
+              >
+                {this.state.categoryLeft[0] ? (
+                  this.state.categoryLeft.map(category => (
+                    <button
+                      onClick={this.addCategory}
+                      type="button"
+                      value={category}
+                      name={category}
+                      className={
+                        'flex bg-teal-600 my-2 mx-1 w-auto h-auto hover:bg-teal-400 text-white font-bold px-1 rounded'
+                      }
+                    >
+                      <div className={'self-center'} value={category}>
+                        {category}
+                      </div>
+                    </button>
+                  ))
+                ) : (
+                  <p
+                    className={
+                      'text-3xl text-center w-full px-8 font-bold my-3'
+                    }
+                  >
+                    All catergory picked
+                  </p>
+                )}
               </div>
             </div>
-
-            <input
-              type='file'
-              name='image'
-              accept='image/*'
-              // value={this.state.images || this.state.tempImage}
-              hidden
-              onChange={this.addImage}
-              // to link to the button
-              ref={(fileInput) => (this.fileInput = fileInput)}
-            />
-            <div className={'flex flex-wrap -mx-3'}>
-              <div className={'w-full px-3 my-3 '}>
+            <div className={'flex w-full my-3'}>
+              <div className={'w-1/2 px-3 mb-6'}>
                 <label
                   className={
                     'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                   }
-                  for='grid-user-id'>
-                  Title
+                  for="grid-user-id"
+                >
+                  Brand
                 </label>
                 <input
-                  name='title'
-                  value={this.state.title}
+                  name="brand"
                   className={
                     'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
                   }
-                  id='title'
-                  type='text'
-                  placeholder='Nike DryFit Pro'
+                  id="brand"
+                  type="text"
+                  placeholder="Jane"
+                  value={this.state.brand}
                   onChange={this.handleChange}
                 />
               </div>
-              <div className={'w-full px-3 my-3'}>
+              <div className={'w-1/2 px-3 mb-6'}>
                 <label
                   className={
                     'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                   }
-                  for='grid-gender'>
-                  Category
+                  for="grid-weight"
+                >
+                  Price
                 </label>
-                <div
+                <input
+                  name="price"
+                  step="0.01"
                   className={
-                    'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
-                  }>
-                  {this.state.category[0] ? (
-                    this.state.category.map((category) => {
-                      if (category) {
-                        return (
-                          <button
-                            onClick={this.removeCategory}
-                            type='button'
-                            value={category}
-                            name={category}
-                            className={
-                              'flex bg-teal-600 my-2 mx-1 w-auto h-auto hover:bg-teal-400 text-white font-bold px-1 rounded'
-                            }>
-                            <div className={'self-center'} value={category}>
-                              {category}
-                            </div>
-                            <img
-                              className={'float-right ml-1 self-center w-5 h-5'}
-                              value={category}
-                              src={CloseImg}
-                            />
-                          </button>
-                        );
-                      }
-                    })
-                  ) : (
-                    <p
-                      className={
-                        'text-3xl text-center w-full px-8 font-bold my-3'
-                      }>
-                      No catergory picked
-                    </p>
-                  )}
-                </div>
-                <div
-                  className={
-                    'flex flex-row flex-wrap justify-around border-2 rounded border-dashed'
-                  }>
-                  {this.state.categoryLeft[0] ? (
-                    this.state.categoryLeft.map((category) => (
-                      <button
-                        onClick={this.addCategory}
-                        type='button'
-                        value={category}
-                        name={category}
-                        className={
-                          'flex bg-teal-600 my-2 mx-1 w-auto h-auto hover:bg-teal-400 text-white font-bold px-1 rounded'
-                        }>
-                        <div className={'self-center'} value={category}>
-                          {category}
-                        </div>
-                      </button>
-                    ))
-                  ) : (
-                    <p
-                      className={
-                        'text-3xl text-center w-full px-8 font-bold my-3'
-                      }>
-                      All catergory picked
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className={'flex w-full my-3'}>
-                <div className={'w-1/2 px-3 mb-6'}>
-                  <label
-                    className={
-                      'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                    }
-                    for='grid-user-id'>
-                    Brand
-                  </label>
-                  <input
-                    name='brand'
-                    className={
-                      'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
-                    }
-                    id='brand'
-                    type='text'
-                    placeholder='Jane'
-                    value={this.state.brand}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div className={'w-1/2 px-3 mb-6'}>
-                  <label
-                    className={
-                      'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                    }
-                    for='grid-weight'>
-                    Price
-                  </label>
-                  <input
-                    name='price'
-                    step='0.01'
-                    className={
-                      'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
-                    }
-                    id='price'
-                    type='number'
-                    value={this.state.price}
-                    placeholder='$45.7'
-                    onChange={this.handleChange}
-                  />
-                </div>
+                    'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white required'
+                  }
+                  id="price"
+                  type="number"
+                  value={this.state.price}
+                  placeholder="$45.7"
+                  onChange={this.handleChange}
+                />
               </div>
             </div>
           </div>
-          <div className={'w-1/2'}>
-            <div className={'flex'}>
-              <div className={'w-1/2 px-3'}>
-                <label
+        </div>
+        <div className={'w-1/2'}>
+          <div className={'flex'}>
+            <div className={'w-1/2 px-3'}>
+              <label
+                className={
+                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }
+                for="unit"
+              >
+                Measurement unit
+              </label>
+              <div className={'relative'}>
+                <select
                   className={
-                    'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    'block appearance-none w-full bg-gray-200 border border-gray-200 text-black py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                   }
-                  for='unit'>
-                  Measurement unit
-                </label>
-                <div className={'relative'}>
-                  <select
-                    className={
-                      'block appearance-none w-full bg-gray-200 border border-gray-200 text-black py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    }
-                    name='unit'
-                    id='unit'
-                    value={this.state.unit}
-                    onChange={this.handleChange}>
-                    <option value='cm'>cm</option>
-                    <option value='in'>inches</option>
-                  </select>
-                  <div
-                    className={
-                      'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black'
-                    }>
-                    <svg
-                      className={'fill-current h-4 w-4'}
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 20 20'>
-                      <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div className={'w-1/2 px-3'}>
-                <label
+                  name="unit"
+                  id="unit"
+                  value={this.state.unit}
+                  onChange={this.handleChange}
+                >
+                  <option value="cm">cm</option>
+                  <option value="in">inches</option>
+                </select>
+                <div
                   className={
-                    'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black'
                   }
-                  for='meatype'>
-                  Measurement type
-                </label>
-                <div className={'relative'}>
-                  <select
-                    className={
-                      'block appearance-none w-full bg-gray-200 border border-gray-200 text-black py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    }
-                    name='meatype'
-                    id='meatype'
-                    value={this.state.meatype}
-                    onChange={this.handleChange}>
-                    <option value='garment'>Cloth sizing</option>
-                    <option value='body'>Body sizing</option>
-                  </select>
-                  <div
-                    className={
-                      'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black'
-                    }>
-                    <svg
-                      className={'fill-current h-4 w-4'}
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 20 20'>
-                      <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                    </svg>
-                  </div>{' '}
+                >
+                  <svg
+                    className={'fill-current h-4 w-4'}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
                 </div>
               </div>
             </div>
-            <label
-              className={
-                'block uppercase tracking-wide text-gray-700 text-xs font-bold my-2 mx-3'
-              }>
-              Size tabel
-            </label>
-            <table id='tablesizes' className='table-fixed mx-3'>
-              <thead>
-                <tr className='bg-gray-500'>
-                  <th className={'px-2 py-2'}>Size</th>
-                  <th className={'px-2 py-2'}>Chest</th>
-                  <th className={'px-2 py-2'}>Body length</th>
-                  <th className={'px-2 py-2'}>Waist</th>
-                  <th className={'px-2 py-2'}>Skirt length</th>
-                  <th className={'px-2 py-2'}>Hip</th>
-                  <th className={'px-2 py-2'}>Total length</th>
-                  <th className={'px-2 py-2'}>Bust</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.newSizes.map((val, idx) => {
-                  let size = `size${idx}`,
-                    chest = `size${idx}chest`,
-                    bodylength = `size${idx}bodylength`,
-                    waist = `size${idx}waist`,
-                    hip = `size${idx}hip`,
-                    totallength = `size${idx}totallength`,
-                    bust = `size${idx}bust`,
-                    skirtlength = `size${idx}skirtlength`;
-                  return (
-                    <tr key={val.index}>
-                      <td className={'border px-4 py-2'}>
-                        <input
-                          className='w-full'
-                          type='text'
-                          name='size'
-                          value={val.size}
-                          data-id={idx}
-                          id={size}
-                          onChange={(e) => this.handleChangeTable(e)}
-                        />
-                      </td>
-                      <td className={'border px-4 py-2'}>
-                        <input
-                          className='w-full'
-                          type='text'
-                          name='chest'
-                          value={val.chest}
-                          id={chest}
-                          data-id={idx}
-                          onChange={(e) => this.handleChangeTable(e)}
-                        />
-                      </td>
-                      <td className={'border px-4 py-2'}>
-                        <input
-                          className='w-full'
-                          type='text'
-                          name='bodylength'
-                          value={val.bodylength}
-                          id={bodylength}
-                          data-id={idx}
-                          onChange={(e) => this.handleChangeTable(e)}
-                        />
-                      </td>
-                      <td className={'border px-4 py-2'}>
-                        <input
-                          className='w-full'
-                          type='text'
-                          name='waist'
-                          id={waist}
-                          value={val.waist}
-                          data-id={idx}
-                          onChange={(e) => this.handleChangeTable(e)}
-                        />
-                      </td>
-                      <td className={'border px-4 py-2'}>
-                        <input
-                          className='w-full'
-                          type='text'
-                          name='hip'
-                          value={val.hip}
-                          id={hip}
-                          data-id={idx}
-                          onChange={(e) => this.handleChangeTable(e)}
-                        />
-                      </td>
-                      <td className={'border px-4 py-2'}>
-                        <input
-                          className='w-full'
-                          type='text'
-                          name='totallength'
-                          id={totallength}
-                          value={val.totallength}
-                          data-id={idx}
-                          onChange={(e) => this.handleChangeTable(e)}
-                        />
-                      </td>
-                      <td className={'border px-4 py-2'}>
-                        <input
-                          className='w-full'
-                          type='text'
-                          name='bust'
-                          id={bust}
-                          value={val.bust}
-                          data-id={idx}
-                          onChange={(e) => this.handleChangeTable(e)}
-                        />
-                      </td>
-                      <td className={'border px-4 py-2'}>
-                        <input
-                          className='w-full'
-                          type='text'
-                          name='skirtlength'
-                          id={skirtlength}
-                          value={val.skirtlength}
-                          data-id={idx}
-                          onChange={(e) => this.handleChangeTable(e)}
-                        />
-                      </td>
-                      <td className={'border-l py-2 px-1'}>
-                        {idx === 0 ? (
-                          <button type='button' onClick={() => this.addRow()}>
-                            Add
-                            <i aria-hidden='true'></i>
-                          </button>
-                        ) : (
-                          <button
-                            type='button'
-                            onClick={() => this.removeRow(val)}>
-                            Delete
-                            <i aria-hidden='true'></i>
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className={'w-1/2 px-3'}>
+              <label
+                className={
+                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }
+                for="meatype"
+              >
+                Measurement type
+              </label>
+              <div className={'relative'}>
+                <select
+                  className={
+                    'block appearance-none w-full bg-gray-200 border border-gray-200 text-black py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                  }
+                  name="meatype"
+                  id="meatype"
+                  value={this.state.meatype}
+                  onChange={this.handleChange}
+                >
+                  <option value="garment">Cloth sizing</option>
+                  <option value="body">Body sizing</option>
+                </select>
+                <div
+                  className={
+                    'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black'
+                  }
+                >
+                  <svg
+                    className={'fill-current h-4 w-4'}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </div>{' '}
+              </div>
+            </div>
           </div>
-          <div className={'flex absolute bottom-0 right-0'}>
+          <label
+            className={
+              'block uppercase tracking-wide text-gray-700 text-xs font-bold my-2 mx-3'
+            }
+          >
+            Size tabel
+          </label>
+          <table id="tablesizes" className="table-fixed mx-3">
+            <thead>
+              <tr className="bg-gray-500">
+                <th className={'px-2 py-2'}>Size</th>
+                <th className={'px-2 py-2'}>Chest</th>
+                <th className={'px-2 py-2'}>Body length</th>
+                <th className={'px-2 py-2'}>Waist</th>
+                <th className={'px-2 py-2'}>Skirt length</th>
+                <th className={'px-2 py-2'}>Hip</th>
+                <th className={'px-2 py-2'}>Total length</th>
+                <th className={'px-2 py-2'}>Bust</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.newSizes.map((val, idx) => {
+                let size = `size${idx}`,
+                  chest = `size${idx}chest`,
+                  bodylength = `size${idx}bodylength`,
+                  waist = `size${idx}waist`,
+                  hip = `size${idx}hip`,
+                  totallength = `size${idx}totallength`,
+                  bust = `size${idx}bust`,
+                  skirtlength = `size${idx}skirtlength`;
+                return (
+                  <tr key={val.index}>
+                    <td className={'border px-4 py-2'}>
+                      <input
+                        className="w-full"
+                        type="text"
+                        name="size"
+                        value={val.size}
+                        data-id={idx}
+                        id={size}
+                        onChange={e => this.handleChangeTable(e)}
+                      />
+                    </td>
+                    <td className={'border px-4 py-2'}>
+                      <input
+                        className="w-full"
+                        type="text"
+                        name="chest"
+                        value={val.chest}
+                        id={chest}
+                        data-id={idx}
+                        onChange={e => this.handleChangeTable(e)}
+                      />
+                    </td>
+                    <td className={'border px-4 py-2'}>
+                      <input
+                        className="w-full"
+                        type="text"
+                        name="bodylength"
+                        value={val.bodylength}
+                        id={bodylength}
+                        data-id={idx}
+                        onChange={e => this.handleChangeTable(e)}
+                      />
+                    </td>
+                    <td className={'border px-4 py-2'}>
+                      <input
+                        className="w-full"
+                        type="text"
+                        name="waist"
+                        id={waist}
+                        value={val.waist}
+                        data-id={idx}
+                        onChange={e => this.handleChangeTable(e)}
+                      />
+                    </td>
+                    <td className={'border px-4 py-2'}>
+                      <input
+                        className="w-full"
+                        type="text"
+                        name="hip"
+                        value={val.hip}
+                        id={hip}
+                        data-id={idx}
+                        onChange={e => this.handleChangeTable(e)}
+                      />
+                    </td>
+                    <td className={'border px-4 py-2'}>
+                      <input
+                        className="w-full"
+                        type="text"
+                        name="totallength"
+                        id={totallength}
+                        value={val.totallength}
+                        data-id={idx}
+                        onChange={e => this.handleChangeTable(e)}
+                      />
+                    </td>
+                    <td className={'border px-4 py-2'}>
+                      <input
+                        className="w-full"
+                        type="text"
+                        name="bust"
+                        id={bust}
+                        value={val.bust}
+                        data-id={idx}
+                        onChange={e => this.handleChangeTable(e)}
+                      />
+                    </td>
+                    <td className={'border px-4 py-2'}>
+                      <input
+                        className="w-full"
+                        type="text"
+                        name="skirtlength"
+                        id={skirtlength}
+                        value={val.skirtlength}
+                        data-id={idx}
+                        onChange={e => this.handleChangeTable(e)}
+                      />
+                    </td>
+                    <td className={'border-l py-2 px-1'}>
+                      {idx === 0 ? (
+                        <button type="button" onClick={() => this.addRow()}>
+                          Add
+                          <i aria-hidden="true"></i>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => this.removeRow(val)}
+                        >
+                          Delete
+                          <i aria-hidden="true"></i>
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className={'flex absolute bottom-0 right-0'}>
+          <button
+            type="submit"
+            className={
+              ' bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
+            }
+          >
+            Save edit
+          </button>
+
+          <Link to="/store">
             <button
-              type='submit'
+              type="button"
+              className={
+                ' bg-gray-800 my-2 mx-5 w-auto h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
+              }
+              onClick={() => this.props.deleteListing(this.state._id)}
+            >
+              Delete listing
+            </button>
+            <button
+              type="button"
               className={
                 ' bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
-              }>
-              Save edit
+              }
+            >
+              Back
             </button>
-
-            <Link to='/store'>
-              <button
-                type='button'
-                className={
-                  ' bg-gray-800 my-2 mx-5 w-auto h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
-                }
-                onClick={() => this.props.deleteListing(this.state._id)}>
-                Delete listing
-              </button>
-              <button
-                type='button'
-                className={
-                  ' bg-gray-800 my-2 mx-5 w-32 h-10 hover:bg-gray-600 text-white font-bold px-4 rounded'
-                }>
-                Back
-              </button>
-            </Link>
-          </div>
-        </form>
-      );
-    }
+          </Link>
+        </div>
+      </form>
+    );
   }
 }
 
 ListingDetail.propTypes = {
   editListing: PropTypes.func,
   deleteListing: PropTypes.func,
+  listing: PropTypes.object.isRequired,
 };
 
-// const mapStateToProps = (state) => ({
-//   isAuthenticated: state.auth.isAuthenticated,
-//   accounttype: state.auth.user.accounttype,
-// });
+const mapStateToProps = state => ({
+  listing: state.auth.user.listing,
+});
 
-export default connect(null, { editListing, deleteListing })(ListingDetail);
+export default connect(mapStateToProps, { editListing, deleteListing })(
+  ListingDetail
+);
 
 // class ListingDetail extends React.Component {
 //   constructor(props) {
 //     super(props);
 //     this.state = {
-//       ...this.props.location.listingInfo,
+//       ...this.props.listing,
 //     };
-//     console.log(this.props.location);
+//     console.log(this.props);
 //   }
 
 //   editItem = () => {

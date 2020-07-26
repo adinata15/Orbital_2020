@@ -13,7 +13,7 @@ import {
 import { setAuthToken } from '../utils/setAuthToken';
 
 //Load user
-export const loadUser = () => async (dispatch) => {
+export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -21,7 +21,7 @@ export const loadUser = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/auth');
 
-    dispatch({
+    await dispatch({
       type: USER_LOADED,
       payload: res.data,
     });
@@ -33,7 +33,7 @@ export const loadUser = () => async (dispatch) => {
 };
 
 //Register user
-export const register = (user, accounttype) => async (dispatch) => {
+export const register = (user, accounttype) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export const register = (user, accounttype) => async (dispatch) => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: REGISTER_FAIL,
@@ -69,7 +69,7 @@ export const register = (user, accounttype) => async (dispatch) => {
 };
 
 //Login user
-export const login = (user) => async (dispatch) => {
+export const login = user => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export const login = (user) => async (dispatch) => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
     dispatch({
       type: LOGIN_FAIL,
@@ -101,7 +101,7 @@ export const login = (user) => async (dispatch) => {
 };
 
 //Logout / Clear profile
-export const logout = () => (dispatch) => {
+export const logout = () => dispatch => {
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
   window.location.assign('/');

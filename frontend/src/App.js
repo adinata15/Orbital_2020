@@ -43,25 +43,25 @@ class App extends React.Component {
         <NavBar />
         <Alert />
         <Switch>
-          <Route path='/signup' component={SignupForm} />
-          <Route exact path='/' component={Home} />
-          <Route exact path='/shop' component={Shop} />
-          <Route exact path='/fit-assist' component={FitAssistCard} />
-          <Route path='/connect/oauth' component={EditProfileSeller} />
+          <Route path="/signup" component={SignupForm} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/shop" component={Shop} />
+          <Route exact path="/fit-assist" component={FitAssistCard} />
+          <Route path="/stripe/connect/oauth" component={EditProfileSeller} />
           <PrivateRoute
-            path='/edit/profile/seller'
+            path="/edit/profile/seller"
             component={EditProfileSeller}
           />
           <PrivateRoute
-            path='/edit/profile/buyer'
+            path="/edit/profile/buyer"
             component={EditProfileBuyer}
           />
-          <PrivateRoute path='/address' component={AddressBook} />
-          <PrivateRoute path='/sell' component={SellForm} />
-          <PrivateRoute path='/store' component={ListingBook} />
-          <PrivateRoute path='/order' component={OrdersBook} />
-          <PrivateRoute path='/edit-listing' component={ListingDetail} />
-          <Route path='/checkout/success' component={OrdersBook} />
+          <PrivateRoute path="/address" component={AddressBook} />
+          <PrivateRoute path="/sell" component={SellForm} />
+          <PrivateRoute path="/store" component={ListingBook} />
+          <PrivateRoute path="/order" component={OrdersBook} />
+          <PrivateRoute path="/edit-listing" component={ListingDetail} />
+          <Route path="/checkout/success" component={OrdersBook} />
         </Switch>
         <FooterBar />
       </div>
@@ -75,7 +75,7 @@ App.propTypes = {
   loadUser: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   token: state.auth.token,
 });
