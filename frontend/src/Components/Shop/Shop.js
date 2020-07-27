@@ -13,6 +13,11 @@ class ShopMenu extends React.Component {
     this.props.getItems(this.props.menuChosen);
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.menuChosen !== prevProps.menuChosen)
+      this.props.getItems(this.props.menuChosen);
+  }
+
   render() {
     let item = this.props.itemDisplayed;
 
@@ -22,8 +27,9 @@ class ShopMenu extends React.Component {
         <div
           className={
             'flex flex-wrap justify-center mb-3 border-solid border-2 rounded'
-          }>
-          {item.map((item) => (
+          }
+        >
+          {item.map(item => (
             <Card key={item._id} item={item} className={'flex-none'} />
           ))}
         </div>
@@ -37,7 +43,7 @@ ShopMenu.propTypes = {
   menuChosen: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   menuChosen: state.menu.menuChosen,
   itemDisplayed: state.shop.itemDisplayed,
 });

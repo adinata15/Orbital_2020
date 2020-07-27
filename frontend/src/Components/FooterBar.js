@@ -13,34 +13,38 @@ class FooterBar extends React.Component {
         <div className={'h-auto'}>
           <div className={'text-xl text-orange-500'}>
             <Link
-              onClick={(e) => this.props.menuSelect(e.target.name)}
-              name='men'
-              to='/shop'>
+              onClick={e => this.props.menuSelect(e.target.name)}
+              name="men"
+              to="/shop"
+            >
               Men
             </Link>
           </div>
           <ul className={'text-center leading-normal '}>
             <li className={'hover:text-orange-500 hover:underline text-white'}>
               <Link
-                onClick={(e) => this.props.menuSelect(e.target.name)}
-                name='men-pants'
-                to='/shop'>
+                onClick={e => this.props.menuSelect(e.target.name)}
+                name="men-pants"
+                to="/shop"
+              >
                 Pants
               </Link>
             </li>
             <li className={'hover:text-orange-500 hover:underline text-white'}>
               <Link
-                onClick={(e) => this.props.menuSelect(e.target.name)}
-                name='men-shirt'
-                to='/shop'>
+                onClick={e => this.props.menuSelect(e.target.name)}
+                name="men-shirt"
+                to="/shop"
+              >
                 Shirts
               </Link>
             </li>
             <li className={'hover:text-orange-500 hover:underline text-white'}>
               <Link
-                onClick={(e) => this.props.menuSelect(e.target.name)}
-                name='men-shorts'
-                to='/shop'>
+                onClick={e => this.props.menuSelect(e.target.name)}
+                name="men-shorts"
+                to="/shop"
+              >
                 Shorts
               </Link>
             </li>
@@ -48,44 +52,50 @@ class FooterBar extends React.Component {
         </div>
 
         <div className={'h-auto'}>
-          <div className={'text-xl text-blue-300'}>
+          {' '}
+          <div className={'text-xl text-red-500'}>
             <Link
-              onClick={(e) => this.props.menuSelect(e.target.name)}
-              name='women'
-              to='/shop'>
+              onClick={e => this.props.menuSelect(e.target.name)}
+              name="women"
+              to="/shop"
+            >
               Women
             </Link>
           </div>
           <ul className={'text-center leading-normal'}>
             <li className={'hover:text-blue-300 hover:underline  text-white'}>
               <Link
-                onClick={(e) => this.props.menuSelect(e.target.name)}
-                name='women-dress'
-                to='/shop'>
+                onClick={e => this.props.menuSelect(e.target.name)}
+                name="women-dress"
+                to="/shop"
+              >
                 Dress
               </Link>
             </li>
             <li className={'hover:text-blue-300 hover:underline  text-white'}>
               <Link
-                onClick={(e) => this.props.menuSelect(e.target.name)}
-                name='women-shirt'
-                to='/shop'>
+                onClick={e => this.props.menuSelect(e.target.name)}
+                name="women-shirt"
+                to="/shop"
+              >
                 Shirt
               </Link>
             </li>
             <li className={'hover:text-blue-300 hover:underline  text-white'}>
               <Link
-                onClick={(e) => this.props.menuSelect(e.target.name)}
-                name='women-skirt'
-                to='/shop'>
+                onClick={e => this.props.menuSelect(e.target.name)}
+                name="women-skirt"
+                to="/shop"
+              >
                 Skirt
               </Link>
             </li>
             <li className={'hover:text-blue-300 hover:underline  text-white'}>
               <Link
-                onClick={(e) => this.props.menuSelect(e.target.name)}
-                name='women-pants'
-                to='/shop'>
+                onClick={e => this.props.menuSelect(e.target.name)}
+                name="women-pants"
+                to="/shop"
+              >
                 Pants
               </Link>
             </li>
@@ -95,7 +105,7 @@ class FooterBar extends React.Component {
           <div className={'text-xl text-green-500'}>Fit Assistant</div>
           <ul className={'text-center leading-normal'}>
             <li className={'hover:text-green-500 hover:underline text-white'}>
-              <Link to='/fit-assist'> Know your size!</Link>
+              <Link to="/fit-assist"> Know your size!</Link>
             </li>
           </ul>
         </div>

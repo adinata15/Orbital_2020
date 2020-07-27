@@ -15,6 +15,7 @@ class EditProfile extends React.Component {
     super(props);
     this.state = {
       ...this.props.user,
+      editpass: false,
       oldPassword: '',
       newPassword: '',
       newPassword2: '',
@@ -27,7 +28,13 @@ class EditProfile extends React.Component {
     let userData = { ...this.state };
 
     if (this.state.password) {
-      userData = omit(userData, 'oldPassword', 'newPassword', 'newPassword2');
+      userData = omit(
+        userData,
+        'oldPassword',
+        'newPassword',
+        'newPassword2',
+        'editpass'
+      );
     }
 
     this.props.editProfile(userData);
@@ -180,14 +187,25 @@ class EditProfile extends React.Component {
           </div>
         </div>
         <div className={'flex flex-wrap -mx-3 mb-6'}>
-          <div className={'w-full px-3'}>
+          <button
+            className={
+              'bg-gray-800 hover:bg-gray-600 text-white font-bold mx-3 py-3 px-4 rounded'
+            }
+            type="button"
+            id="button"
+            onClick={() => this.setState({ editpass: !this.state.editpass })}
+            hidden={this.state.editpass}
+          >
+            Edit Password
+          </button>
+          <div className={'w-full px-3'} hidden={!this.state.editpass}>
             <label
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
               for="grid-password"
             >
-              Edit password
+              Old password
             </label>
             <input
               name="oldPassword"
@@ -201,7 +219,7 @@ class EditProfile extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <div className={'w-full px-3'} hidden={!this.state.oldPassword}>
+          <div className={'w-full px-3'} hidden={!this.state.editpass}>
             <label
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
@@ -222,7 +240,7 @@ class EditProfile extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <div className={'w-full px-3'} hidden={!this.state.oldPassword}>
+          <div className={'w-full px-3'} hidden={!this.state.editpass}>
             <label
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'

@@ -95,7 +95,7 @@ class FitAssistCard extends React.Component {
               <h1 className={'text-3xl font-bold pt-5'}>Fit Assistant</h1>
               {!this.props.sizeRecommendation ||
               this.props.sizeRecommendation === 'Size not found' ? (
-                <p className={'text-s italic mt-3'}>
+                <p className={'text-s text-red-600 italic mt-3'}>
                   {this.props.sizeRecommendation}
                 </p>
               ) : (
