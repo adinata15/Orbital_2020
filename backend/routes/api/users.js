@@ -2621,6 +2621,7 @@ router.put(
 // @route DELETE api/users/seller/item/:item_id
 // @desc Delete sellers item
 // @access Private
+<<<<<<< HEAD
 router.delete("/seller/item/:item_id", auth, async (req, res) => {
 	try {
 		const seller = await Seller.findOne({ _id: req.user.id });
@@ -2654,6 +2655,52 @@ router.delete("/seller/item/:item_id", auth, async (req, res) => {
 		}
 		res.status(500).send("Server error");
 	}
+=======
+router.delete('/seller/item/:item_id', auth, async (req, res) => {
+  try {
+    const seller = await Seller.findOne({ _id: req.user.id });
+    if (!seller) {
+      return res.status(404).json({ msg: 'Account not found' });
+    }
+    if (
+      seller.listings.filter(
+        listing => listing.item.toString() === req.params.item_id
+      ).length === 0
+    ) {
+      return res.status(404).json({ msg: 'Item not found' });
+    }
+
+    const removeIndex = seller.listings
+      .map(listing => listing.item.toString())
+      .indexOf(req.params.item_id);
+
+    await Item.findOneAndRemove({
+      _id: seller.listings[removeIndex].item,
+    });
+
+    seller.listings.splice(removeIndex, 1);
+    await seller.save();
+
+    let listings = [];
+    seller.listings.forEach(listing =>
+      listings.push(Item.findOne({ _id: listing.item }))
+    );
+    listings = await Promise.all(listings);
+    // orders.forEach(order =>
+    //   ordersArray.push(BuyerOrder.findOne({ _id: order.order }))
+    // );
+    // orders = await Promise.all(ordersArray);
+    // res.json(orders);
+
+    res.json(listings);
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'Item not found' });
+    }
+    res.status(500).send('Server error');
+  }
+>>>>>>> 4cb3ce2... Edited delete listing
 });
 
 // @route GET api/users/buyer/cart
