@@ -320,7 +320,7 @@ export const deleteListing = (item_id, user_id) => async (dispatch) => {
 			type: DELETE_LISTING,
 		});
 
-		await dispatch(getListings(user_id));
+		// await dispatch(getListings(user_id));
 		dispatch(setAlert("Item deleted", "success"));
 	} catch (err) {
 		if (err) {
