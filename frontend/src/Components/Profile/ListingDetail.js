@@ -2,7 +2,7 @@
 //add option to close(top right) and set as display image(bottom center) to each images
 //remove images and move displayImage around
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
