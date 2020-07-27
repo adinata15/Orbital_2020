@@ -509,11 +509,11 @@ router.post(
           chestWidth = parseFloat(data.toString().slice(1, 6));
 
           while (!sizeFound) {
-            if (whichSize === newSizesArray.length) {
+            if (whichSize === sizes.length) {
               break;
             }
-            if (chestWidth < newSizesArray[whichSize].chest.to) {
-              recSize = newSizesArray[whichSize].size;
+            if (chestWidth < sizes[whichSize].chest.to) {
+              recSize = sizes[whichSize].size;
               sizeFound = !sizeFound;
             } else {
               whichSize += 1;
@@ -549,11 +549,11 @@ router.post(
           waistCirc = parseFloat(data.toString().slice(1, 6));
 
           while (!sizeFound) {
-            if (whichSize === newSizesArray.length) {
+            if (whichSize === sizes.length) {
               break;
             }
-            if (waistCirc < newSizesArray[whichSize].waist.to) {
-              recSize = newSizesArray[whichSize].size;
+            if (waistCirc < sizes[whichSize].waist.to) {
+              recSize = sizes[whichSize].size;
               sizeFound = !sizeFound;
             } else {
               whichSize += 1;

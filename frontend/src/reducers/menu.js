@@ -2,6 +2,7 @@ import {
   MENU,
   GET_SIZE_RECOMMENDATION,
   FAIL_SIZE_RECOMMENDATION,
+  GET_SIZE_RECOMMENDATION_ITEM,
 } from '../actions/types';
 
 const initialState = {
@@ -18,6 +19,7 @@ const menu = (state = initialState, action) => {
       };
     case GET_SIZE_RECOMMENDATION:
     case FAIL_SIZE_RECOMMENDATION:
+    case GET_SIZE_RECOMMENDATION_ITEM:
       return {
         ...state,
         sizeRecommendation: action.payload,

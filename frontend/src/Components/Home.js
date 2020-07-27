@@ -14,31 +14,34 @@ class Home extends React.Component {
       <div
         className={
           'flex flex-col sm:flex-row text-gray-700 text-center bg-gray-400 m-2'
-        }>
+        }
+      >
         <Link
-          onClick={(e) => this.props.menuSelect(e.target.name)}
-          name='men'
-          to='/shop'>
+          onClick={e => this.props.menuSelect(e.target.name)}
+          name="men"
+          to="/shop"
+        >
           <img
-            onClick={(e) => this.props.menuSelect(e.target.name)}
-            name='men'
+            onClick={e => this.props.menuSelect(e.target.name)}
+            name="men"
             className={'hover:opacity-75 object-cover'}
             src={Men}
-            alt=''
+            alt=""
           />
         </Link>
         {/* </div>
         <div class=' text-gray-700 text-center bg-gray-400 m-2'> */}
         <Link
-          onClick={(e) => this.props.menuSelect(e.target.name)}
-          name='women'
-          to='/shop'>
+          onClick={e => this.props.menuSelect(e.target.name)}
+          name="women"
+          to="/shop"
+        >
           <img
-            onClick={(e) => this.props.menuSelect(e.target.name)}
-            name='men'
+            onClick={e => this.props.menuSelect(e.target.name)}
+            name="women"
             className={'hover:opacity-75 object-cover'}
             src={Women}
-            alt=''
+            alt=""
           />
         </Link>
       </div>

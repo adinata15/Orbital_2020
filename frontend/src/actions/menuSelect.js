@@ -7,6 +7,7 @@ import { setAlert } from './alertActions';
 import {
   MENU,
   GET_SIZE_RECOMMENDATION,
+  GET_SIZE_RECOMMENDATION_ITEM,
   FAIL_SIZE_RECOMMENDATION,
 } from './types';
 
@@ -35,6 +36,40 @@ export const getSizeRecommendation = bodyData => async dispatch => {
 
     dispatch({
       type: GET_SIZE_RECOMMENDATION,
+      payload: res.data.recSize ? res.data.recSize : res.data.msg,
+    });
+
+    dispatch(setAlert('Obtained size recommendation', 'success'));
+  } catch (err) {
+    dispatch(setAlert('Size recommendation fail', 'danger'));
+
+    dispatch({
+      type: FAIL_SIZE_RECOMMENDATION,
+    });
+  }
+};
+
+//Get size recommendation f0r login user
+export const getSizeRecommendationLogin = (
+  bodyData,
+  itemID
+) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const userData = JSON.stringify(bodyData);
+
+    const res = await axios.post(
+      `http://localhost:5000/api/items/size-assistant/${itemID}`,
+      userData,
+      config
+    );
+
+    dispatch({
+      type: GET_SIZE_RECOMMENDATION_ITEM,
       payload: res.data.recSize ? res.data.recSize : res.data.msg,
     });
 

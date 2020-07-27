@@ -1,23 +1,42 @@
 import React from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import Dialog from '@material-ui/core/Dialog';
 
 import Alert from '../Alert.js';
+import ClothesMoreInfo from './ClothesMoreInfo.js';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { cartItem, likeItem } from '../../actions/shopActions';
+import { getSizeRecommendationLogin } from '../../actions/menuSelect';
 
 class ClothesDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
       size: 'S',
       quantity: '',
       alert: '',
+      height: this.props.user.height,
+      weight: this.props.user.weight,
+      gender: this.props.user.gender,
     };
     //can bind function here! (we didnt bind here because we use arrow function below)
   }
+
+  openDialog = () => {
+    this.setState({
+      open: true,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
 
   likeItem = () => {
     let data = { size: this.state.size };
@@ -36,10 +55,25 @@ class ClothesDetail extends React.Component {
     }
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value,
     });
+  };
+
+  getSizeRecommendationLogin = e => {
+    e.preventDefault();
+    if (this.state.weight && this.state.height && this.state.gender) {
+      let userData = {
+        height: this.state.height,
+        weight: this.state.weight,
+        gender: this.state.gender,
+      };
+
+      this.props.getSizeRecommendationLogin(userData, this.props.item._id);
+    } else {
+      this.openDialog();
+    }
   };
 
   render() {
@@ -47,16 +81,19 @@ class ClothesDetail extends React.Component {
       <div
         className={
           'font-sans antialiased text-gray-900 leading-normal tracking-wider'
-        }>
+        }
+      >
         <Alert />
         <div
           className={
             'max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0'
-          }>
+          }
+        >
           <div
             className={
               'w-full lg:w-4/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0'
-            }>
+            }
+          >
             <div className={'p-4 md:p-12 text-center lg:text-left'}>
               <h1 className={'text-3xl font-bold pt-24 lg:pt-0'}>
                 {this.props.item.title}
@@ -64,22 +101,19 @@ class ClothesDetail extends React.Component {
               <p
                 className={
                   'pt-4 text-base font-bold flex items-center justify-center lg:justify-start'
-                }>
+                }
+              >
                 ${this.props.item.price}
               </p>
-              <p
-                className={
-                  'pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start'
-                }>
-                Your size recommendation : S
-              </p>
+
               <div className={'flex flex-wrap -mx-3 '}>
                 <div className={'w-full  md:w-1/2 px-3 md:mb-0'}>
                   <label
                     className={
                       'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                     }
-                    for='size'>
+                    for="size"
+                  >
                     Size
                   </label>
                   <div>
@@ -88,11 +122,12 @@ class ClothesDetail extends React.Component {
                       className={
                         'block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       }
-                      id='size'
-                      onChange={this.handleChange}>
-                      <option value='S'>S</option>
-                      <option value='M'>M</option>
-                      <option value='L'>L</option>
+                      id="size"
+                      onChange={this.handleChange}
+                    >
+                      <option value="S">S</option>
+                      <option value="M">M</option>
+                      <option value="L">L</option>
                     </select>
                   </div>
                 </div>
@@ -102,22 +137,40 @@ class ClothesDetail extends React.Component {
                     className={
                       'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                     }
-                    for='quantity'>
+                    for="quantity"
+                  >
                     Quantity
                   </label>
                   <input
-                    name='quantity'
+                    name="quantity"
                     className={
                       'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     }
-                    id='quantity'
-                    type='number'
-                    placeholder='in pieces'
+                    id="quantity"
+                    type="number"
+                    placeholder="in pieces"
                     onChange={this.handleChange}
                   />
                 </div>
               </div>
+              {this.props.sizeRecommendation ? (
+                <p
+                  className={
+                    'pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start'
+                  }
+                >
+                  Your size recommendation : {this.props.sizeRecommendation}
+                </p>
+              ) : null}
 
+              <button
+                onClick={this.getSizeRecommendationLogin}
+                className={
+                  'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
+                }
+              >
+                Tell me my size
+              </button>
               <p className={'pt-8 text-sm'}>
                 Description: {this.props.item.desc}{' '}
               </p>
@@ -127,21 +180,24 @@ class ClothesDetail extends React.Component {
                   onClick={this.cartItem}
                   className={
                     'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
-                  }>
+                  }
+                >
                   Add to cart
                 </button>
                 <button
                   onClick={this.likeItem}
                   className={
                     'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
-                  }>
+                  }
+                >
                   Like
                 </button>
                 <button
                   onClick={this.props.onClose}
                   className={
                     'flex-1 bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full'
-                  }>
+                  }
+                >
                   Back to shop
                 </button>
               </div>
@@ -150,20 +206,37 @@ class ClothesDetail extends React.Component {
           </div>
           <div className={'lg:w-1/5 lg:h-auto inset-y-0 right-0'}>
             <Carousel
-              axis='horizontal'
+              axis="horizontal"
               showThumbs={false}
               showStatus={false}
               autoPlay={true}
               transitionTime={500}
               swipeable={true}
               infiniteLoop={true}
-              dynamicHeight={true}>
-              {this.props.item.images.map((image) => (
+              dynamicHeight={true}
+            >
+              {this.props.item.images.map(image => (
                 <div>
-                  <img className={'block h-full w-full'} src={image} alt='' />
+                  <img className={'block h-full w-full'} src={image} alt="" />
                 </div>
               ))}
             </Carousel>
+            <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+              fullWidth={true}
+              maxWidth={'md'}
+              scroll={'body'}
+            >
+              <ClothesMoreInfo
+                weight={this.state.weight}
+                height={this.state.height}
+                gender={this.state.gender}
+                handleEdit={this.handleChange}
+                onClose={this.handleClose}
+              />
+            </Dialog>
           </div>
         </div>
       </div>
@@ -174,6 +247,17 @@ class ClothesDetail extends React.Component {
 ClothesDetail.propTypes = {
   likeItem: PropTypes.func,
   cartItem: PropTypes.func,
+  getSizeRecommendationLogin: PropTypes.func,
+  user: PropTypes.object,
 };
 
-export default connect(null, { cartItem, likeItem })(ClothesDetail);
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  sizeRecommendation: state.menu.sizeRecommendation,
+});
+
+export default connect(mapStateToProps, {
+  cartItem,
+  likeItem,
+  getSizeRecommendationLogin,
+})(ClothesDetail);
