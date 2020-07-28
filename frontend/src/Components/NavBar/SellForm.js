@@ -1,6 +1,5 @@
 //picture upload with 2 to 3 rows of size error->itemImageA&this.state.image becomes undefined/not loaded
 //size table only delete last row-> use index to determine
-//error code 500 for postItems
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Image from "../../images/plus.svg";
@@ -9,6 +8,7 @@ import CloseImg from "../../images/close.svg";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { postItems } from "../../actions/shopActions";
+import { setAlert } from "../../actions/alertActions";
 
 class SellForm extends Component {
 	constructor(props) {
@@ -83,13 +83,26 @@ class SellForm extends Component {
 	};
 	handleSubmit = async (e) => {
 		e.preventDefault();
-		let data = new FormData();
-		try {
-			this.appendData(data);
-			await this.props.postItems(data);
-			this.setState({ isSubmitted: true });
-		} catch (err) {
-			console.log(err);
+		if (
+			this.state.sizeTable.length > 0 &&
+			this.state.image.length > 0 &&
+			this.state.categoryUsed.length > 0
+		) {
+			let data = new FormData();
+			try {
+				this.appendData(data);
+				await this.props.postItems(data);
+				this.setState({ isSubmitted: true });
+			} catch (err) {
+				console.log(err);
+			}
+		} else {
+			if (this.state.sizeTable.length < 1)
+				this.props.setAlert("Please fill in the size tabel", "danger");
+			if (this.state.image.length < 1)
+				this.props.setAlert("Must have at least one image", "danger");
+			if (this.state.categoryUsed.length < 1)
+				this.props.setAlert("Must have at least one category", "danger");
 		}
 	};
 
@@ -194,6 +207,10 @@ class SellForm extends Component {
 	};
 
 	render() {
+		if (!this.props.user.stripeseller) {
+			this.props.setAlert("Set up stripe account to sell item", "danger");
+			return <Redirect to="/edit/profile/seller" />;
+		}
 		if (this.state.isSubmitted) {
 			return <Redirect to="/store" />;
 		} else {
@@ -243,7 +260,6 @@ class SellForm extends Component {
 							type="file"
 							name="image"
 							accept="image/*"
-							required
 							hidden
 							onChange={this.handleImage}
 							// to link to the button
@@ -510,6 +526,7 @@ class SellForm extends Component {
 													data-id={idx}
 													id={size}
 													onChange={(e) => this.handleChangeTable(e)}
+													required
 												/>
 											</td>
 											<td className={"border px-4 py-2"}>
@@ -619,14 +636,13 @@ class SellForm extends Component {
 }
 
 SellForm.propTypes = {
-	isAuthenticated: PropTypes.bool.isRequired,
 	postItems: PropTypes.func,
+	setAlert: PropTypes.func,
 	user: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-	isAuthenticated: state.auth.isAuthenticated,
-	accounttype: state.auth.user.accounttype,
+	user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { postItems })(SellForm);
+export default connect(mapStateToProps, { postItems, setAlert })(SellForm);

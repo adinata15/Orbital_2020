@@ -1,5 +1,3 @@
-//cannot upload profile pic (error 500)
-
 import React from "react";
 import Image from "../../images/user.svg";
 import queryString from "query-string";
@@ -38,6 +36,14 @@ class EditProfile extends React.Component {
 		}
 		if (this.props.user.accounttype === "buyer" || !this.props.token)
 			window.location.assign("/");
+
+		if (
+			this.state.code &&
+			this.props.user._id &&
+			!this.props.user.stripeseller
+		) {
+			await this.props.getStripeSeller(this.state.state, this.state.code);
+		}
 	}
 
 	componentDidUpdate(prevProps) {
@@ -101,14 +107,7 @@ class EditProfile extends React.Component {
 	};
 
 	render() {
-		if (
-			this.state.code &&
-			this.props.user._id &&
-			!this.props.user.stripeseller
-		) {
-			this.props.getStripeSeller(this.state.state, this.state.code);
-		}
-		if (this.props.user && this.props.user.image) {
+		if (this.props.user && this.props.user._id) {
 			return (
 				<form
 					onSubmit={this.handleSubmit}

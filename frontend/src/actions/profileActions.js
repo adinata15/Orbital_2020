@@ -28,7 +28,7 @@ import {
 export const editProfile = (userData, accounttype) => async (dispatch) => {
 	try {
 		// userData = JSON.stringify(userData);
-		console.log(userData);
+
 		const res = await axios.put(
 			`http://localhost:5000/api/users/${accounttype}`,
 			userData
