@@ -47,6 +47,7 @@ class AddressBook extends Component {
 	};
 
 	render() {
+		if (this.props.accounttype === "seller") window.location.assign("/");
 		let addresses = this.props.addresses;
 
 		return (
@@ -177,10 +178,12 @@ AddressBook.propTypes = {
 	updateShippingAddress: PropTypes.func,
 	deleteAddress: PropTypes.func,
 	setAlert: PropTypes.func,
+	accounttype: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	addresses: state.auth.addresses,
+	accounttype: state.auth.user.accounttype,
 });
 
 export default connect(mapStateToProps, {

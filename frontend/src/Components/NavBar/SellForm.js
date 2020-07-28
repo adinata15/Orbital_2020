@@ -207,6 +207,7 @@ class SellForm extends Component {
 	};
 
 	render() {
+		if (this.props.user.accounttype === "buyer") window.location.assign("/");
 		if (!this.props.user.stripeseller) {
 			this.props.setAlert("Set up stripe account to sell item", "danger");
 			return <Redirect to="/edit/profile/seller" />;
@@ -638,7 +639,7 @@ class SellForm extends Component {
 SellForm.propTypes = {
 	postItems: PropTypes.func,
 	setAlert: PropTypes.func,
-	user: PropTypes.object,
+	user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

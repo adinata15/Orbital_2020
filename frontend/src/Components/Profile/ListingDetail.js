@@ -414,6 +414,7 @@ class ListingDetail extends Component {
 	};
 
 	render() {
+		if (this.props.accounttype === "buyer") window.location.assign("/");
 		console.log(this.state);
 		if (!this.props.listing) {
 			return <CircularProgress />;
@@ -893,11 +894,13 @@ ListingDetail.propTypes = {
 	deleteListing: PropTypes.func,
 	listing: PropTypes.object.isRequired,
 	user_id: PropTypes.string.isRequired,
+	accounttype: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	listing: state.auth.user.listing,
 	user_id: state.auth.user._id,
+	accounttype: state.auth.user.accounttype,
 });
 
 export default connect(mapStateToProps, { editListing, deleteListing })(

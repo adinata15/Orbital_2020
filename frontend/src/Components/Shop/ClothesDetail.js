@@ -9,13 +9,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { cartItem, likeItem } from "../../actions/shopActions";
 import { getSizeRecommendationLogin } from "../../actions/menuSelect";
+import { setAlert } from "../../actions/alertActions";
 
 class ClothesDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			addInfo: false,
-			size: "S",
+			size: this.props.item.sizes[0].size,
 			quantity: null,
 			alert: "",
 			height: this.props.user.height ? this.props.user.height : null,
@@ -26,20 +27,24 @@ class ClothesDetail extends React.Component {
 	}
 
 	likeItem = () => {
-		let data = { size: this.state.size };
-		this.props.likeItem(data, this.props.item._id);
+		if (this.props.user.accounttype === "buyer") {
+			let data = { size: this.state.size };
+			this.props.likeItem(data, this.props.item._id);
+		} else this.props.setAlert("Login as buyer to like items", "danger");
 	};
 
 	cartItem = () => {
-		if (!this.state.quantity) {
-			this.setState({ alert: "Please add desired quantity to add cart" });
-		} else {
-			let data = {
-				size: this.state.size,
-				quantity: this.state.quantity,
-			};
-			this.props.cartItem(data, this.props.item._id);
-		}
+		if (this.props.user.accounttype === "buyer") {
+			if (!this.state.quantity) {
+				this.props.setAlert("Please input item quantity", "danger");
+			} else {
+				let data = {
+					size: this.state.size,
+					quantity: this.state.quantity,
+				};
+				this.props.cartItem(data, this.props.item._id);
+			}
+		} else this.props.setAlert("Login as buyer to cart items", "danger");
 	};
 
 	handleChange = (e) => {
@@ -104,16 +109,20 @@ class ClothesDetail extends React.Component {
 									</label>
 									<div>
 										<select
-											value={this.state.size}
 											className={
 												"block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 											}
 											id="size"
 											onChange={this.handleChange}
 										>
-											<option value="S">S</option>
-											<option value="M">M</option>
-											<option value="L">L</option>
+											{this.props.item.sizes.map((size) => (
+												<option
+													selected={this.state.size === `${size.size}`}
+													value={size.size}
+												>
+													{size.size}
+												</option>
+											))}
 										</select>
 									</div>
 								</div>
@@ -204,6 +213,7 @@ class ClothesDetail extends React.Component {
 								className={
 									"flex-1 bg-teal-700 my-2 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
 								}
+								hidden={!(this.props.user.accounttype === "buyer")}
 							>
 								Tell me my size
 							</button>
@@ -281,6 +291,7 @@ class ClothesDetail extends React.Component {
 ClothesDetail.propTypes = {
 	likeItem: PropTypes.func,
 	cartItem: PropTypes.func,
+	setAlert: PropTypes.func,
 	getSizeRecommendationLogin: PropTypes.func,
 	user: PropTypes.object,
 };
@@ -293,5 +304,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
 	cartItem,
 	likeItem,
+	setAlert,
 	getSizeRecommendationLogin,
 })(ClothesDetail);

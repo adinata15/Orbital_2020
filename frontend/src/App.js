@@ -46,20 +46,22 @@ class App extends React.Component {
 					<Route exact path="/" component={Home} />
 					<Route exact path="/shop" component={Shop} />
 					<Route exact path="/fit-assist" component={FitAssistCard} />
+
 					<Route path="/stripe/connect/oauth" component={EditProfileSeller} />
 					<PrivateRoute
 						path="/edit/profile/seller"
 						component={EditProfileSeller}
 					/>
+					<PrivateRoute path="/sell" component={SellForm} />
+					<PrivateRoute path="/store" component={ListingBook} />
+					<PrivateRoute path="/edit-listing" component={ListingDetail} />
+
 					<PrivateRoute
 						path="/edit/profile/buyer"
 						component={EditProfileBuyer}
 					/>
 					<PrivateRoute path="/address" component={AddressBook} />
-					<PrivateRoute path="/sell" component={SellForm} />
-					<PrivateRoute path="/store" component={ListingBook} />
 					<PrivateRoute path="/order" component={OrdersBook} />
-					<PrivateRoute path="/edit-listing" component={ListingDetail} />
 					<Route path="/checkout/success" component={OrdersBook} />
 				</Switch>
 				<FooterBar />

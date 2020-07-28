@@ -49,6 +49,7 @@ class EditProfile extends React.Component {
 	};
 
 	render() {
+		if (this.props.user.accounttype === "seller") window.location.assign("/");
 		return (
 			<form
 				onSubmit={this.handleSubmit}
