@@ -14,7 +14,7 @@ class FitAssistCard extends React.Component {
       gender: 'M',
       unit: 'cm',
       meatype: 'garment',
-      category: 'shirt',
+      category: 'tshirt',
       sizeTable: [
         {
           index: Math.random(),

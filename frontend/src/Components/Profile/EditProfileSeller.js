@@ -15,6 +15,7 @@ import { setAlert } from "../../actions/alertActions";
 import { loadUser } from "../../actions/loginActions";
 
 class EditProfile extends React.Component {
+<<<<<<< HEAD
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -36,6 +37,22 @@ class EditProfile extends React.Component {
 		}
 		if (this.props.user.accounttype === "buyer" || !this.props.token)
 			window.location.assign("/");
+=======
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...this.props.user,
+      password: '',
+      editpass: false,
+      newPassword: '',
+      newPassword2: '',
+      tempImg: null,
+      isLoading: false,
+      ...queryString.parse(this.props.location.search),
+    };
+    console.log(this.state);
+  }
+>>>>>>> 40e8d6a... Unstaged commit from Monday
 
 		if (
 			this.state.code &&
@@ -65,6 +82,7 @@ class EditProfile extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 
+<<<<<<< HEAD
 		let userData = {
 			name: this.state.name,
 			email: this.state.email,
@@ -72,6 +90,11 @@ class EditProfile extends React.Component {
 			newPassword: this.state.newPassword,
 			newPassword2: this.state.newPassword2,
 		};
+=======
+    if (this.state.password) {
+      userData = omit(userData, 'editpass');
+    }
+>>>>>>> 40e8d6a... Unstaged commit from Monday
 
 		this.props.editProfile(userData, this.props.user.accounttype);
 	};
@@ -81,6 +104,7 @@ class EditProfile extends React.Component {
 			"https://connect.stripe.com/express/oauth/authorize?client_id=ca_HXZPcyjn3M0xNIlKrMFE79On9n9GQJ6t&state=9j5fjsSFCh7smqNCRpQMYSYZ&suggested_capabilities[]=transfers");
 	};
 
+<<<<<<< HEAD
 	handleChange = (e) => {
 		switch (e.target.name) {
 			case "image":
@@ -114,6 +138,48 @@ class EditProfile extends React.Component {
 					className={"w-full max-w-lg mx-auto my-6"}
 				>
 					<h1 className={"text-center text-3xl mb-3"}>My Profile</h1>
+=======
+  handleChange = e => {
+    switch (e.target.name) {
+      case 'image':
+        this.props.setAlert('Loading...', 'success');
+        this.setState({
+          tempImg: URL.createObjectURL(e.target.files[0]),
+          image: e.target.files[0],
+        });
+        break;
+      case 'name':
+      case 'email':
+      case 'password':
+      case 'newPassword':
+      case 'newPassword2':
+        this.setState({
+          ...this.state,
+          [e.target.name]: e.target.value,
+        });
+        break;
+      default:
+        console.log('Something is weird');
+        break;
+    }
+  };
+
+  render() {
+    if (
+      this.state.code &&
+      this.props.user._id &&
+      !this.props.user.stripeseller
+    ) {
+      this.props.getStripeSeller(this.state.state, this.state.code);
+    }
+    if (this.props.user._id) {
+      return (
+        <form
+          onSubmit={this.handleSubmit}
+          className={'w-full max-w-lg mx-auto my-6'}
+        >
+          <h1 className={'text-center text-3xl mb-3'}>My Profile</h1>
+>>>>>>> 40e8d6a... Unstaged commit from Monday
 
 					<div className={"w-full content-center"}>
 						<div className={"w-full px-3"}>
@@ -205,6 +271,7 @@ class EditProfile extends React.Component {
 							/>
 						</div>
 
+<<<<<<< HEAD
 						<div className={"w-1/2 pl-3 mb-0"}>
 							<label
 								className={
@@ -315,6 +382,118 @@ class EditProfile extends React.Component {
 							? `Already registered in Stripe`
 							: `Create Stripe Account`}
 					</button>
+=======
+            <div className={'w-1/2 pl-3 mb-0'}>
+              <label
+                className={
+                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }
+                for="grid-email"
+              >
+                Email
+              </label>
+              <input
+                name="email"
+                className={
+                  'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
+                }
+                id="email"
+                type="email"
+                value={this.state.email}
+                placeholder="jane@gmail.com"
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+          <div className={'flex flex-wrap mx-3 mb-6'}>
+            <button
+              className={
+                'bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded'
+              }
+              type="button"
+              id="button"
+              onClick={() => this.setState({ editpass: !this.state.editpass })}
+              hidden={this.state.editpass}
+            >
+              Edit Password
+            </button>
+            <div className={'w-full'} hidden={!this.state.editpass}>
+              <label
+                className={
+                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }
+                for="grid-password"
+              >
+                Old password
+              </label>
+              <input
+                name="password"
+                className={
+                  'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                }
+                id="password"
+                type="password"
+                placeholder="Leave blank if no edit required"
+                minlength="8"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className={'w-full'} hidden={!this.state.editpass}>
+              <label
+                className={
+                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }
+                for="grid-password"
+              >
+                New password
+              </label>
+              <input
+                name="newPassword"
+                className={
+                  'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                }
+                id="newPassword"
+                type="password"
+                placeholder="******************"
+                minlength="8"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className={'w-full'} hidden={!this.state.editpass}>
+              <label
+                className={
+                  'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                }
+                for="grid-password"
+              >
+                Confirm new password
+              </label>
+              <input
+                name="newPassword2"
+                className={
+                  'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                }
+                id="newPassword2"
+                type="password"
+                placeholder="******************"
+                minlength="8"
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+          <button
+            className={
+              'bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded'
+            }
+            onClick={() => this.redirectStripe()}
+            type="button"
+            disabled={this.props.user.stripeseller}
+          >
+            {this.props.user.stripeseller
+              ? `Already registered in Stripe`
+              : `Create Stripe Account`}
+          </button>
+>>>>>>> 40e8d6a... Unstaged commit from Monday
 
 					<button
 						className={

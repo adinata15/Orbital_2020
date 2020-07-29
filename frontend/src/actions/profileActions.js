@@ -25,6 +25,7 @@ import {
 } from "./types";
 
 //Edit profile
+<<<<<<< HEAD
 export const editProfile = (userData, accounttype) => async (dispatch) => {
 	try {
 		// userData = JSON.stringify(userData);
@@ -54,6 +55,27 @@ export const editProfile = (userData, accounttype) => async (dispatch) => {
 			dispatch(setAlert(err.msg, "danger"));
 		}
 	}
+=======
+export const editProfile = userData => async dispatch => {
+  try {
+    const res = await axios.put(
+      `http://localhost:5000/api/users/${userData.accounttype}`,
+      userData
+    );
+
+    dispatch({
+      type: EDIT_PROFILE_SUCCESS,
+      payload: res.data,
+    });
+    dispatch(setAlert('Profile editted', 'success'));
+  } catch (err) {
+    dispatch(setAlert('Profile edit fail', 'danger'));
+
+    dispatch({
+      type: EDIT_PROFILE_FAIL,
+    });
+  }
+>>>>>>> 40e8d6a... Unstaged commit from Monday
 };
 
 //Upload profile picture
