@@ -91,6 +91,17 @@ router.put(
 				});
 			}
 
+			if (buyer.wishlist.length > 0) {
+				for (var i = 0; i < buyer.wishlist.length; i++) {
+					if (
+						buyer.wishlist[i].item.toString() === newItem._id.toString() &&
+						buyer.wishlist[i].size === size
+					) {
+						buyer.wishlist.splice(i, 1);
+					}
+				}
+			}
+
 			await buyer.save();
 
 			res.json(buyer.cart);
@@ -274,7 +285,7 @@ router.put(
 				return res.status(404).json({ msg: "Item is already in wishlist" });
 			}
 
-			//If the item is already present in buyer's wishlist
+			//If the item is already present in buyer's cart
 			if (
 				buyer.cart.filter(
 					(item) =>
@@ -361,15 +372,30 @@ router.put("/wishlist/cart/:item_id/:size", auth, async (req, res) => {
 				buyer.wishlist[i].item.toString() === req.params.item_id &&
 				buyer.wishlist[i].size === req.params.size
 			) {
-				buyer.cart.push({
-					item: buyer.wishlist[i].item,
-					brand: buyer.wishlist[i].brand,
-					title: buyer.wishlist[i].title,
-					price: buyer.wishlist[i].price,
-					size: buyer.wishlist[i].size,
-					image: buyer.wishlist[i].image,
-					quantity: 1,
+				let alrPresent = false;
+				buyer.cart.forEach((item) => {
+					if (
+						item.item.toString() === req.params.item_id &&
+						item.size === req.params.size
+					) {
+						item.quantity = parseInt(item.quantity) + 1;
+						alrPresent = true;
+					}
 				});
+
+				//Item is not present in buyer's cart
+				if (!alrPresent) {
+					buyer.cart.push({
+						item: buyer.wishlist[i].item,
+						brand: buyer.wishlist[i].brand,
+						title: buyer.wishlist[i].title,
+						price: buyer.wishlist[i].price,
+						size: buyer.wishlist[i].size,
+						image: buyer.wishlist[i].image,
+						quantity: 1,
+					});
+				}
+
 				buyer.wishlist.splice(i, 1);
 				itemFound = true;
 			}
