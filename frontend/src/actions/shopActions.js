@@ -43,12 +43,22 @@ export const getSize = (data) => async (dispatch) => {
 			payload: res.data,
 		});
 	} catch (err) {
-		if (err) {
-			err.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+		if (err.response.data.errors) {
+			dispatch({
+				type: POST_ERROR,
+				payload: { msg: err.response.data.errors, status: err.response.status },
+			});
+			err.response.data.errors.forEach((error) =>
+				dispatch(setAlert(error.msg, "danger"))
+			);
+		} else {
+			dispatch({
+				type: POST_ERROR,
+				payload: { msg: err.response.data.msg, status: err.response.status },
+			});
+			console.log(err.response.data);
+			dispatch(setAlert(err.response.data.msg, "danger"));
 		}
-		dispatch({
-			type: POST_ERROR,
-		});
 	}
 };
 
@@ -63,9 +73,7 @@ export const getItems = (category) => async (dispatch) => {
 			payload: res.data,
 		});
 	} catch (err) {
-		if (err) {
-			err.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-		}
+		dispatch(setAlert("Fail to retrieve shop items", "danger"));
 		dispatch({
 			type: POST_ERROR,
 		});
@@ -83,12 +91,12 @@ export const getLikedItems = () => async (dispatch) => {
 			payload: res.data,
 		});
 	} catch (err) {
-		if (err) {
-			err.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-		}
 		dispatch({
 			type: POST_ERROR,
+			payload: { msg: err.response.data.msg, status: err.response.status },
 		});
+		console.log(err.response.data);
+		dispatch(setAlert(err.response.data.msg, "danger"));
 	}
 };
 
@@ -101,12 +109,12 @@ export const getcartItems = () => async (dispatch) => {
 			payload: res.data,
 		});
 	} catch (err) {
-		if (err) {
-			err.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-		}
 		dispatch({
 			type: POST_ERROR,
+			payload: { msg: err.response.data.msg, status: err.response.status },
 		});
+		console.log(err.response.data);
+		dispatch(setAlert(err.response.data.msg, "danger"));
 	}
 };
 
@@ -132,14 +140,13 @@ export const likeItem = (data, itemId) => async (dispatch) => {
 		});
 		dispatch(setAlert("Liked item", "success"));
 	} catch (err) {
-		const errors = err.response.data.errors;
-
-		if (errors) {
-			errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+		if (err) {
+			dispatch({
+				type: LIKE_FAIL,
+				payload: { msg: err.response.data.msg, status: err.response.status },
+			});
+			dispatch(setAlert(err.response.data.msg, "danger"));
 		}
-		dispatch({
-			type: LIKE_FAIL,
-		});
 	}
 };
 
@@ -155,14 +162,11 @@ export const unlikeItem = (item, size) => async (dispatch) => {
 		});
 		dispatch(setAlert("Unliked item", "success"));
 	} catch (err) {
-		const errors = err.response.data.errors;
-
-		if (errors) {
-			errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-		}
 		dispatch({
 			type: LIKE_FAIL,
+			payload: { msg: err.response.data.msg, status: err.response.status },
 		});
+		dispatch(setAlert(err.response.data.msg, "danger"));
 	}
 };
 
@@ -180,14 +184,11 @@ export const like2cart = (item, size) => async (dispatch) => {
 
 		dispatch(setAlert("Moved to cart", "success"));
 	} catch (err) {
-		const errors = err.response.data.errors;
-
-		if (errors) {
-			errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-		}
 		dispatch({
 			type: LIKE_FAIL,
+			payload: { msg: err.response.data.msg, status: err.response.status },
 		});
+		dispatch(setAlert(err.response.data.msg, "danger"));
 	}
 };
 
@@ -213,14 +214,22 @@ export const cartItem = (data, itemId) => async (dispatch) => {
 		});
 		dispatch(setAlert("Moved to cart", "success"));
 	} catch (err) {
-		const errors = err.response.data.errors;
-
-		if (errors) {
-			errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+		if (err.response.data.errors) {
+			dispatch({
+				type: CART_FAIL,
+				payload: { msg: err.response.data.errors, status: err.response.status },
+			});
+			err.response.data.errors.forEach((error) =>
+				dispatch(setAlert(error.msg, "danger"))
+			);
+		} else {
+			dispatch({
+				type: CART_FAIL,
+				payload: { msg: err.response.data.msg, status: err.response.status },
+			});
+			console.log(err.response.data);
+			dispatch(setAlert(err.response.data.msg, "danger"));
 		}
-		dispatch({
-			type: CART_FAIL,
-		});
 	}
 };
 
@@ -236,11 +245,12 @@ export const uncartItem = (item, size) => async (dispatch) => {
 		});
 		dispatch(setAlert("Removed from cart", "success"));
 	} catch (err) {
-		dispatch(setAlert(err.msg, "danger"));
-
 		dispatch({
-			type: LIKE_FAIL,
+			type: CART_FAIL,
+			payload: { msg: err.response.data.msg, status: err.response.status },
 		});
+		console.log(err.response.data);
+		dispatch(setAlert(err.response.data.msg, "danger"));
 	}
 };
 
@@ -256,11 +266,12 @@ export const cartIncreaseOne = (item, size) => async (dispatch) => {
 		});
 		dispatch(setAlert("Added one more to cart", "success"));
 	} catch (err) {
-		dispatch(setAlert(err.msg, "danger"));
-
 		dispatch({
-			type: LIKE_FAIL,
+			type: CART_FAIL,
+			payload: { msg: err.response.data.msg, status: err.response.status },
 		});
+		console.log(err.response.data);
+		dispatch(setAlert(err.response.data.msg, "danger"));
 	}
 };
 
@@ -276,11 +287,12 @@ export const cartDecreaseOne = (item, size) => async (dispatch) => {
 		});
 		dispatch(setAlert("Reduced one from cart", "success"));
 	} catch (err) {
-		dispatch(setAlert(err.msg, "danger"));
-
 		dispatch({
-			type: LIKE_FAIL,
+			type: CART_FAIL,
+			payload: { msg: err.response.data.msg, status: err.response.status },
 		});
+		console.log(err.response.data);
+		dispatch(setAlert(err.response.data.msg, "danger"));
 	}
 };
 
@@ -308,12 +320,12 @@ export const payItems = (cartItem) => async (dispatch) => {
 
 		await dispatch(checkoutStripe(stripe, res.data.sessionId));
 	} catch (err) {
-		if (err) {
-			dispatch(setAlert("Payment failed", "danger"));
-		}
 		dispatch({
 			type: PAY_FAIL,
+			payload: { msg: err.response.data.msg, status: err.response.status },
 		});
+		console.log(err.response.data);
+		dispatch(setAlert(err.response.data.msg, "danger"));
 	}
 };
 
@@ -328,14 +340,13 @@ export const checkoutStripe = (stripe, sessionId) => async (dispatch) => {
 			payload: res,
 		});
 	} catch (err) {
-		const errors = err;
-
-		if (errors) {
+		if (err) {
 			dispatch(setAlert("Payment failed", "danger"));
+
+			dispatch({
+				type: PAY_FAIL,
+			});
 		}
-		dispatch({
-			type: PAY_FAIL,
-		});
 	}
 };
 
@@ -360,9 +371,21 @@ export const postItems = (itemData) => async (dispatch) => {
 		});
 		dispatch(setAlert("Listed item", "success"));
 	} catch (err) {
-		dispatch({
-			type: POST_ERROR,
-			payload: err,
-		});
+		if (err.response.data.errors) {
+			dispatch({
+				type: POST_ERROR,
+				payload: { msg: err.response.data.errors, status: err.response.status },
+			});
+			err.response.data.errors.forEach((error) =>
+				dispatch(setAlert(error.msg, "danger"))
+			);
+		} else {
+			dispatch({
+				type: POST_ERROR,
+				payload: { msg: err.response.data.msg, status: err.response.status },
+			});
+			console.log(err.response.data);
+			dispatch(setAlert(err.response.data.msg, "danger"));
+		}
 	}
 };

@@ -63,7 +63,7 @@ class SellForm extends Component {
 		console.log(categoryStr);
 		//inserting size datas
 		this.state.sizeTable.forEach((sizeOne, idx) => {
-			data.append(`size${idx + 1}`, sizeOne.size);
+			data.append(`size${idx + 1}`, sizeOne.size.toUpperCase());
 			data.append(`size${idx + 1}chest`, sizeOne.chest);
 			data.append(`size${idx + 1}bl`, sizeOne.bl);
 			data.append(`size${idx + 1}waist`, sizeOne.waist);
@@ -519,7 +519,7 @@ class SellForm extends Component {
 										sl = `size${idx}sl`;
 									return (
 										<tr key={val.index}>
-											<td className={"border px-4 py-2"}>
+											<td className={"border px-2 py-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -530,7 +530,7 @@ class SellForm extends Component {
 													required
 												/>
 											</td>
-											<td className={"border px-4 py-2"}>
+											<td className={"border px-2 py-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -540,7 +540,7 @@ class SellForm extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-4 py-2"}>
+											<td className={"border px-2 py-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -550,7 +550,7 @@ class SellForm extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-4 py-2"}>
+											<td className={"border px-2 py-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -560,7 +560,7 @@ class SellForm extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-4 py-2"}>
+											<td className={"border px-2 py-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -570,7 +570,7 @@ class SellForm extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-4 py-2"}>
+											<td className={"border px-2 py-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -580,7 +580,7 @@ class SellForm extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-4 py-2"}>
+											<td className={"border px-2 py-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -590,7 +590,7 @@ class SellForm extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-4 py-2"}>
+											<td className={"border px-2 py-2"}>
 												<input
 													className="w-full"
 													type="text"
