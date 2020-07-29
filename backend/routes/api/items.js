@@ -73,7 +73,7 @@ router.put(
           item.item.toString() === newItem._id.toString() &&
           item.size === size
         ) {
-          item.quantity += quantity;
+          item.quantity = parseInt(item.quantity) + parseInt(quantity);
           alrPresent = true;
         }
       });
