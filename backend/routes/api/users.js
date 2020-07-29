@@ -275,65 +275,6 @@ router.put(
   }
 );
 
-// @route PUT api/users/buyer/password
-// @desc Update logged in buyers password
-// @access Private
-// router.put(
-//   '/buyer/password',
-//   [
-//     auth,
-//     [
-//       check('newPassword', 'Password must have at least 8 characters').isLength(
-//         {
-//           min: 8,
-//         }
-//       ),
-//     ],
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-
-//     const { oldPassword, newPassword, newPassword2 } = req.body;
-
-//     try {
-//       let user = await Buyer.findOne({ _id: req.user.id });
-
-//       if (user) {
-//         //Verify password
-//         const isMatched = await bcrypt.compare(oldPassword, user.password);
-
-//         if (!isMatched) {
-//           return res
-//             .status(400)
-//             .json({ errors: [{ msg: 'Invalid credentials' }] });
-//         }
-
-//         if (newPassword !== newPassword2) {
-//           return res.status(400).json({ msg: 'Passwords do not match' });
-//         }
-//         //Update
-//         const salt = await bcrypt.genSalt(10);
-//         const password = await bcrypt.hash(newPassword, salt);
-
-//         user = await Buyer.findOneAndUpdate(
-//           { _id: req.user.id },
-//           { $set: { password } },
-//           { new: true }
-//         ).select('-password');
-//       } else {
-//         return res.status(400).json({ msg: 'User not found' });
-//       }
-//       return res.json(user);
-//     } catch (err) {
-//       console.log(err.message);
-//       res.status(500).send('Server error');
-//     }
-//   }
-// );
-
 // @route PUT api/users/seller
 // @desc Update logged in sellers account
 // @access Private
@@ -403,65 +344,6 @@ router.put(
     }
   }
 );
-
-// @route PUT api/users/seller/password
-// @desc Update logged in sellers password
-// @access Private
-// router.put(
-//   '/seller/password',
-//   [
-//     auth,
-//     [
-//       check('newPassword', 'Password must have at least 8 characters').isLength(
-//         {
-//           min: 8,
-//         }
-//       ),
-//     ],
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-
-//     const { oldPassword, newPassword, newPassword2 } = req.body;
-
-//     try {
-//       let user = await Seller.findOne({ _id: req.user.id });
-
-//       if (user) {
-//         //Verify password
-//         const isMatched = await bcrypt.compare(oldPassword, user.password);
-
-//         if (!isMatched) {
-//           return res
-//             .status(400)
-//             .json({ errors: [{ msg: 'Invalid credentials' }] });
-//         }
-
-//         if (newPassword !== newPassword2) {
-//           return res.status(400).json({ msg: 'Passwords do not match' });
-//         }
-//         //Update
-//         const salt = await bcrypt.genSalt(10);
-//         const password = await bcrypt.hash(newPassword, salt);
-
-//         user = await Seller.findOneAndUpdate(
-//           { _id: req.user.id },
-//           { $set: { password } },
-//           { new: true }
-//         ).select('-password');
-//       } else {
-//         return res.status(400).json({ msg: 'User not found' });
-//       }
-//       return res.json(user);
-//     } catch (err) {
-//       console.log(err.message);
-//       res.status(500).send('Server error');
-//     }
-//   }
-// );
 
 // @route POST api/users/buyer/address
 // @desc Add address

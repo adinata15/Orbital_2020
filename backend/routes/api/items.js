@@ -32,6 +32,7 @@ router.get("/:item_id", async (req, res) => {
 // @desc Add an item to shopping cart
 // @access Private
 router.put(
+<<<<<<< HEAD
 	"/cart/:item_id",
 	[
 		auth,
@@ -102,6 +103,89 @@ router.put(
 			res.status(500).send("Server error");
 		}
 	}
+=======
+  '/cart/:item_id',
+  [
+    auth,
+    [
+      check('quantity', 'Quantity is required').exists({ checkFalsy: true }),
+      check('size', 'Size is required').not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { size, quantity } = req.body;
+    if (quantity <= 0) {
+      return res.status(400).json({ msg: 'Quantity must be at least 1' });
+    }
+
+    try {
+      const buyer = await Buyer.findOne({
+        _id: req.user.id,
+      });
+      if (!buyer) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      const newItem = await Item.findOne({
+        _id: req.params.item_id,
+      });
+      if (!newItem) {
+        return res.status(404).json({ msg: 'Item not found' });
+      }
+
+      //Same item already present in buyer's cart
+      let alrPresent = false;
+      buyer.cart.forEach(item => {
+        if (
+          item.item.toString() === newItem._id.toString() &&
+          item.size === size
+        ) {
+          item.quantity = parseInt(item.quantity) + parseInt(quantity);
+          alrPresent = true;
+        }
+      });
+
+      //New item, is not present in buyer's cart
+      if (!alrPresent) {
+        buyer.cart.push({
+          item: newItem._id,
+          brand: newItem.brand,
+          title: newItem.title,
+          price: newItem.price,
+          image: newItem.images[0],
+          size,
+          quantity,
+        });
+      }
+
+      if (buyer.wishlist.length > 0) {
+        for (var i = 0; i < buyer.wishlist.length; i++) {
+          if (
+            buyer.wishlist[i].item.toString() === newItem._id.toString() &&
+            buyer.wishlist[i].size === size
+          ) {
+            buyer.wishlist.splice(i, 1);
+          }
+        }
+      }
+
+      await buyer.save();
+
+      res.json(buyer.cart);
+    } catch (err) {
+      console.log(err.message);
+      if (err.kind == 'ObjectId') {
+        return res.status(400).json({ msg: 'Item not found' });
+      }
+      res.status(500).send('Server error');
+    }
+  }
+>>>>>>> 5f3afa2... Fixed wishlist and cart feature
 );
 
 // @route PUT api/items/uncart/:item_id/:size
@@ -239,6 +323,7 @@ router.put("/cart/minus/:item_id/:size", auth, async (req, res) => {
 // @desc Add an item to wishlist
 // @access Private
 router.put(
+<<<<<<< HEAD
 	"/like/:item_id",
 	[auth, check("size", "Size is required").not().isEmpty()],
 	async (req, res) => {
@@ -305,6 +390,74 @@ router.put(
 			res.status(500).send("Server error");
 		}
 	}
+=======
+  '/like/:item_id',
+  [auth, check('size', 'Size is required').not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { size } = req.body;
+
+    try {
+      const buyer = await Buyer.findOne({
+        _id: req.user.id,
+      });
+      if (!buyer) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      const newItem = await Item.findOne({
+        _id: req.params.item_id,
+      });
+      if (!newItem) {
+        return res.status(404).json({ msg: 'Item not found' });
+      }
+
+      //If the item is already present in buyer's wishlist
+      if (
+        buyer.wishlist.filter(
+          item =>
+            item.item.toString() === req.params.item_id && item.size === size
+        ).length > 0
+      ) {
+        return res.status(404).json({ msg: 'Item is already in wishlist' });
+      }
+
+      //If the item is already present in buyer's cart
+      if (
+        buyer.cart.filter(
+          item =>
+            item.item.toString() === req.params.item_id && item.size === size
+        ).length > 0
+      ) {
+        return res.status(404).json({ msg: 'Item is already in cart' });
+      }
+
+      //Item is not present in buyer's wishlist
+      buyer.wishlist.push({
+        item: newItem._id,
+        brand: newItem.brand,
+        title: newItem.title,
+        price: newItem.price,
+        image: newItem.images[0],
+        size,
+      });
+
+      await buyer.save();
+
+      res.json(buyer.wishlist);
+    } catch (err) {
+      console.log(err.message);
+      if (err.kind == 'ObjectId') {
+        return res.status(400).json({ msg: 'Item not found' });
+      }
+      res.status(500).send('Server error');
+    }
+  }
+>>>>>>> 5f3afa2... Fixed wishlist and cart feature
 );
 
 // @route PUT api/items/unlike/:item_id/:size
@@ -346,6 +499,7 @@ router.put("/unlike/:item_id/:size", auth, async (req, res) => {
 // @route PUT api/items/wishlist/cart/:item_id/:size
 // @desc Transfer item from wishlist to shopping cart
 // @access Private
+<<<<<<< HEAD
 router.put("/wishlist/cart/:item_id/:size", auth, async (req, res) => {
 	try {
 		const buyer = await Buyer.findOne({
@@ -386,6 +540,63 @@ router.put("/wishlist/cart/:item_id/:size", auth, async (req, res) => {
 		}
 		res.status(500).send("Server error");
 	}
+=======
+router.put('/wishlist/cart/:item_id/:size', auth, async (req, res) => {
+  try {
+    const buyer = await Buyer.findOne({
+      _id: req.user.id,
+    });
+    if (!buyer) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    let itemFound = false;
+    for (var i = 0; i < buyer.wishlist.length; i++) {
+      if (
+        buyer.wishlist[i].item.toString() === req.params.item_id &&
+        buyer.wishlist[i].size === req.params.size
+      ) {
+        let alrPresent = false;
+        buyer.cart.forEach(item => {
+          if (
+            item.item.toString() === req.params.item_id &&
+            item.size === req.params.size
+          ) {
+            item.quantity = parseInt(item.quantity) + 1;
+            alrPresent = true;
+          }
+        });
+
+        //Item is not present in buyer's cart
+        if (!alrPresent) {
+          buyer.cart.push({
+            item: buyer.wishlist[i].item,
+            brand: buyer.wishlist[i].brand,
+            title: buyer.wishlist[i].title,
+            price: buyer.wishlist[i].price,
+            size: buyer.wishlist[i].size,
+            image: buyer.wishlist[i].image,
+            quantity: 1,
+          });
+        }
+
+        buyer.wishlist.splice(i, 1);
+        itemFound = true;
+      }
+    }
+    await buyer.save();
+
+    itemFound
+      ? res.json(buyer)
+      : res.status(404).json({ msg: 'Item not found' });
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Item not found' });
+    }
+    res.status(500).send('Server error');
+  }
+>>>>>>> 5f3afa2... Fixed wishlist and cart feature
 });
 
 // @route GET api/items/category/:category (if multiple categories are present, separated each value using '-')
