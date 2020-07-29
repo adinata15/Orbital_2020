@@ -22,6 +22,7 @@ class ClothesDetail extends React.Component {
 			height: this.props.user.height ? this.props.user.height : null,
 			weight: this.props.user.weight ? this.props.user.weight : null,
 			gender: this.props.user.gender,
+			showSizeChart: false,
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
 	}
@@ -77,15 +78,15 @@ class ClothesDetail extends React.Component {
 				<Alert />
 				<div
 					className={
-						"max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0"
+						"max-w-6xl flex items-center h-screen flex-wrap mx-auto my-2"
 					}
 				>
 					<div
 						className={
-							"w-full lg:w-4/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0"
+							"w-4/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0"
 						}
 					>
-						<div className={"p-4 md:p-12 text-center lg:text-left"}>
+						<div className={"p-12 text-left"}>
 							<h1 className={"text-3xl font-bold pt-24 lg:pt-0"}>
 								{this.props.item.title}
 							</h1>
@@ -207,19 +208,105 @@ class ClothesDetail extends React.Component {
 									Your size recommendation : {this.props.sizeRecommendation}
 								</p>
 							) : null}
-
-							<button
-								onClick={this.getSizeRecommendationLogin}
-								className={
-									"flex-1 bg-teal-700 my-2 mx-2 hover:bg-teal-900 text-white font-bold py-2 px-8 rounded-full"
-								}
-								hidden={!(this.props.user.accounttype === "buyer")}
-							>
-								Tell me my size
-							</button>
-							<p className={"text-sm"}>Description: {this.props.item.desc}</p>
-
-							<div className={"flex pt-8 pb-8"}>
+							<p className={"w-1/2 mb-2 pr-3"}>
+								<span
+									onClick={() =>
+										this.setState({ showSizeChart: !this.state.showSizeChart })
+									}
+									className={
+										"italic text-sm text-teal-700 underline hover:text-teal-900 hover:no-underline cursor-pointer"
+									}
+								>
+									Display size tabel
+								</span>
+								<span
+									onClick={this.getSizeRecommendationLogin}
+									className={
+										"float-right italic text-sm text-teal-700 underline hover:text-teal-900 hover:no-underline cursor-pointer"
+									}
+									hidden={!(this.props.user.accounttype === "buyer")}
+								>
+									Tell me my size
+								</span>
+							</p>
+							{this.state.showSizeChart ? (
+								<table
+									id="tablesizes"
+									className={"cursor-default w-full table-fixed text-center"}
+								>
+									<thead>
+										<tr className="bg-gray-500">
+											<th className={"px-2 py-2"}>Size</th>
+											<th className={"px-2 py-2"}>Chest</th>
+											<th className={"px-2 py-2"}>Body length</th>
+											<th className={"px-2 py-2"}>Waist</th>
+											<th className={"px-2 py-2"}>Skirt length</th>
+											<th className={"px-2 py-2"}>Hip</th>
+											<th className={"px-2 py-2"}>Total length</th>
+											<th className={"px-2 py-2"}>Bust</th>
+										</tr>
+									</thead>
+									<tbody>
+										{this.props.item.sizes.map((val) => {
+											return (
+												<tr key={val.index}>
+													<td className={"border px-2 py-2"}>{val.size}</td>
+													<td className={"border px-2 py-2"}>
+														{val.chest.from === -1
+															? null
+															: val.chest.from === val.chest.to
+															? val.chest.from
+															: `${val.chest.from}-${val.chest.to}`}
+													</td>
+													<td className={"border px-2 py-2"}>
+														{val.bodylength.from === -1
+															? null
+															: val.bodylength.from === val.bodylength.to
+															? val.bodylength.from
+															: `${val.bodylength.from}-${val.bodylength.to}`}
+													</td>
+													<td className={"border px-2 py-2"}>
+														{val.waist.from === -1
+															? null
+															: val.waist.from === val.waist.to
+															? val.waist.from
+															: `${val.waist.from}-${val.waist.to}`}
+													</td>
+													<td className={"border px-2 py-2"}>
+														{val.hip.from === -1
+															? null
+															: val.hip.from === val.hip.to
+															? val.hip.from
+															: `${val.hip.from}-${val.hip.to}`}
+													</td>
+													<td className={"border px-2 py-2"}>
+														{val.totallength.from === -1
+															? null
+															: val.totallength.from === val.totallength.to
+															? val.totallength.from
+															: `${val.totallength.from}-${val.totallength.to}`}
+													</td>
+													<td className={"border px-2 py-2"}>
+														{val.bust.from === -1
+															? null
+															: val.bust.from === val.bust.to
+															? val.bust.from
+															: `${val.bust.from}-${val.bust.to}`}
+													</td>
+													<td className={"border px-2 py-2"}>
+														{val.skirtlength.from === -1
+															? null
+															: val.skirtlength.from === val.skirtlength.to
+															? val.skirtlength.from
+															: `${val.skirtlength.from}-${val.skirtlength.to}`}
+													</td>
+												</tr>
+											);
+										})}
+									</tbody>
+								</table>
+							) : null}
+							<div className={"flex py-4"}>
 								<button
 									onClick={this.cartItem}
 									className={

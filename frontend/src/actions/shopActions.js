@@ -342,7 +342,6 @@ export const checkoutStripe = (stripe, sessionId) => async (dispatch) => {
 	} catch (err) {
 		if (err) {
 			dispatch(setAlert("Payment failed", "danger"));
-
 			dispatch({
 				type: PAY_FAIL,
 			});
