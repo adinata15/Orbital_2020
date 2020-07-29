@@ -13,6 +13,7 @@ import { editListing, deleteListing } from "../../actions/profileActions";
 
 import Image from "../../images/plus.svg";
 import CloseImg from "../../images/close.svg";
+import DeleteImage from "../../images/delete.svg";
 
 class ListingDetail extends Component {
 	constructor(props) {
@@ -830,18 +831,17 @@ class ListingDetail extends Component {
 											</td>
 											<td className={"border-l py-2 px-1"}>
 												{idx === 0 ? (
-													<button type="button" onClick={() => this.addRow()}>
-														Add
-														<i aria-hidden="true"></i>
-													</button>
+													<img
+														className={"object-contain"}
+														onClick={() => this.addRow()}
+														src={Image}
+													/>
 												) : (
-													<button
-														type="button"
+													<img
+														className={"object-contain"}
 														onClick={() => this.removeRow(val)}
-													>
-														Delete
-														<i aria-hidden="true"></i>
-													</button>
+														src={DeleteImage}
+													/>
 												)}
 											</td>
 										</tr>

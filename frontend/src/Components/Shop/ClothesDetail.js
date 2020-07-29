@@ -23,6 +23,7 @@ class ClothesDetail extends React.Component {
 			weight: this.props.user.weight ? this.props.user.weight : null,
 			gender: this.props.user.gender,
 			showSizeChart: false,
+			sizeRecommendation: "",
 		};
 		//can bind function here! (we didnt bind here because we use arrow function below)
 	}
@@ -54,7 +55,7 @@ class ClothesDetail extends React.Component {
 		});
 	};
 
-	getSizeRecommendationLogin = (e) => {
+	getSizeRecommendationLogin = async (e) => {
 		e.preventDefault();
 		if (this.state.weight && this.state.height && this.state.gender) {
 			let userData = {
@@ -62,7 +63,13 @@ class ClothesDetail extends React.Component {
 				weight: this.state.weight,
 				gender: this.state.gender,
 			};
-			this.props.getSizeRecommendationLogin(userData, this.props.item._id);
+			await this.props.getSizeRecommendationLogin(
+				userData,
+				this.props.item._id
+			);
+			this.setState({
+				sizeRecommendation: this.props.sizeRecommendation,
+			});
 		} else {
 			this.setState({ addInfo: true });
 		}
@@ -199,13 +206,13 @@ class ClothesDetail extends React.Component {
 									</p>
 								</div>
 							) : null}
-							{this.props.sizeRecommendation ? (
+							{this.state.sizeRecommendation ? (
 								<p
 									className={
 										"pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start"
 									}
 								>
-									Your size recommendation : {this.props.sizeRecommendation}
+									Your size recommendation : {this.state.sizeRecommendation}
 								</p>
 							) : null}
 							<p className={"w-1/2 mb-2 pr-3"}>

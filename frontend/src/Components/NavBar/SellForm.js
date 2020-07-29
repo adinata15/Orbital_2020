@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Image from "../../images/plus.svg";
+import DeleteImage from "../../images/delete.svg";
 import CloseImg from "../../images/close.svg";
 
 import PropTypes from "prop-types";
@@ -602,18 +603,19 @@ class SellForm extends Component {
 											</td>
 											<td className={"border-l py-2 px-1"}>
 												{idx === 0 ? (
-													<button type="button" onClick={() => this.addRow()}>
-														Add
-														<i aria-hidden="true"></i>
-													</button>
+													<img
+														// className={"object-contain"}
+														style={{ height: "30px", width: "30px" }}
+														onClick={() => this.addRow()}
+														src={Image}
+													/>
 												) : (
-													<button
-														type="button"
+													<img
+														// className={"object-contain"}
+														style={{ height: "30px", width: "30px" }}
 														onClick={() => this.removeRow(val)}
-													>
-														Delete
-														<i aria-hidden="true"></i>
-													</button>
+														src={DeleteImage}
+													/>
 												)}
 											</td>
 										</tr>
