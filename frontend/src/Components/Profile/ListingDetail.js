@@ -723,10 +723,11 @@ class ListingDetail extends Component {
 									<th className={"px-2 py-2"}>Chest</th>
 									<th className={"px-2 py-2"}>Body length</th>
 									<th className={"px-2 py-2"}>Waist</th>
-									<th className={"px-2 py-2"}>Skirt length</th>
+
 									<th className={"px-2 py-2"}>Hip</th>
 									<th className={"px-2 py-2"}>Total length</th>
 									<th className={"px-2 py-2"}>Bust</th>
+									<th className={"px-2 py-2"}>Skirt length</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -741,7 +742,7 @@ class ListingDetail extends Component {
 										skirtlength = `size${idx}skirtlength`;
 									return (
 										<tr key={val.index}>
-											<td className={"border px-2 py-2"}>
+											<td className={"border px-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -752,7 +753,7 @@ class ListingDetail extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-2 py-2"}>
+											<td className={"border px-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -763,7 +764,7 @@ class ListingDetail extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-2 py-2"}>
+											<td className={"border px-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -774,7 +775,7 @@ class ListingDetail extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-2 py-2"}>
+											<td className={"border px-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -785,7 +786,7 @@ class ListingDetail extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-2 py-2"}>
+											<td className={"border px-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -796,7 +797,7 @@ class ListingDetail extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-2 py-2"}>
+											<td className={"border px-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -807,7 +808,7 @@ class ListingDetail extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-2 py-2"}>
+											<td className={"border px-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -818,7 +819,7 @@ class ListingDetail extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border px-2 py-2"}>
+											<td className={"border px-2"}>
 												<input
 													className="w-full"
 													type="text"
@@ -829,19 +830,18 @@ class ListingDetail extends Component {
 													onChange={(e) => this.handleChangeTable(e)}
 												/>
 											</td>
-											<td className={"border-l py-2 px-1"}>
+											<td className={"border-l px-1"}>
 												{idx === 0 ? (
-													<img
-														className={"object-contain"}
-														onClick={() => this.addRow()}
-														src={Image}
-													/>
+													<div className={"p-1 w-10 h-10"}>
+														<img onClick={() => this.addRow()} src={Image} />
+													</div>
 												) : (
-													<img
-														className={"object-contain"}
-														onClick={() => this.removeRow(val)}
-														src={DeleteImage}
-													/>
+													<div className={"p-1 w-10 h-10"}>
+														<img
+															onClick={() => this.removeRow(val)}
+															src={DeleteImage}
+														/>
+													</div>
 												)}
 											</td>
 										</tr>

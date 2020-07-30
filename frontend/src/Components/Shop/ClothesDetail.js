@@ -247,10 +247,10 @@ class ClothesDetail extends React.Component {
 											<th className={"px-2 py-2"}>Chest</th>
 											<th className={"px-2 py-2"}>Body length</th>
 											<th className={"px-2 py-2"}>Waist</th>
-											<th className={"px-2 py-2"}>Skirt length</th>
 											<th className={"px-2 py-2"}>Hip</th>
 											<th className={"px-2 py-2"}>Total length</th>
 											<th className={"px-2 py-2"}>Bust</th>
+											<th className={"px-2 py-2"}>Skirt length</th>
 										</tr>
 									</thead>
 									<tbody>
