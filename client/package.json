@@ -31,9 +31,13 @@
     "redux-thunk": "^2.3.0",
     "stripe": "^8.67.0",
     "tailwindcss": "^1.4.6",
-    "uuid": "^8.2.0"
+    "uuid": "^8.2.0",
+    "@types/uuid": "^8.0.0",
+    "autoprefixer": "^9.8.0",
+    "postcss-cli": "^7.1.1"
   },
   "scripts": {
+    "build:tailwind": "postcss src/tailwind.css -o src/tailwind.generated.css",
     "watch:tailwind": "postcss -w src/tailwind.css -o src/tailwind.generated.css",
     "start": "run-p watch:tailwind start:react",
     "start:react": "react-scripts start",
@@ -56,10 +60,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/uuid": "^8.0.0",
-    "autoprefixer": "^9.8.0",
-    "postcss-cli": "^7.1.1"
   }
 }
