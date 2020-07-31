@@ -34,7 +34,6 @@
     "uuid": "^8.2.0"
   },
   "scripts": {
-    "build:tailwind": "postcss src/tailwind.css -o src/tailwind.generated.css",
     "watch:tailwind": "postcss -w src/tailwind.css -o src/tailwind.generated.css",
     "start": "run-p watch:tailwind start:react",
     "start:react": "react-scripts start",
