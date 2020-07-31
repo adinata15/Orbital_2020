@@ -43,10 +43,7 @@ class App extends React.Component {
 					<Route exact path="/fit-assist" component={FitAssistCard} />
 
 					<Route path="/stripe/connect/oauth" component={EditProfileSeller} />
-					<PrivateRoute
-						path="/edit/profile/seller"
-						component={EditProfileSeller}
-					/>
+					<Route path="/edit/profile/seller" component={EditProfileSeller} />
 					<PrivateRoute path="/sell" component={SellForm} />
 					<PrivateRoute path="/store" component={ListingBook} />
 					<PrivateRoute path="/edit-listing" component={ListingDetail} />

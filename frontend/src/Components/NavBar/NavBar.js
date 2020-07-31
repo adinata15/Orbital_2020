@@ -39,10 +39,17 @@ class NavBar extends React.Component {
 						<Link
 							onClick={(e) => this.props.menuSelect(e.target.name)}
 							name="men-shirt"
-							className={"ml-24"}
+							className={"ml-10"}
 							to="/shop"
 						>
 							Shirt
+						</Link>
+						<Link
+							onClick={(e) => this.props.menuSelect(e.target.name)}
+							name="men-tshirt"
+							to="/shop"
+						>
+							T-shirt
 						</Link>
 						<Link
 							onClick={(e) => this.props.menuSelect(e.target.name)}
@@ -58,6 +65,13 @@ class NavBar extends React.Component {
 						>
 							Shorts
 						</Link>
+						<Link
+							onClick={(e) => this.props.menuSelect(e.target.name)}
+							name="men-jeans"
+							to="/shop"
+						>
+							Jeans
+						</Link>
 					</div>
 				</div>
 				<div className="subnav">
@@ -65,7 +79,7 @@ class NavBar extends React.Component {
 					<div className="subnav-content ">
 						<Link
 							onClick={(e) => this.props.menuSelect(e.target.name)}
-							className={"ml-32"}
+							className={"ml-20"}
 							name="women-dress"
 							to="/shop"
 						>
@@ -80,6 +94,13 @@ class NavBar extends React.Component {
 						</Link>
 						<Link
 							onClick={(e) => this.props.menuSelect(e.target.name)}
+							name="women-tshirt"
+							to="/shop"
+						>
+							T-shirt
+						</Link>
+						<Link
+							onClick={(e) => this.props.menuSelect(e.target.name)}
 							name="women-skirt"
 							to="/shop"
 						>
@@ -91,6 +112,13 @@ class NavBar extends React.Component {
 							to="/shop"
 						>
 							Pants
+						</Link>
+						<Link
+							onClick={(e) => this.props.menuSelect(e.target.name)}
+							name="women-jeans"
+							to="/shop"
+						>
+							Jeans
 						</Link>
 					</div>
 				</div>
