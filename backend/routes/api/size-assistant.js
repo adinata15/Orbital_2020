@@ -181,6 +181,7 @@ router.post(
         __dirname,
         '../..',
         'utils',
+        'size_assistant',
         'size_assistant.py'
       );
       const params = [pypath];
