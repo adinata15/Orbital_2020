@@ -138,7 +138,7 @@ export const likeItem = (data, itemId) => async (dispatch) => {
 			type: LIKE_ITEM,
 			payload: res.data,
 		});
-		dispatch(setAlert("Liked item", "success"));
+		dispatch(setAlert("Added to likes", "success"));
 	} catch (err) {
 		if (err) {
 			dispatch({
@@ -182,7 +182,7 @@ export const like2cart = (item, size) => async (dispatch) => {
 			payload: res.data,
 		});
 
-		dispatch(setAlert("Moved to cart", "success"));
+		dispatch(setAlert("Added to cart", "success"));
 	} catch (err) {
 		dispatch({
 			type: LIKE_FAIL,
@@ -212,7 +212,7 @@ export const cartItem = (data, itemId) => async (dispatch) => {
 			type: CART_ITEM,
 			payload: res.data,
 		});
-		dispatch(setAlert("Moved to cart", "success"));
+		dispatch(setAlert("Added to cart", "success"));
 	} catch (err) {
 		if (err.response.data.errors) {
 			dispatch({
@@ -264,7 +264,6 @@ export const cartIncreaseOne = (item, size) => async (dispatch) => {
 			type: CART_INCREASE_ONE,
 			payload: res.data,
 		});
-		dispatch(setAlert("Added one more to cart", "success"));
 	} catch (err) {
 		dispatch({
 			type: CART_FAIL,
@@ -285,7 +284,6 @@ export const cartDecreaseOne = (item, size) => async (dispatch) => {
 			type: CART_DECREASE_ONE,
 			payload: res.data,
 		});
-		dispatch(setAlert("Reduced one from cart", "success"));
 	} catch (err) {
 		dispatch({
 			type: CART_FAIL,

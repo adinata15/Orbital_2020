@@ -1,11 +1,7 @@
-//sellform on progress
-//how to handle error (error not handled yet)
-
 //Press alt+click to edit multiple lines at once
 import "./App.css";
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -15,7 +11,6 @@ import NavBar from "./Components/NavBar/NavBar";
 import SellForm from "./Components/NavBar/SellForm";
 import FitAssistCard from "./Components/NavBar/FitAssistCard";
 import Shop from "./Components/Shop/Shop";
-
 import EditProfileSeller from "./Components/Profile/EditProfileSeller";
 import EditProfileBuyer from "./Components/Profile/EditProfileBuyer";
 import ListingBook from "./Components/Profile/ListingBook";
@@ -25,9 +20,9 @@ import AddressBook from "./Components/Profile/AddressBook";
 import FooterBar from "./Components/FooterBar";
 import Home from "./Components/Home.js";
 import Alert from "./Components/Alert.js";
+import SignupForm from "./Components/SignIn/SignupForm.js";
 
 import PrivateRoute from "./utils/PrivateRoute.js";
-import SignupForm from "./Components/SignIn/SignupForm.js";
 
 class App extends React.Component {
 	async componentDidMount() {
@@ -82,70 +77,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default withRouter(connect(mapStateToProps, { loadUser })(App));
-/* Components
--------------------------------
-
--------------------------------
-*/
-
-/*
-Template costructor
---------------------------------
-constructor(props) {
-	super(props);
-	this.state = {
-		
-	};
-	//can bind function here! (we didnt bind here because we use arrow function below)
-}
-
-handleClick = (e) => {
-	//for the thing inside target it can be anything!
-	this.setState({
-		
-	});
-};
----------------------------------
-
-// axios
-// 	.get("http://localhost:5000")
-// 	.then((res) => {
-// 		console.log(res.data);
-// 		// data = res.data;
-// 		alert("Hi succeedd");
-// 	})
-// 	.catch((err) => {
-// 		console.error(err);
-// 		alert("Try again");
-// 		console.log("hello");
-// 	});
-
-{
-  /* To include upload pic button
-	<input
-	type="file"
-	style={{ display: "none" }}
-	onChange={this.handleChange}
-	// to link to the button
-	ref={(fileInput) => (this.fileInput = fileInput)}
-/>
-
-<button
-	type="button"
-	class="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded"
-	onClick={() => this.fileInput.click()}
->
-	Choose file
-</button>
-<button onClick={this.fileUpload}>Upload</button> 
-}*/
-
-// const formData = new FormData();
-//     formData.append('file',file)
-//     const config = {
-//         headers: {
-//             'content-type': 'multipart/form-data'
-//         }
-//     }
-//     return  post(url, formData,config)
-//   }

@@ -78,7 +78,7 @@ function ProfileBtn(props) {
 						handleClose();
 					}}
 				>
-					Logout
+					Log out
 				</MenuItem>
 			</Menu>
 		</Fragment>

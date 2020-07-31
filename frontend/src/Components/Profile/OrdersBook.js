@@ -33,13 +33,13 @@ class OrdersBook extends Component {
 		else {
 			return (
 				<Fragment>
-					<h1 className={"py-2 px-5 text-4xl"}>My Orders</h1>
+					<h1 className={"py-2 px-5 text-4xl"}>My Order</h1>
 					<table id="tableaddresses" className={"p-3 mx-5 w-full table-auto"}>
 						<thead>
 							<tr className="bg-gray-300 border-0 border-b-3">
-								<th className={"px-2 py-2"}>Order ID</th>
-								<th className={"w-40 px-2 py-2"}>Items</th>
-								<th className={"px-2 py-2"}>Title</th>
+								<th className={"px-2 py-2"}>Item ID</th>
+								<th className={"w-40 px-2 py-2"}>Item Photo</th>
+								<th className={"px-2 py-2"}>Item</th>
 								<th className={"px-2 py-2"}>Brand</th>
 								<th className={"px-2 py-2"}>Size</th>
 								<th className={"px-2 py-2"}>Quantity</th>

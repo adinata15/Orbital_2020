@@ -42,7 +42,7 @@ export const getSizeRecommendation = (bodyData) => async (dispatch) => {
 			res.data.recSize
 				? dispatch(
 						setAlert(
-							`Your size recommendation is ${res.data.recSize}`,
+							`Your size recommendation is ${res.data.recSize.toUpperCase()}`,
 							"success"
 						)
 				  )
