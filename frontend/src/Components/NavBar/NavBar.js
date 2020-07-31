@@ -31,7 +31,7 @@ class NavBar extends React.Component {
 		return (
 			<div className="navbar">
 				<Link to="/">
-					<img className={"w-32 h-8 object-cover"} src={BestFitLogo} />
+					<img className={"w-32 h-8 object-cover"} src={BestFitLogo} alt="" />
 				</Link>
 				<div className="subnav">
 					<button className="subnavbtn">Men </button>

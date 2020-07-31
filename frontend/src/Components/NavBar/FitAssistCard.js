@@ -377,6 +377,7 @@ class FitAssistCard extends React.Component {
 																	<img
 																		onClick={() => this.addRow()}
 																		src={Image}
+																		alt=""
 																	/>
 																</div>
 															) : (
@@ -384,6 +385,7 @@ class FitAssistCard extends React.Component {
 																	<img
 																		onClick={() => this.removeRow(val)}
 																		src={DeleteImage}
+																		alt=""
 																	/>
 																</div>
 															)}

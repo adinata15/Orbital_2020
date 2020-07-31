@@ -140,7 +140,7 @@ class SellForm extends Component {
 							key={index}
 							className={"h-32 w-32 mx-1 my-3 object-cover"}
 							src={item}
-							alt={"item picture"}
+							alt=""
 						/>
 						<p className={"text-center"}>Display Image</p>
 					</div>
@@ -149,7 +149,7 @@ class SellForm extends Component {
 						key={index}
 						className={"mx-1 h-32 w-32 my-3 object-cover"}
 						src={item}
-						alt="item picture"
+						alt=""
 					/>
 				)
 			);
@@ -242,6 +242,7 @@ class SellForm extends Component {
 									}
 									onClick={() => this.fileInput.click()}
 									src={Image}
+									alt=""
 								/>
 								<p
 									className={
@@ -323,6 +324,7 @@ class SellForm extends Component {
 													className={"float-right ml-1 self-center w-5 h-5"}
 													value={category}
 													src={CloseImg}
+													alt=""
 												/>
 											</button>
 										))
@@ -607,13 +609,18 @@ class SellForm extends Component {
 											<td className={"border-l px-1"}>
 												{idx === 0 ? (
 													<div className={"p-1 w-10 h-10"}>
-														<img onClick={() => this.addRow()} src={Image} />
+														<img
+															onClick={() => this.addRow()}
+															src={Image}
+															alt=""
+														/>
 													</div>
 												) : (
 													<div className={"p-1 w-10 h-10"}>
 														<img
 															onClick={() => this.removeRow(val)}
 															src={DeleteImage}
+															alt=""
 														/>
 													</div>
 												)}

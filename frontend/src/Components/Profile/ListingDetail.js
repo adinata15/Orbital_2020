@@ -276,7 +276,7 @@ class ListingDetail extends Component {
 									? this.state.displayImage
 									: this.state.newDisplayImageURL
 							}
-							alt={"item picture"}
+							alt=""
 						/>
 						{/* <img
               key={-1}
@@ -303,7 +303,7 @@ class ListingDetail extends Component {
 								name={`newItemImages${index}`}
 								className={"h-32 w-32 mx-1 my-3 object-cover"}
 								src={item}
-								alt={"item picture"}
+								alt=""
 							/>
 							{/* <img
                 key={index}
@@ -338,7 +338,7 @@ class ListingDetail extends Component {
 								name={`itemImages${index}`}
 								className={"h-32 w-32 mx-1 my-3 object-cover"}
 								src={item}
-								alt={"item picture"}
+								alt=""
 							/>
 							{/* <img
                 key={index}
@@ -451,6 +451,7 @@ class ListingDetail extends Component {
 									}
 									onClick={() => this.fileInput.click()}
 									src={Image}
+									alt=""
 								/>
 								<p
 									className={
@@ -531,10 +532,11 @@ class ListingDetail extends Component {
 															className={"float-right ml-1 self-center w-5 h-5"}
 															value={category}
 															src={CloseImg}
+															alt=""
 														/>
 													</button>
 												);
-											}
+											} else return null;
 										})
 									) : (
 										<p
@@ -844,13 +846,18 @@ class ListingDetail extends Component {
 											<td className={"border-l px-1"}>
 												{idx === 0 ? (
 													<div className={"p-1 w-10 h-10"}>
-														<img onClick={() => this.addRow()} src={Image} />
+														<img
+															onClick={() => this.addRow()}
+															src={Image}
+															alt=""
+														/>
 													</div>
 												) : (
 													<div className={"p-1 w-10 h-10"}>
 														<img
 															onClick={() => this.removeRow(val)}
 															src={DeleteImage}
+															alt=""
 														/>
 													</div>
 												)}

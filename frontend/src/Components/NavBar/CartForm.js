@@ -48,7 +48,11 @@ class CartForm extends React.Component {
 						className={"max-w-md flex items-center h-auto flex-wrap mx-auto"}
 					>
 						<div className={"w-full"}>
-							<img className={"w-auto h-24 my-2 mx-auto"} src={EmptyImg} />
+							<img
+								className={"w-auto h-24 my-2 mx-auto"}
+								src={EmptyImg}
+								alt=""
+							/>
 							<p className={"text-2xl text-center my-3"}>No item found</p>
 						</div>
 					</div>

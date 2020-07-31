@@ -38,16 +38,15 @@ export const getSizeRecommendation = (bodyData) => async (dispatch) => {
 			type: GET_SIZE_RECOMMENDATION,
 			payload: res.data.recSize ? res.data.recSize : res.data.msg,
 		});
-		{
-			res.data.recSize
-				? dispatch(
-						setAlert(
-							`Your size recommendation is ${res.data.recSize.toUpperCase()}`,
-							"success"
-						)
-				  )
-				: dispatch(setAlert("Size not found", "danger"));
-		}
+
+		res.data.recSize
+			? dispatch(
+					setAlert(
+						`Your size recommendation is ${res.data.recSize.toUpperCase()}`,
+						"success"
+					)
+			  )
+			: dispatch(setAlert("Size not found", "danger"));
 	} catch (err) {
 		dispatch(setAlert("Size recommendation fail", "danger"));
 
