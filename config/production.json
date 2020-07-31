@@ -1,0 +1,12 @@
+{
+  "mongoURI": "mongodb+srv://samtjong23:Orbital2020@orbital-xbexh.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "ME2VAYj6@hTsmn3",
+  "tokenExpiry": 36000,
+  "AWSSecretAccessKey": "2uYBlVCAEunM1dIXEFlVsAscmmM12Cq2jzGnOz9M",
+  "AWSAccessKeyId": "AKIASTJE6ZKAGWKGXCFO",
+  "AWSRegion": "ap-southeast-1",
+  "s3bucket": "orbital2020",
+  "stripeState": "9j5fjsSFCh7smqNCRpQMYSYZ",
+  "stripeSecretKey": "sk_test_51GxnjfGgFpE6He4tsWlsIgsFeHy5D9pTjFPaRERglGojYAiFsmA9henAvjaNKy5E0yIpVphfB7rVJLS7iVwMBth800xT4xd6ca",
+  "webhookSecret": "whsec_VM44RLnWDct1tZgNWSgM0vS0P4Pxs816"
+}

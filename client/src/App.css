@@ -250,7 +250,6 @@ button {
 /* Landing Page */
 .landing {
   position: relative;
-  background: url('./images/green.jpg') no-repeat center center/cover;
   height: 100vh;
 }
 
