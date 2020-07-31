@@ -24,19 +24,10 @@ class FooterBar extends React.Component {
             <li className={'hover:text-orange-500 hover:underline text-white'}>
               <Link
                 onClick={e => this.props.menuSelect(e.target.name)}
-                name="men-pants"
-                to="/shop"
-              >
-                Pants
-              </Link>
-            </li>
-            <li className={'hover:text-orange-500 hover:underline text-white'}>
-              <Link
-                onClick={e => this.props.menuSelect(e.target.name)}
                 name="men-shirt"
                 to="/shop"
               >
-                Shirts
+                Shirt
               </Link>
             </li>
             <li className={'hover:text-orange-500 hover:underline text-white'}>
@@ -46,6 +37,15 @@ class FooterBar extends React.Component {
                 to="/shop"
               >
                 Shorts
+              </Link>
+            </li>
+            <li className={'hover:text-orange-500 hover:underline text-white'}>
+              <Link
+                onClick={e => this.props.menuSelect(e.target.name)}
+                name="men-pants"
+                to="/shop"
+              >
+                Pants
               </Link>
             </li>
           </ul>

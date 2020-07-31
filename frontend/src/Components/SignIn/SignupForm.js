@@ -170,7 +170,7 @@ class SignUpForm extends React.Component {
               class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
               id="user-id"
               type="text"
-              placeholder="Jane"
+              placeholder="User"
               required
               onChange={this.handleChange}
             />
@@ -188,7 +188,7 @@ class SignUpForm extends React.Component {
               class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
               id="email"
               type="email"
-              placeholder="jane@gmail.com"
+              placeholder="user@email.com"
               required
               onChange={this.handleChange}
             />

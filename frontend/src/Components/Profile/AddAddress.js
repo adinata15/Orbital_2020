@@ -18,14 +18,14 @@ class AddAddress extends React.Component {
     };
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     let addressData = { ...this.state };
     this.props.setAddress(addressData);
     this.props.handleClose();
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({
       ...this.state,
       [e.target.name]: e.target.value,
@@ -36,7 +36,8 @@ class AddAddress extends React.Component {
     return (
       <form
         onSubmit={this.handleSubmit}
-        className={'w-full max-w-lg mx-auto my-6'}>
+        className={'w-full max-w-lg mx-auto my-6'}
+      >
         <h1 className={'text-center text-3xl mb-3'}>Edit Address</h1>
         <div className={'flex flex-row -mx-3 my-3'}>
           <div className={'w-full pr-3'}>
@@ -44,18 +45,19 @@ class AddAddress extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-user-id'>
+              for="grid-user-id"
+            >
               First name
             </label>
             <input
-              name='firstname'
+              name="firstname"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
-              id='firstname'
+              id="firstname"
               value={this.state.firstname}
-              type='text'
-              placeholder='Jane'
+              type="text"
+              placeholder="Jane"
               onChange={this.handleChange}
               required
             />
@@ -65,18 +67,19 @@ class AddAddress extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-user-id'>
+              for="grid-user-id"
+            >
               Last name
             </label>
             <input
-              name='lastname'
+              name="lastname"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
-              id='lastname'
+              id="lastname"
               value={this.state.lastname}
-              type='text'
-              placeholder='Smith'
+              type="text"
+              placeholder="Smith"
               required
               onChange={this.handleChange}
             />
@@ -88,18 +91,19 @@ class AddAddress extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-user-id'>
+              for="grid-user-id"
+            >
               Cellphone
             </label>
             <input
-              name='cellphone'
+              name="cellphone"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
-              id='cellphone'
+              id="cellphone"
               value={this.state.cellphone}
-              type='number'
-              placeholder='(65)9531 1217'
+              type="number"
+              placeholder="(65)1234 5678"
               onChange={this.handleChange}
               required
             />
@@ -109,18 +113,19 @@ class AddAddress extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-user-id'>
+              for="grid-user-id"
+            >
               Telephone
             </label>
             <input
-              name='telephone'
+              name="telephone"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
-              id='telephone'
+              id="telephone"
               value={this.state.telephone}
-              type='number'
-              placeholder='(65)9531 1217'
+              type="number"
+              placeholder="(65)1234 5678"
               onChange={this.handleChange}
               required
             />
@@ -132,19 +137,20 @@ class AddAddress extends React.Component {
               className={
                 'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
               }
-              for='grid-user-id'>
+              for="grid-user-id"
+            >
               Address
             </label>
             <input
-              name='address'
+              name="address"
               className={
                 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
               }
-              id='address'
+              id="address"
               value={this.state.address}
-              type='text'
+              type="text"
               required
-              placeholder='25 Lower Kent Ridge Rd'
+              placeholder="25 Lower Orbital Rd #01-01"
               onChange={this.handleChange}
             />
           </div>
@@ -154,19 +160,20 @@ class AddAddress extends React.Component {
                 className={
                   'block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                 }
-                for='grid-user-id'>
+                for="grid-user-id"
+              >
                 Postcode
               </label>
               <input
-                name='postcode'
+                name="postcode"
                 className={
                   'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
                 }
-                id='postcode'
+                id="postcode"
                 value={this.state.postcode}
-                type='number'
+                type="number"
                 required
-                placeholder='119081'
+                placeholder="123456"
                 onChange={this.handleChange}
               />
             </div>
@@ -176,9 +183,10 @@ class AddAddress extends React.Component {
           className={
             'bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 -mx-3 rounded'
           }
-          type='submit'
-          id='button'>
-          Save Changes
+          type="submit"
+          id="button"
+        >
+          Submit
         </button>
       </form>
     );

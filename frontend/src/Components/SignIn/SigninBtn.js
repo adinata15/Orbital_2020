@@ -19,7 +19,7 @@ class SigninBtn extends Component {
     });
   };
 
-  handleClose = (e) => {
+  handleClose = e => {
     this.setState({
       open: false,
     });
@@ -36,12 +36,13 @@ class SigninBtn extends Component {
           onClick={this.handleClickOpen}
           hidden={this.props.isAuthenticated} //uncomment for real thing
         >
-          Login
+          Log In
         </button>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          aria-labelledby='form-dialog-title'>
+          aria-labelledby="form-dialog-title"
+        >
           <LoginForm handleClose={this.handleClose} />
         </Dialog>
       </Fragment>
@@ -53,7 +54,7 @@ SigninBtn.propTypes = {
   isAuthenticated: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 

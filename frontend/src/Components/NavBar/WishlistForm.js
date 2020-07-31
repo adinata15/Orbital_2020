@@ -15,7 +15,7 @@ class WishlistForm extends React.Component {
     let wishlistItems = this.props.itemLiked;
 
     if (wishlistItems[0]) {
-      return wishlistItems.map((item) => (
+      return wishlistItems.map(item => (
         <WishlistItem key={item.id} item={item} />
       ));
     } else {
@@ -27,15 +27,16 @@ class WishlistForm extends React.Component {
     return (
       <div>
         <Alert />
-        <h1 className={'py-3 px-12 text-center text-3xl mb-3'}>Liked items</h1>
+        <h1 className={'py-3 px-12 text-center text-3xl mb-3'}>Likes</h1>
         {this.wishlistItems()}
         <div className={'py-3 px-12'}>
           <button
             onClick={this.props.handleClose}
             className={
               'bg-teal-700 mx-2 hover:bg-teal-900 text-white font-bold py-3 px-8 rounded-full'
-            }>
-            Back to shopping
+            }
+          >
+            Back to shop
           </button>
         </div>
       </div>
@@ -48,7 +49,7 @@ WishlistForm.propTypes = {
   itemLiked: PropTypes.array,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   itemLiked: state.shop.itemLiked,
 });
 
