@@ -37,8 +37,7 @@ class OrdersBook extends Component {
 					<table id="tableaddresses" className={"p-3 mx-5 w-full table-auto"}>
 						<thead>
 							<tr className="bg-gray-300 border-0 border-b-3">
-								<th className={"px-2 py-2"}>Item ID</th>
-								<th className={"w-40 px-2 py-2"}>Item Photo</th>
+								<th className={"w-56 px-2 py-2"}>Item Photo</th>
 								<th className={"px-2 py-2"}>Item</th>
 								<th className={"px-2 py-2"}>Brand</th>
 								<th className={"px-2 py-2"}>Size</th>
@@ -55,18 +54,11 @@ class OrdersBook extends Component {
 											<tr className={"bg-gray-400 border-0 pt-3"}>
 												<td
 													className={
-														"px-4 py-2 border-r-2 border-b-2 text-center"
-													}
-												>
-													#{item.item}
-												</td>
-												<td
-													className={
-														"flex justify-center px-4 py-2 border-r-2 border-b-2"
+														"flex w-56 justify-center px-4 py-2 border-r-2 border-b-2"
 													}
 												>
 													<img
-														className={"w-32 h-32 object-cover"}
+														className={"h-auto object-contain"}
 														src={item.image}
 														alt={item.item}
 													/>

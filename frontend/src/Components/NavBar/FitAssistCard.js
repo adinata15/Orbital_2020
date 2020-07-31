@@ -215,6 +215,7 @@ class FitAssistCard extends React.Component {
 											<option value="shirt">Shirt</option>
 											<option value="skirt">Skirt</option>
 											<option value="pants">Pants</option>
+											<option value="jeans">Jeans</option>
 											<option value="shorts">Shorts</option>
 											<option value="dress">Dress</option>
 										</select>
@@ -364,7 +365,8 @@ class FitAssistCard extends React.Component {
 																required={
 																	this.state.category === "pants" ||
 																	this.state.category === "shorts" ||
-																	this.state.category === "skirt"
+																	this.state.category === "skirt" ||
+																	this.state.category === "jeans"
 																}
 																onChange={(e) => this.handleChangeTable(e)}
 															/>

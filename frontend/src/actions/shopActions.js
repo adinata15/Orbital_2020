@@ -160,7 +160,7 @@ export const unlikeItem = (item, size) => async (dispatch) => {
 			type: UNLIKE_ITEM,
 			payload: res.data,
 		});
-		dispatch(setAlert("Unliked item", "success"));
+		dispatch(setAlert("Item unliked", "success"));
 	} catch (err) {
 		dispatch({
 			type: LIKE_FAIL,
