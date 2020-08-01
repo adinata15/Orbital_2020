@@ -1,5 +1,5 @@
 //Press alt+click to edit multiple lines at once
-import './assets/main.css';
+import './style/app.css';
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
