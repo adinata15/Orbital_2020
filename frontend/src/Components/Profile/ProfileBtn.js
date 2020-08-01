@@ -25,10 +25,14 @@ function ProfileBtn(props) {
 			return (
 				<span>
 					<MenuItem onClick={handleClose}>
-						<Link to="/address">My address</Link>
+						<Link className={"text-black"} to="/address">
+							My address
+						</Link>
 					</MenuItem>
 					<MenuItem onClick={handleClose}>
-						<Link to="/order">My order</Link>
+						<Link className={"text-black"} to="/order">
+							My order
+						</Link>
 					</MenuItem>
 				</span>
 			);
@@ -36,7 +40,9 @@ function ProfileBtn(props) {
 			return (
 				<span>
 					<MenuItem onClick={handleClose}>
-						<Link to="/store">My store</Link>
+						<Link className={"text-black"} to="/store">
+							My store
+						</Link>
 					</MenuItem>
 				</span>
 			);
@@ -62,6 +68,7 @@ function ProfileBtn(props) {
 			>
 				<MenuItem onClick={handleClose}>
 					<Link
+						className={"text-black"}
 						to={() => {
 							return `/edit/profile/${props.accounttype}`;
 						}}
