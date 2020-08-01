@@ -27,10 +27,7 @@ import {
 //Edit profile
 export const editProfile = (userData, accounttype) => async dispatch => {
   try {
-    const res = await axios.put(
-      `http://localhost:5000/api/users/${accounttype}`,
-      userData
-    );
+    const res = await axios.put(`/api/users/${accounttype}`, userData);
     dispatch({
       type: EDIT_PROFILE_SUCCESS,
       payload: res.data,
@@ -66,7 +63,7 @@ export const uploadProfilePic = pictureData => async dispatch => {
     };
 
     const res = await axios.post(
-      `http://localhost:5000/api/users/seller/profile_pict`,
+      `/api/users/seller/profile_pict`,
       pictureData,
       config
     );
@@ -89,10 +86,7 @@ export const uploadProfilePic = pictureData => async dispatch => {
 //Set address
 export const setAddress = address => async dispatch => {
   try {
-    const res = await axios.post(
-      `http://localhost:5000/api/users/buyer/address`,
-      address
-    );
+    const res = await axios.post(`/api/users/buyer/address`, address);
 
     dispatch({
       type: SET_ADDRESS,
@@ -127,7 +121,7 @@ export const setBillingAddress = address => async dispatch => {
     let body = JSON.stringify(address);
 
     const res = await axios.post(
-      `http://localhost:5000/api/users/buyer/address/billingaddress`,
+      `/api/users/buyer/address/billingaddress`,
       body
     );
 
@@ -162,7 +156,7 @@ export const setShippingAddress = address => async dispatch => {
     let body = JSON.stringify(address);
 
     const res = await axios.post(
-      `http://localhost:5000/api/users/buyer/address/shippingaddress`,
+      `/api/users/buyer/address/shippingaddress`,
       body
     );
 
@@ -195,7 +189,7 @@ export const setShippingAddress = address => async dispatch => {
 export const updateBillingAddress = address_id => async dispatch => {
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/users/buyer/billingaddress/${address_id}`
+      `/api/users/buyer/billingaddress/${address_id}`
     );
 
     dispatch({
@@ -219,7 +213,7 @@ export const updateBillingAddress = address_id => async dispatch => {
 export const updateShippingAddress = address_id => async dispatch => {
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/users/buyer/shippingaddress/${address_id}`
+      `/api/users/buyer/shippingaddress/${address_id}`
     );
 
     dispatch({
@@ -242,9 +236,7 @@ export const updateShippingAddress = address_id => async dispatch => {
 //Get all user address
 export const getAddress = () => async dispatch => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/users/buyer/address`
-    );
+    const res = await axios.get(`/api/users/buyer/address`);
 
     dispatch({
       type: GET_ADDRESS,
@@ -261,9 +253,7 @@ export const getAddress = () => async dispatch => {
 //Get all user orders
 export const getOrder = accounttype => async dispatch => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/users/${accounttype}/orders`
-    );
+    const res = await axios.get(`/api/users/${accounttype}/orders`);
     dispatch({ type: LOADING });
 
     dispatch({
@@ -282,7 +272,7 @@ export const getOrder = accounttype => async dispatch => {
 export const editAddress = (addressData, address_id) => async dispatch => {
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/users/buyer/address/${address_id}`,
+      `/api/users/buyer/address/${address_id}`,
       addressData
     );
 
@@ -318,10 +308,7 @@ export const editListing = (itemData, item_id) => async dispatch => {
   try {
     console.log('EDIT LISTING');
     console.log(itemData);
-    const res = await axios.put(
-      `http://localhost:5000/api/users/seller/item/${item_id}`,
-      itemData
-    );
+    const res = await axios.put(`/api/users/seller/item/${item_id}`, itemData);
 
     dispatch({
       type: EDIT_LISTING,
@@ -352,9 +339,7 @@ export const editListing = (itemData, item_id) => async dispatch => {
 //Delete user address
 export const deleteAddress = address_id => async dispatch => {
   try {
-    const res = await axios.delete(
-      `http://localhost:5000/api/users/buyer/address/${address_id}`
-    );
+    const res = await axios.delete(`/api/users/buyer/address/${address_id}`);
 
     dispatch({
       type: DELETE_ADDRESS,
@@ -376,9 +361,7 @@ export const deleteAddress = address_id => async dispatch => {
 //Delete user listing
 export const deleteListing = item_id => async dispatch => {
   try {
-    const res = await axios.delete(
-      `http://localhost:5000/api/users/seller/item/${item_id}`
-    );
+    const res = await axios.delete(`/api/users/seller/item/${item_id}`);
 
     await dispatch({
       type: DELETE_LISTING,
@@ -400,7 +383,7 @@ export const deleteListing = item_id => async dispatch => {
 export const getStripeSeller = (state, oauth) => async dispatch => {
   try {
     const res = await axios.get(
-      `http://localhost:5000/api/stripe/connect/oauth?code=${oauth}&state=${state}`
+      `/api/stripe/connect/oauth?code=${oauth}&state=${state}`
     );
 
     await dispatch({
@@ -418,7 +401,7 @@ export const getStripeSeller = (state, oauth) => async dispatch => {
 //Get listings for a seller
 export const getListings = sellerId => async dispatch => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/users/${sellerId}`);
+    const res = await axios.get(`/api/users/${sellerId}`);
 
     await dispatch({
       type: GET_LISTINGS,
