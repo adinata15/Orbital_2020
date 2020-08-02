@@ -44,7 +44,7 @@ export const getSizeRecommendation = bodyData => async dispatch => {
         )
       : dispatch(setAlert('Size not found', 'danger'));
   } catch (err) {
-    dispatch(setAlert('Size recommendation fail', 'danger'));
+    dispatch(setAlert('Server error', 'danger'));
 
     dispatch({
       type: FAIL_SIZE_RECOMMENDATION,
@@ -75,10 +75,16 @@ export const getSizeRecommendationLogin = (
       type: GET_SIZE_RECOMMENDATION_ITEM,
       payload: res.data.recSize ? res.data.recSize : res.data.msg,
     });
-
-    dispatch(setAlert('Obtained size recommendation', 'success'));
+    res.data.recSize
+      ? dispatch(
+          setAlert(
+            `Your size recommendation is ${res.data.recSize.toUpperCase()}`,
+            'success'
+          )
+        )
+      : dispatch(setAlert('Size not found', 'danger'));
   } catch (err) {
-    dispatch(setAlert('Size recommendation fail', 'danger'));
+    dispatch(setAlert('Server error', 'danger'));
 
     dispatch({
       type: FAIL_SIZE_RECOMMENDATION,
