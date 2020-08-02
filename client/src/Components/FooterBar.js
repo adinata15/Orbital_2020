@@ -36,6 +36,16 @@ class FooterBar extends React.Component {
 							<Link
 								className={"hover:text-orange-500 hover:underline text-white"}
 								onClick={(e) => this.props.menuSelect(e.target.name)}
+								name="men-tshirt"
+								to="/shop"
+							>
+								T-Shirt
+							</Link>
+						</li>
+						<li>
+							<Link
+								className={"hover:text-orange-500 hover:underline text-white"}
+								onClick={(e) => this.props.menuSelect(e.target.name)}
 								name="men-shorts"
 								to="/shop"
 							>
@@ -50,6 +60,16 @@ class FooterBar extends React.Component {
 								to="/shop"
 							>
 								Pants
+							</Link>
+						</li>
+						<li>
+							<Link
+								className={"hover:text-orange-500 hover:underline text-white"}
+								onClick={(e) => this.props.menuSelect(e.target.name)}
+								name="men-jeans"
+								to="/shop"
+							>
+								Jeans
 							</Link>
 						</li>
 					</ul>
@@ -92,6 +112,16 @@ class FooterBar extends React.Component {
 							<Link
 								className={"hover:text-blue-300 hover:underline  text-white"}
 								onClick={(e) => this.props.menuSelect(e.target.name)}
+								name="women-tshirt"
+								to="/shop"
+							>
+								T-Shirt
+							</Link>
+						</li>
+						<li>
+							<Link
+								className={"hover:text-blue-300 hover:underline  text-white"}
+								onClick={(e) => this.props.menuSelect(e.target.name)}
 								name="women-skirt"
 								to="/shop"
 							>
@@ -106,6 +136,16 @@ class FooterBar extends React.Component {
 								to="/shop"
 							>
 								Pants
+							</Link>
+						</li>
+						<li>
+							<Link
+								className={"hover:text-blue-300 hover:underline  text-white"}
+								onClick={(e) => this.props.menuSelect(e.target.name)}
+								name="women-jeans"
+								to="/shop"
+							>
+								Jeans
 							</Link>
 						</li>
 					</ul>

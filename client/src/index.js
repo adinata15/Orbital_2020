@@ -6,7 +6,7 @@ import { Provider } from "react-redux"; //this is to connect store(redux) to rea
 
 import App from "./App";
 
-import "./tailwind.output.css";
+import "./style/tailwind.generated.css";
 import "./style/index.css";
 import { BrowserRouter as Router } from "react-router-dom";
 
