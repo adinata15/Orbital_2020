@@ -135,10 +135,8 @@ router.post('/create-checkout-session', auth, async (req, res) => {
 // @access Private
 router.post(
   '/webhook',
-  bodyParser.json({
-    verify: (req, res, buf) => {
-      req.rawBody = buf;
-    },
+  bodyParser.raw({
+    type: 'application/json',
   }),
   async (req, res) => {
     const webhookSecret = require('config').get('webhookSecret');
@@ -148,7 +146,7 @@ router.post(
 
     // Verify webhook signature and extract the event
     try {
-      event = stripe.webhooks.constructEvent(req.rawBody, sig, webhookSecret);
+      event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
     } catch (err) {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
