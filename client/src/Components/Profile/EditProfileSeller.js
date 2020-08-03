@@ -29,6 +29,11 @@ class EditProfile extends React.Component {
 			...this.props.user,
 		};
 	}
+	async componentWillMount() {
+		if (this.props.token && !this.props.isAuthenticated) {
+			await this.props.loadUser();
+		}
+	}
 
 	async componentDidMount() {
 		if (this.props.token && !this.props.isAuthenticated) {
@@ -51,6 +56,7 @@ class EditProfile extends React.Component {
 			this.setState({
 				...this.props.user,
 			});
+			console.log("here");
 		}
 	}
 
@@ -106,6 +112,7 @@ class EditProfile extends React.Component {
 	};
 
 	render() {
+		console.log(this.state);
 		if (this.props.user && this.props.user._id) {
 			return (
 				<form
@@ -340,7 +347,7 @@ EditProfile.propTypes = {
 	getStripeSeller: PropTypes.func,
 	user: PropTypes.object.isRequired,
 	token: PropTypes.string.isRequired,
-	isAuthenticated: PropTypes.bool.isRequired,
+	isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
