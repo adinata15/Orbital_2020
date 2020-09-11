@@ -238,24 +238,3 @@ export default connect(null, {
 	updateBillingAddress,
 	updateShippingAddress,
 })(EditAddress);
-
-// <td className={' px-4 py-2'}>
-//                   <button
-//                     type='button'
-//                     name={address._id}
-//                     onClick={() => {
-//                       this.props.updateBillingAddress(address._id);
-//                     }}>
-//                     Set as billing address
-//                   </button>
-//                 </td>
-//                 <td className={' px-4 py-2'}>
-//                   <button
-//                     type='button'
-//                     name={address._id}
-//                     onClick={() => {
-//                       this.props.updateShippingAddress(address._id);
-//                     }}>
-//                     Set as shipping address
-//                   </button>
-//                 </td>

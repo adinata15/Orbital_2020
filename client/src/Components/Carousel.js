@@ -1,6 +1,3 @@
-//not done:slide 1->2->3->1,make pic center on large page
-//solved:remove three dot on top and bottom (make the radio input hidden)
-
 import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -10,11 +7,6 @@ import Image2 from "../images/sale2.jpg";
 import Image3 from "../images/clothes.jpg";
 
 class DemoCarousel extends React.Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {};
-	// 	//can bind function here! (we didnt bind here because we use arrow function below)
-	// }
 	render() {
 		return (
 			<Carousel

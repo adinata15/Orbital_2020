@@ -1,7 +1,3 @@
-//sizes has issue-> data is jumbled all over when coming back to listingDetail
-//add option to close(top right) and set as display image(bottom center) to each images
-//remove images and move displayImage around
-
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
@@ -241,17 +237,6 @@ class ListingDetail extends Component {
 			  });
 	};
 
-	// removeImage = (e) => {
-	// 	{
-	// 		this.setState({
-	// 			categoryLeft: [...this.state.categoryLeft, e.currentTarget.value],
-	// 			category: this.state.category.filter(
-	// 				(cat) => cat !== e.currentTarget.value
-	// 			),
-	// 		});
-	// 	}
-	// };
-
 	imageItems = () => {
 		if (this.state.displayImage || this.state.newDisplayImageURL) {
 			return (
@@ -278,18 +263,6 @@ class ListingDetail extends Component {
 							}
 							alt=""
 						/>
-						{/* <img
-              key={-1}
-              className={
-                'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right cursor-pointer'
-              }
-              name={
-                this.state.displayImage ? 'displayImage' : 'newDisplayImage'
-              }
-              src={CloseImg}
-              onClick={this.removeImage}
-              alt={'item picture'} 
-            />*/}
 						<p className={"text-sm text-center"}>Display image</p>
 					</div>
 					{this.state.newItemImagesURL.map((item, index) => (
@@ -305,26 +278,6 @@ class ListingDetail extends Component {
 								src={item}
 								alt=""
 							/>
-							{/* <img
-                key={index}
-                className={
-                  'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right cursor-pointer'
-                }
-                name={`newItemImages${index}`}
-                src={CloseImg}
-                onClick={this.removeImage}
-                alt={'item picture'}
-              />
-              <button
-                type="button"
-                name={`newItemImages${index}`}
-                className={
-                  'border bg-teal-600 hover:bg-teal-400 rounded text-white px-1 text-sm self-center mb-2'
-                }
-                onClick={this.setDisplay}
-              >
-                Set as display
-              </button> */}
 						</div>
 					))}
 					{this.state.itemImages.map((item, index) => (
@@ -340,26 +293,6 @@ class ListingDetail extends Component {
 								src={item}
 								alt=""
 							/>
-							{/* <img
-                key={index}
-                name={`itemImages${index}`}
-                className={
-                  'absolute top-0 right-0 h-5 w-5 mt-4 mr-2 float-right cursor-pointer'
-                }
-                src={CloseImg}
-                onClick={this.removeImage}
-                alt={'item picture'}
-              />
-              <button
-                type="button"
-                name={`itemImages${index}`}
-                className={
-                  'border bg-teal-600 hover:bg-teal-400 rounded text-white px-1 text-sm self-center mb-2'
-                }
-                onClick={this.setDisplay}
-              >
-                Set as display
-              </button> */}
 						</div>
 					))}
 				</div>

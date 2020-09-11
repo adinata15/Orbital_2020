@@ -1,5 +1,3 @@
-//picture upload with 2 to 3 rows of size error->itemImageA&this.state.image becomes undefined/not loaded
-//size table only delete last row-> use index to determine
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Image from "../../images/plus.svg";

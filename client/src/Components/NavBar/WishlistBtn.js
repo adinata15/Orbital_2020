@@ -1,62 +1,62 @@
-import React, { Component } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import WishlistForm from './WishlistForm.js';
-import Image from '../../images/heart.svg';
+import React, { Component } from "react";
+import Dialog from "@material-ui/core/Dialog";
+import WishlistForm from "./WishlistForm.js";
+import Image from "../../images/heart.svg";
 
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 class WishlistBtn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-    };
-    //this.handleClose = this.handleClose.bind(this);
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			open: false,
+		};
+	}
 
-  handleClickOpen = () => {
-    this.setState({
-      open: true,
-    });
-  };
+	handleClickOpen = () => {
+		this.setState({
+			open: true,
+		});
+	};
 
-  handleClose = () => {
-    this.setState({
-      open: false,
-    });
-  };
+	handleClose = () => {
+		this.setState({
+			open: false,
+		});
+	};
 
-  render() {
-    return (
-      <span>
-        <img
-          className={'h-8 w-8 my-3 float-right'}
-          onClick={this.handleClickOpen}
-          src={Image}
-          alt=''
-          hidden={this.props.accounttype !== 'buyer'}
-        />
+	render() {
+		return (
+			<span>
+				<img
+					className={"h-8 w-8 my-3 float-right"}
+					onClick={this.handleClickOpen}
+					src={Image}
+					alt=""
+					hidden={this.props.accounttype !== "buyer"}
+				/>
 
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          fullWidth={true}
-          maxWidth={'sm'}
-          scroll={'body'}>
-          <WishlistForm handleClose={this.handleClose} />
-        </Dialog>
-      </span>
-    );
-  }
+				<Dialog
+					open={this.state.open}
+					onClose={this.handleClose}
+					fullWidth={true}
+					maxWidth={"sm"}
+					scroll={"body"}
+				>
+					<WishlistForm handleClose={this.handleClose} />
+				</Dialog>
+			</span>
+		);
+	}
 }
 
 WishlistBtn.propTypes = {
-  accounttype: PropTypes.string,
+	accounttype: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
-  accounttype: state.auth.user.accounttype,
+	accounttype: state.auth.user.accounttype,
 });
 
 export default connect(mapStateToProps, null)(WishlistBtn);
